@@ -8,6 +8,8 @@ export const globalColors = {
     dark: '#000000',
     light: '#FFFFFF',
     gray: '#1E1E1E',
+    danger:'#C60726',
+    success:'#29842C'
 }
 
 
@@ -15,7 +17,7 @@ export const globalStyles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        backgroundColor: globalColors.light
+        backgroundColor:globalColors.light
     },
 
     primaryButtom: {

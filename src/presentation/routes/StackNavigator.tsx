@@ -1,9 +1,8 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import { HomeScreen } from "../screens/home/HomeScreen";
 import { LoginScreen } from "../screens/Stacks/Login/LoginScreen";
 import { RegisterScreen } from "../screens/Stacks/Register/RegisterScreen";
 import { BottomTabNavigator } from "./ButtomTabsNavigator";
-
+import { SettingScreen } from "../settings/SettingScreen";
 
 export type RootStackParams = {
     Home: undefined;

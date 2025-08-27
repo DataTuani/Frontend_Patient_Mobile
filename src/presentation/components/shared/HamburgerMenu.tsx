@@ -7,6 +7,7 @@ export const HamburgerMenu = () => {
 
     const navigation = useNavigation();
 
+
     useEffect(() => {
         navigation.setOptions({
             headerLeft: () => (
@@ -18,7 +19,8 @@ export const HamburgerMenu = () => {
                         size={30}
                     />
                 </Pressable>
-            )
+
+)
         })
     }, []);
 

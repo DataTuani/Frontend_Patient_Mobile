@@ -42,6 +42,12 @@ export const SideMenu = () => {
                 name='Perfil' component={ProfileScreen} />
             <Drawer.Screen
                 options={{
+                    headerShown: true,
+                    headerTitleAlign: 'left',
+                    headerTitle: '',
+                    headerStyle: {
+                        elevation: 0,
+                    },
                     drawerIcon: ({ color }) => (<CustomIonicons
                         name='settings-outline' color={color}
                     />)
