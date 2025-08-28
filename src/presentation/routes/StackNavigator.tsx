@@ -3,12 +3,14 @@ import { LoginScreen } from "../screens/Stacks/Login/LoginScreen";
 import { RegisterScreen } from "../screens/Stacks/Register/RegisterScreen";
 import { BottomTabNavigator } from "./ButtomTabsNavigator";
 import { SettingScreen } from "../settings/SettingScreen";
+import { InitialScreen } from "../screens/Stacks/Inicio/InitialScreen";
 
 export type RootStackParams = {
     Home: undefined;
     // product: { id: number, name: string };
     Login: undefined;
     Register: undefined;
+    Initial: undefined;
 }
 
 const Stack = createStackNavigator<RootStackParams>();
@@ -18,7 +20,7 @@ export const StackNavigator = () => {
         <Stack.Navigator
             screenOptions={{
                 headerShown: true,
-                headerTitle:'',
+                headerTitle: '',
                 headerStyle: {
                     elevation: 0
                 }
@@ -26,6 +28,13 @@ export const StackNavigator = () => {
         >
             <Stack.Screen
                 options={{
+                    title: 'Initial',
+                    headerTitleAlign: 'center'
+                }}
+                name="Initial" component={InitialScreen} />
+            <Stack.Screen
+                options={{
+                    headerShown:false,
                     title: 'Login',
                     headerTitleAlign: 'center'
                 }}

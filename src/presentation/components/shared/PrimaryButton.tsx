@@ -15,7 +15,6 @@ interface ButtonProps {
 
 }
 
-
 export const PrimaryButton = ({ onPress, label }: Props) => {
 
     const { colors } = useContext(ThemeContext);
