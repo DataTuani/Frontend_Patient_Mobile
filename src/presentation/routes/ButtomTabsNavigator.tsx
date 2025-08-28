@@ -2,14 +2,17 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { HomeScreen } from '../screens/home/HomeScreen';
 import { CalendarScreen } from '../screens/Tabs/calendar/CalendarScreen';
 import { VirtualScreen } from '../screens/Tabs/virtualLine/VirtualScreen';
-import { Text } from 'react-native';
 import { CustomIonicons } from '../components/shared/Custom_Ionicons';
-import { globalColors } from '../theme/theme';
+import { useContext } from 'react';
+import { ThemeContext } from '../../../context/ThemeContext';
 
 
 const Tab = createBottomTabNavigator();
 
 export const BottomTabNavigator = () => {
+
+    const { colors } = useContext(ThemeContext);
+
     return (
         <Tab.Navigator
             screenOptions={{
@@ -17,10 +20,11 @@ export const BottomTabNavigator = () => {
                 tabBarLabelStyle: {
                     marginBottom: 5
                 },
+                headerTitle:'',
                 headerStyle: {
                     elevation: 0
                 },
-                tabBarActiveTintColor: globalColors.primary
+                tabBarActiveTintColor: colors.primary
             }}
         >
             <Tab.Screen

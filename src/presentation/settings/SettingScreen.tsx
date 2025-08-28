@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { globalColors, globalStyles } from '../theme/theme';
-import { Switch } from 'react-native-gesture-handler'
+import { Pressable, Switch } from 'react-native-gesture-handler'
 import { ButtonIcon } from '../components/shared/ButtonIcon';
 import { HamburgerMenu } from '../components/shared/HamburgerMenu';
 import { useContext } from 'react';
@@ -8,14 +8,13 @@ import { ThemeContext } from '../../../context/ThemeContext';
 
 
 export const SettingScreen = () => {
-
-    const { currentTheme, toggleTheme } = useContext(ThemeContext);
-
+    const { colors, currentTheme, toggleTheme } = useContext(ThemeContext);
+    const style = globalStyles(colors);
     return (
-        <View style={globalStyles.container}>
+        <View style={style.container}>
             <HamburgerMenu />
-            <Text style={styles.title}>Cambio de Tema</Text>
-            <TouchableOpacity
+            <Text style={{color: colors.title}}>Cambio de Tema</Text>
+            <Pressable
                 onPress={() => { }}
                 style={styles.button}
             >
@@ -23,31 +22,11 @@ export const SettingScreen = () => {
                     marginLeft: 20,
                     color: globalColors.light
                 }}>Modo Oscuro</Text>
-                <Switch 
-                value={currentTheme === 'dark' }
-                onChange={() => toggleTheme(currentTheme === 'light' ? 'dark' : 'light')}
+                <Switch
+                    value={currentTheme === 'dark'}
+                    onChange={() => toggleTheme(currentTheme === 'light' ? 'dark' : 'light')}
                 />
-            </TouchableOpacity>
-
-            <Text style={styles.title}>Tema de Configración</Text>
-            <ButtonIcon
-                title='Claro'
-                icon='bulb-outline'
-                onPress={() => { }}
-                isActive={false}
-            />
-            <ButtonIcon
-                title='Oscuro'
-                icon='moon-outline'
-                onPress={() => { }}
-                isActive={false}
-            />
-            <ButtonIcon
-                title='Sistema'
-                icon='code-slash-outline'
-                onPress={() => { }}
-                isActive={false}
-            />
+            </Pressable>
         </View>
     )
 }

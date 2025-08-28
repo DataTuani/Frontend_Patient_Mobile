@@ -18,6 +18,7 @@ export const StackNavigator = () => {
         <Stack.Navigator
             screenOptions={{
                 headerShown: true,
+                headerTitle:'',
                 headerStyle: {
                     elevation: 0
                 }

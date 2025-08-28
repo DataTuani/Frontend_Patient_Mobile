@@ -3,14 +3,17 @@ import { NavigationProp, StackActions, useNavigation } from '@react-navigation/n
 import { globalStyles } from '../../../theme/theme';
 import { PrimaryButton } from '../../../components/shared/PrimaryButton';
 import { RootStackParams } from '../../../routes/StackNavigator';
+import { useContext } from 'react';
+import { ThemeContext } from '../../../../../context/ThemeContext';
 
 export const RegisterScreen = () => {
 
     const navigator = useNavigation<NavigationProp<RootStackParams>>();
+    const {colors} = useContext(ThemeContext);
+    const styles = globalStyles(colors);
 
     return (
-        <View style={globalStyles.container}>
-
+        <View style={styles.container}>
             <PrimaryButton
                 label='Home'
                 onPress={() => navigator.navigate('Home')}
