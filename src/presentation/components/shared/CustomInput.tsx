@@ -7,16 +7,15 @@ interface CustomInputProps {
     label: string;
     placeholder?: string;
     variant?: 'filled' | 'outlined';
-    secureTextEntry?:boolean;
+    secureTextEntry?: boolean;
     // value: string;
     // onChangeText: (text: string) => void;
-
 }
 
 export const CustomInput = ({
     label, placeholder, variant = 'outlined',
     secureTextEntry = false
-    
+
 }: CustomInputProps) => {
     return (
         <View style={styles.container}>
@@ -26,7 +25,7 @@ export const CustomInput = ({
                 variant === 'filled' ? styles.filled : styles.outlined
                 ]}
                 placeholder={placeholder}
-                secureTextEntry = {secureTextEntry}
+                secureTextEntry={secureTextEntry}
             />
         </View>
     )
@@ -41,7 +40,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: globalColors.primary,
         marginBottom: 6,
-        fontWeight:'bold',
+        fontWeight: 'bold',
         textAlign: 'left'
     },
     input: {
@@ -59,5 +58,54 @@ const styles = StyleSheet.create({
         borderColor: globalColors.primary,
         backgroundColor: 'transparent',
         color: globalColors.dark
+    }
+})
+
+interface CustomInputRegisterProps {
+    label: string;
+    placeholder?: string;
+    secureTextEntry?: boolean
+} 
+
+export const CustomInputRegister = ({
+    label,
+    placeholder,
+    secureTextEntry = false
+}: CustomInputRegisterProps) => {
+    return (
+        <View style={stylesR.container}>
+            <Text style={stylesR.label}>{label} </Text>
+            <TextInput style={stylesR.input}
+                placeholder={placeholder}
+                secureTextEntry={secureTextEntry}
+            >
+            </TextInput>
+
+        </View>
+    )
+}
+
+
+const stylesR = StyleSheet.create({
+    container: {
+        width: '90%',
+        marginVertical: 5,
+    },
+    label: {
+        fontSize: 14,
+        color: globalColors.primary,
+        marginBottom: 6,
+        fontWeight: 'bold',
+        textAlign: 'left'
+    },
+    input: {
+        paddingVertical: 15,
+        paddingHorizontal: 12,
+        borderRadius: 8,
+        fontSize: 16,
+        backgroundColor: 'white',
+        elevation: 10,
+        borderColor: globalColors.light
+
     }
 })

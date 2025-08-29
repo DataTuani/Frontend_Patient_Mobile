@@ -24,10 +24,29 @@ export const globalStyles = (colors: any) => StyleSheet.create({
 
     primaryButtom: {
         backgroundColor: colors.primary,
-        borderRadius: 5,
-        padding: 10, 
+        borderRadius: 42,
+        padding: 15,
+        //marginBottom: 50,
+        width: '50%',
+        alignItems: 'center',
+        position: 'relative',
+        top: 35
+    },
+    title: {
+        fontSize: 30,
+        fontWeight: 'bold',
         marginBottom: 10,
-        width: '100%',
-        alignItems: 'center'
+    },
+    subtitle: {
+        fontSize: 16,
+        marginBottom: 10,
+        textAlign: 'center'
+    },
+    titleInfo: {
+        fontWeight: '600',
+        textAlign: 'left',
+        fontSize: 17,
+        marginVertical: 7,
+        color: globalColors.primary
     },
 })

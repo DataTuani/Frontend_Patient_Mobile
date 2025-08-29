@@ -6,16 +6,16 @@ import { ThemeContext } from '../../../../context/ThemeContext';
 interface Props {
     onPress: () => void;
     label: string;
+    style?: {}
 }
 
 interface ButtonProps {
     onPress: () => void;
     title: string;
     variant?: 'filled' | 'outlined';
-
 }
 
-export const PrimaryButton = ({ onPress, label }: Props) => {
+export const PrimaryButton = ({ onPress, label, style = {} }: Props) => {
 
     const { colors } = useContext(ThemeContext);
     const styles = globalStyles(colors);
@@ -23,8 +23,8 @@ export const PrimaryButton = ({ onPress, label }: Props) => {
     return (
         <Pressable
             onPress={() => onPress()}
-            style={styles.primaryButtom}>
-            <Text style={{ color: colors.text }}>{label}</Text>
+            style={[styles.primaryButtom, style]}>
+            <Text style={{ color: colors.text, fontSize: 17, fontWeight: 'bold' }}>{label}</Text>
         </Pressable>
     )
 }

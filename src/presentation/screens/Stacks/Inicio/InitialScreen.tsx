@@ -21,8 +21,6 @@ export const InitialScreen = () => {
                 style={style.logo}
             />
             <Text style={[style.title, { color: colors.title }]}>¡Bienvenido a Saludito!</Text>
-
-
             <View style={[style.card]}>
                 <Text style={[style.cardTitle, { color: colors.primary, fontWeight: '600', }]}>Acceso a Saludito</Text>
                 <Text style={style.subtitle}>Selecciona una opción para continuar</Text>

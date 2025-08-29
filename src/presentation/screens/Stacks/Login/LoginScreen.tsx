@@ -15,8 +15,6 @@ export const LoginScreen = () => {
     const navigation = useNavigation<NavigationProp<RootStackParams>>();
     const { colors } = useContext(ThemeContext);
     const styles = globalStyles(colors);
-    const variant = 'outlined'
-
 
     return (
         <View style={[style.container, { backgroundColor: colors.background }]}>
@@ -25,9 +23,6 @@ export const LoginScreen = () => {
                     source={require('../../../assets/saludito-logo.png')}
                     style={style.logo}
                 />
-
-
-
 
             <View style={[style.card]}>
                 <Text style={[style.cardTitle, { color: colors.primary, fontWeight: '600', }]}>¡Hola de nuevo!</Text>
