@@ -5,9 +5,12 @@ import { VirtualScreen } from '../screens/Tabs/virtualLine/VirtualScreen';
 import { CustomIonicons } from '../components/shared/Custom_Ionicons';
 import { useContext } from 'react';
 import { ThemeContext } from '../../../context/ThemeContext';
+import { Dimensions } from 'react-native';
 
 
 const Tab = createBottomTabNavigator();
+const { height } = Dimensions.get('window');
+const bottomOffset = height < 700 ? 10 : 20;
 
 export const BottomTabNavigator = () => {
 
@@ -18,13 +21,21 @@ export const BottomTabNavigator = () => {
             screenOptions={{
                 // headerShown: false
                 tabBarLabelStyle: {
-                    marginBottom: 5
+                    marginBottom: 0
                 },
-                headerTitle:'',
+                headerTitle: '',
                 headerStyle: {
                     elevation: 0
                 },
-                tabBarActiveTintColor: colors.primary
+                tabBarActiveTintColor: colors.primary,
+                tabBarStyle: {
+                    position: 'absolute',
+                    bottom: bottomOffset,
+                    left: 20,
+                    borderRadius: 25,
+                    height: 70,
+                    elevation: 5
+                }
             }}
         >
             <Tab.Screen

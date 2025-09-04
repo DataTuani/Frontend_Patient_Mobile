@@ -2,30 +2,22 @@ import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentScroll
 import { StackNavigator } from './StackNavigator';
 import { SettingScreen } from '../settings/SettingScreen';
 import { globalColors } from '../theme/theme';
-import { useWindowDimensions, View } from 'react-native';
 import { ProfileScreen } from '../screens/profile/ProfileScreen';
 import { CustomIonicons } from '../components/shared/Custom_Ionicons';
+import { Text, View } from 'react-native';
 
 const Drawer = createDrawerNavigator();
 
 export const SideMenu = () => {
-
-
     return (
         <Drawer.Navigator
 
             drawerContent={(props) => <CustomDrawerContent {...props} />}
             screenOptions={{
                 headerShown: false,
-                // drawerType: (dimensions.width >= 758) ? 'permanent' : 'front',
                 drawerType: 'front',
                 drawerActiveBackgroundColor: globalColors.light,
                 drawerActiveTintColor: globalColors.dark,
-                // drawerInactiveBackgroundColor:globalColors.tertiary
-                // drawerItemStyle:{
-                //     borderRadius:100,
-                //     paddingHorizontal:20
-                // }
             }}
         >
             <Drawer.Screen options={{
@@ -42,12 +34,6 @@ export const SideMenu = () => {
                 name='Perfil' component={ProfileScreen} />
             <Drawer.Screen
                 options={{
-                    headerShown: true,
-                    headerTitleAlign: 'left',
-                    headerTitle: '',
-                    headerStyle: {
-                        elevation: 0,
-                    },
                     drawerIcon: ({ color }) => (<CustomIonicons
                         name='settings-outline' color={color}
                     />)
@@ -59,8 +45,10 @@ export const SideMenu = () => {
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
     return (
-
-        <DrawerContentScrollView>
+        <DrawerContentScrollView
+            {...props}
+            contentContainerStyle={{ paddingVertical: 20 }}
+        >
             <View
                 style={{
                     height: 50,
@@ -70,7 +58,10 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                     borderRadius: 50
                 }}
             />
-            <DrawerItemList {...props} />
+            <View style={{ gap: 12 }}>
+                <DrawerItemList {...props} />
+            </View>
+
         </DrawerContentScrollView>
     )
 }

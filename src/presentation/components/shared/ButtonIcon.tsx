@@ -5,7 +5,7 @@ import { globalColors } from '../../theme/theme'
 
 
 interface PropsSetting {
-    title: string;
+    title: string;  
     icon: string;
     onPress: () => void;
     isActive: boolean;
