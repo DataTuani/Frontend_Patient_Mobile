@@ -6,6 +6,7 @@ import { RootStackParams } from '../../../routes/StackNavigator';
 import { ThemeContext } from '../../../../../context/ThemeContext';
 import { CustomDropdown } from '../../../components/shared/CustomDropdown';
 import { PrimaryButton } from '../../../components/shared/PrimaryButton';
+import { RegisterStepper } from '../../../components/shared/RegisterStepper';
 
 
 const height = Dimensions.get('window').height;
@@ -21,14 +22,9 @@ export const RegisterScreen3 = () => {
 
     return (
         <View style={[style.container, { backgroundColor: colors.background }]}>
-            <Image
-                source={require('../../../assets/saludito.png')}
-                style={[style.logo, { marginTop: height * 0.05 }]}
-            />
-            <Text style={style.title}>¡Bienvenido a Salud
-                <Text style={{ color: globalColors.secondary }}>ito</Text>
-                !</Text>
-            <Text style={style.subtitle}>Completa tu registro para comienza a cuidar tu salud</Text>
+
+            <Text style={style.title}>Registrar</Text>
+           <RegisterStepper currentStep={3}/>
             <View style={style.card}>
                 <View style={{ width: '90%' }}>
                     <Text style={style.titleInfo}>Informacion Medica</Text>
@@ -108,24 +104,15 @@ export const RegisterScreen3 = () => {
 const style = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'flex-start',
+        justifyContent:'center',
         paddingHorizontal: 25,
         alignItems: 'center',
     },
-    logo: {
-        width: 150,
-        height: 150,
-        resizeMode: 'contain'
-    },
     title: {
-        fontSize: 30,
+        fontSize: 50,
         fontWeight: 'bold',
-        marginBottom: 10,
-    },
-    subtitle: {
-        fontSize: 16,
-        marginBottom: 10,
-        textAlign: 'center'
+        marginBottom: 50,
+        color:'#003E6D'
     },
     titleInfo: {
         fontWeight: '600',

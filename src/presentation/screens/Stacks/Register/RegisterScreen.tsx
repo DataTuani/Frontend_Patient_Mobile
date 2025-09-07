@@ -9,6 +9,7 @@ import { CustomDropdown } from '../../../components/shared/CustomDropdown';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { Ionicons } from '@expo/vector-icons';
 import { PrimaryButton } from '../../../components/shared/PrimaryButton';
+import { RegisterStepper } from '../../../components/shared/RegisterStepper';
 
 
 const height = Dimensions.get('window').height;
@@ -21,27 +22,31 @@ export const RegisterScreen = () => {
     const [gender, setGender] = useState<string | null>(null);
     const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
     const showDatePicker = () => setDatePickerVisibility(true);
-
     const hideDatePicker = () => setDatePickerVisibility(false);
-
+    const [currentStep, setCurrentStep] = useState(1);
 
     const handleConfirm = (date: Date) => {
         setSelectedDate(date);
         hideDatePicker();
     }
 
+    const nextStep = () => {
+        if (currentStep < 3){
+            setCurrentStep(currentStep + 1);
+        }
+    };
+
+    const prevStep = () => {
+        if (currentStep > 1){
+            setCurrentStep(currentStep - 1);
+        }
+    };
+
     return (
         <View style={[style.container, { backgroundColor: colors.background }]}>
-            <Image
-                source={require('../../../assets/saludito.png')}
-                style={[style.logo, { marginTop: height * 0.05 }]}
-            />
-            <Text style={style.title}>¡Bienvenido a Salud
-                <Text style={{ color: globalColors.secondary }}>ito</Text>
-                !</Text>
-            <Text style={style.subtitle}>Completa tu registro para comienza a cuidar tu salud</Text>
+            <Text style={style.title}>Registrar</Text>
+            <RegisterStepper currentStep={1}/>
             <View style={style.card}>
                 <Text style={[style.titleInput, { color: colors.primary, fontWeight: '600' }]}>Crear Cuenta Nueva</Text>
                 <View style={{ width: '90%' }}>
@@ -92,28 +97,18 @@ export const RegisterScreen = () => {
     )
 }
 
-
 const style = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         paddingHorizontal: 25,
         alignItems: 'center',
     },
-    logo: {
-        width: 150,
-        height: 150,
-        resizeMode: 'contain'
-    },
     title: {
-        fontSize: 30,
+        fontSize: 50,
         fontWeight: 'bold',
-        marginBottom: 10,
-    },
-    subtitle: {
-        fontSize: 16,
-        marginBottom: 10,
-        textAlign: 'center'
+        marginBottom: 50,
+        color:'#003E6D'
     },
     titleInput: {
         fontSize: 22,
