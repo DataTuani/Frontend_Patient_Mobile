@@ -6,6 +6,7 @@ import { InitialScreen } from "../screens/Stacks/Inicio/InitialScreen";
 import { RegisterScreen2 } from "../screens/Stacks/Register/RegisterScreen2";
 import { RegisterScreen4 } from "../screens/Stacks/Register/RegisterScreen4";
 import { RegisterScreen3 } from "../screens/Stacks/Register/RegisterScreen3";
+import { ProfileScreen } from "../screens/Stacks/Profile/ProfileScreen";
 
 export type RootStackParams = {
     Initial: undefined;
@@ -15,6 +16,7 @@ export type RootStackParams = {
     Register3: undefined;
     Register4: undefined;
     Home: undefined;
+    Profile: undefined;
     // product: { id: number, name: string };
 }
 
@@ -75,6 +77,12 @@ export const StackNavigator = () => {
                 }}
                 name="Register4"
                 component={RegisterScreen4}
+            />
+            <Stack.Screen 
+            options={{
+                headerShown: false
+            }}
+            name="Profile" component={ProfileScreen}
             />
         </Stack.Navigator>
     );

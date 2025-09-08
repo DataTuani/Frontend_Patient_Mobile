@@ -2,7 +2,6 @@ import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentScroll
 import { StackNavigator } from './StackNavigator';
 import { SettingScreen } from '../settings/SettingScreen';
 import { globalColors } from '../theme/theme';
-import { ProfileScreen } from '../screens/profile/ProfileScreen';
 import { CustomIonicons } from '../components/shared/Custom_Ionicons';
 import { Text, View } from 'react-native';
 
@@ -25,13 +24,6 @@ export const SideMenu = () => {
                     name='home-outline' color={color}
                 />)
             }} name="Inicio" component={StackNavigator} />
-            <Drawer.Screen
-                options={{
-                    drawerIcon: ({ color }) => (<CustomIonicons
-                        name='person-outline' color={color}
-                    />)
-                }}
-                name='Perfil' component={ProfileScreen} />
             <Drawer.Screen
                 options={{
                     drawerIcon: ({ color }) => (<CustomIonicons
