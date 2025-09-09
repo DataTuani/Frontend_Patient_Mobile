@@ -17,9 +17,6 @@ export const RegisterScreen3 = () => {
 
     const navigator = useNavigation<NavigationProp<RootStackParams>>();
     const { colors } = useContext(ThemeContext);
-    const [blond, setBlond] = useState<string | null>(null);
-    const [allergies, setAllergies] = useState<string | null>(null);
-    const [diseases, setDiseases] = useState<string | null>(null);
     const { updateFormData } = useRegisterStore();
 
     const Register3Schema = Yup.object().shape({

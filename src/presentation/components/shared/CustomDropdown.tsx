@@ -3,10 +3,11 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { StyleSheet, Text, View } from 'react-native';
 import { globalColors } from '../../theme/theme';
 
+
 interface DropdownProps {
   title: string;
   items: { label: string; value: string }[];
-  value: string | null;
+  value: string | number;
   setValue: React.Dispatch<React.SetStateAction<string | null>>;
   placeholder?: string;
 
@@ -37,12 +38,49 @@ export const CustomDropdown = ({
         setItems={setLocalItems}
         placeholder={placeholder}
         style={styles.DropDownStyles}
-        
+
       />
     </View>
 
   )
 }
+
+
+interface DropdownPropsN {
+  title: string;
+  items: { label: string; value: number }[];
+  value: number;
+  setValue: (val: number | ((prev: number) => number)) => void;
+  placeholder?: string;
+}
+
+export const CustomDropdownNumber = ({
+  title,
+  items,
+  value,
+  setValue,
+  placeholder = 'Seleccione...',
+}: DropdownPropsN) => {
+  const [open, setOpen] = useState(false);
+  const [localItems, setLocalItems] = useState(items);
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.label}>{title}</Text>
+      <DropDownPicker
+        open={open}
+        value={value}
+        items={localItems}
+        setOpen={setOpen}
+        setValue={setValue}
+        setItems={setLocalItems}
+        placeholder={placeholder}
+        style={styles.DropDownStyles}
+      />
+    </View>
+  );
+};
+
 
 const styles = StyleSheet.create({
   container: {

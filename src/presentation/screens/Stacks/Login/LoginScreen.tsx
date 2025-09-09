@@ -12,7 +12,7 @@ import { loginController } from "../../../../controller/authController";
 
 const { height } = Dimensions.get('window');
 
-export const LoginScreen = ({ Navigation }: any) => {
+export const LoginScreen = () => {
 
     const navigation = useNavigation<NavigationProp<RootStackParams>>();
     const { colors } = useContext(ThemeContext);
@@ -37,7 +37,7 @@ export const LoginScreen = ({ Navigation }: any) => {
                 else {
                     alert(result.message);
                     console.log(values);
-                }
+                } 
                 setSubmitting(false);
             }}
         >
@@ -48,7 +48,7 @@ export const LoginScreen = ({ Navigation }: any) => {
                         source={require('../../../assets/saludito-logo.png')}
                         style={style.logo}
                     />
-
+ 
                     <View style={[style.card]}>
                         <Text style={[style.cardTitle, { color: colors.primary, fontWeight: '600', }]}>¡Hola de nuevo!</Text>
                         <Text style={style.subtitle}>Digite su correo y contraseña</Text>

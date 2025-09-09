@@ -19,6 +19,7 @@ export const registerService = (
     telefono: string,
     genero: string,
     direccion: string,
+    rol_id:number,
     grupo_sanguineo: string,
     enfermedades_cronicas: string,
     alergias: string
@@ -36,6 +37,7 @@ export const registerService = (
         telefono,
         genero,
         direccion,
+        rol_id,
         grupo_sanguineo,
         enfermedades_cronicas,
         alergias

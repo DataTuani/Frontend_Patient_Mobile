@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 //manejo de estado global usando zustand
 
-interface RegisterData {
+export interface RegisterData {
     nombreCompleto: string;
     genero: string;
     fecha_nacimiento: Date | null;
@@ -10,6 +10,7 @@ interface RegisterData {
     cedula: string;
     telefono: string;
     direccion: string;
+    rol_id: number;
     grupo_sanguineo: string;
     enfermedades_cronicas: string;
     alergias: string;
@@ -30,6 +31,7 @@ const initialData: RegisterData = {
     cedula: '',
     telefono: '',
     direccion: '',
+    rol_id: 1,
     grupo_sanguineo: '',
     enfermedades_cronicas: '',
     alergias: ''

@@ -48,7 +48,6 @@ export const RegisterScreen = () => {
 
     const RegisterSchema = Yup.object().shape({
         nombreCompleto: Yup.string()
-            .min(30, 'Mínimo 50 caracteres')
             .required('Nombre completo requerido'),
         genero: Yup.string()
             .required('Género requerido'),
@@ -69,7 +68,7 @@ export const RegisterScreen = () => {
                 updateFormData({
                     nombreCompleto: values.nombreCompleto,
                     genero: values.genero ?? '',
-                    fecha_nacimiento: selectedDate
+                    fecha_nacimiento: values.fecha_nacimiento
                 });
                 console.log(values);
                 navigator.navigate('Register2');
@@ -98,8 +97,8 @@ export const RegisterScreen = () => {
                         <CustomDropdown
                             title='Sexo'
                             items={[
-                                { label: 'Masculino', value: 'masculino' },
-                                { label: 'Femenino', value: 'femenino' }
+                                { label: 'Masculino', value: 'M' },
+                                { label: 'Femenino', value: 'F' }
                             ]}
                             value={values.genero}
                             setValue={(val) => {
