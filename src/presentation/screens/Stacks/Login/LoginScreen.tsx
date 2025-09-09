@@ -22,7 +22,7 @@ export const LoginScreen = ({ Navigation }: any) => {
         correo: Yup.string().email('Correo invalido').required('Correo es requerido'),
         contraseña: Yup.string().min(6, 'Minimo 6 caracteres').required('Contraseña es requerido')
     })
-
+ 
     return (
         <Formik
             initialValues={{ correo: '', contraseña: '' }}
@@ -55,7 +55,7 @@ export const LoginScreen = ({ Navigation }: any) => {
 
                         <CustomInput
                             label="Correo Electronico"
-                            placeholder="Ingresar tu correo"
+                            placeholder="Ingresar tu correo" 
                             variant="outlined"
                             value={values.correo}
                             onChangeText={handleChange('correo')}

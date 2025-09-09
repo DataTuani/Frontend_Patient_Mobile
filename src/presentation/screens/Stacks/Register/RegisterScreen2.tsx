@@ -7,6 +7,8 @@ import { RootStackParams } from '../../../routes/StackNavigator';
 import { ThemeContext } from '../../../../../context/ThemeContext';
 import { CustomInputRegister } from '../../../components/shared/CustomInput';
 import { RegisterStepper } from '../../../components/shared/RegisterStepper';
+import * as Yup from 'yup';
+import { Formik } from 'formik';
 
 const height = Dimensions.get('window').height;
 
@@ -15,7 +17,7 @@ export const RegisterScreen2 = () => {
   const navigator = useNavigation<NavigationProp<RootStackParams>>();
   const { colors } = useContext(ThemeContext);
 
-  // const styles = globalStyles(colors);
+
 
   return (
     <View style={[style.container, { backgroundColor: colors.background }]}>

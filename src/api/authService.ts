@@ -7,3 +7,39 @@ export const loginService = (correo: string, contraseña: string) => {
     })
 }
 
+export const registerService = (
+    correo: string,
+    password: string,
+    primer_nombre: string,
+    segundo_nombre: string,
+    primer_apellido: string,
+    segundo_apellido: string,
+    cedula: string,
+    fecha_nacimiento: Date,
+    telefono: string,
+    genero: string,
+    direccion: string,
+    grupo_sanguineo: string,
+    enfermedades_cronicas: string,
+    alergias: string
+) => {
+
+    return api.post('/api/auth/register', {
+        correo,
+        password,
+        primer_nombre,
+        segundo_nombre,
+        primer_apellido,
+        segundo_apellido,
+        cedula,
+        fecha_nacimiento,
+        telefono,
+        genero,
+        direccion,
+        grupo_sanguineo,
+        enfermedades_cronicas,
+        alergias
+    })
+
+}
+

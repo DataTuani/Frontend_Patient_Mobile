@@ -69,12 +69,17 @@ interface CustomInputRegisterProps {
     label: string;
     placeholder?: string;
     secureTextEntry?: boolean
-} 
+    value?: string;
+    onChangeText?: (text: string) => void;
+}
 
 export const CustomInputRegister = ({
     label,
     placeholder,
-    secureTextEntry = false
+    secureTextEntry = false,
+    value,
+    onChangeText
+
 }: CustomInputRegisterProps) => {
     return (
         <View style={stylesR.container}>
@@ -82,6 +87,8 @@ export const CustomInputRegister = ({
             <TextInput style={stylesR.input}
                 placeholder={placeholder}
                 secureTextEntry={secureTextEntry}
+                value={value}
+                onChangeText={onChangeText}
             >
             </TextInput>
 
