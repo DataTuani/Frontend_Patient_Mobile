@@ -9,6 +9,7 @@ interface DropdownProps {
   value: string | null;
   setValue: React.Dispatch<React.SetStateAction<string | null>>;
   placeholder?: string;
+
 }
 
 export const CustomDropdown = ({
@@ -17,6 +18,7 @@ export const CustomDropdown = ({
   value,
   setValue,
   placeholder = 'Seleccione...',
+
 }: DropdownProps) => {
 
   const [open, setOpen] = useState(false);
@@ -35,6 +37,7 @@ export const CustomDropdown = ({
         setItems={setLocalItems}
         placeholder={placeholder}
         style={styles.DropDownStyles}
+        
       />
     </View>
 

@@ -69,8 +69,8 @@ interface CustomInputRegisterProps {
     label: string;
     placeholder?: string;
     secureTextEntry?: boolean
-    value?: string;
-    onChangeText?: (text: string) => void;
+    value: string;
+    onChangeText: (text: string) => void;
 }
 
 export const CustomInputRegister = ({
