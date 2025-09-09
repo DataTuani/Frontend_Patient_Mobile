@@ -8,13 +8,15 @@ interface CustomInputProps {
     placeholder?: string;
     variant?: 'filled' | 'outlined';
     secureTextEntry?: boolean;
-    // value: string;
-    // onChangeText: (text: string) => void;
+    value: string;
+    onChangeText: (text: string) => void;
 }
 
 export const CustomInput = ({
     label, placeholder, variant = 'outlined',
-    secureTextEntry = false
+    secureTextEntry = false,
+    value,
+    onChangeText
 
 }: CustomInputProps) => {
     return (
@@ -26,6 +28,8 @@ export const CustomInput = ({
                 ]}
                 placeholder={placeholder}
                 secureTextEntry={secureTextEntry}
+                value={value}
+                onChangeText={onChangeText}
             />
         </View>
     )

@@ -5,6 +5,7 @@ import { Header, } from '../../components/shared/HamburgerMenu';
 import { useContext } from 'react';
 import { ThemeContext } from '../../../../context/ThemeContext';
 import { globalColors, globalStyles } from '../../theme/theme';
+import { CustomIonicons } from '../../components/shared/Custom_Ionicons';
 
 export const HomeScreen = () => {
 
@@ -32,20 +33,28 @@ export const HomeScreen = () => {
             </TouchableOpacity>
             <View style={style.row}>
                 {/* Medicamentos */}
-                <View >
-                    <View>
-                        <Text>Pendientes</Text>
+                <View style={style.cardSmall}>
+                    <View style={style.badge}>
+                        <Text style={style.badgeText}>Pendientes</Text>
                     </View>
-
-                    <Text>MedicamentosPendientes</Text>
-                    <Text>Mis medicamentos</Text>
-                    <Text>Medicamentos para hoy</Text>
+                    <Text style={style.number}>8</Text>
+                    <Text style={style.cardTitleSmall}>Mis medicamentos</Text>
+                    <Text style={style.cardSubtitleSmall}>Medicamentos para hoy</Text>
                 </View>
 
                 {/* Teleconsultas */}
 
-                <View>
+                <View style={style.cardSmall}>
+                    <View style={style.teleContainer}>
+                        <CustomIonicons 
+                        name={'laptop-outline'}
+                        size={40}
+                        color={'gray'}
 
+                        />
+                    </View>
+                    <Text style={style.cardTitleSmall}>Teleconsulta</Text>
+                    <Text style={style.cardSubtitleSmall}>Asistir a una teleconsulta</Text>
                 </View>
             </View>
         </View >
@@ -67,7 +76,6 @@ const style = StyleSheet.create({
         shadowOffset: {
             width: 2, height: 2
         },
-        shadowRadius: 0,
         elevation: 5
     },
     circlePlus: {
@@ -96,9 +104,57 @@ const style = StyleSheet.create({
         marginTop: 4
     },
     row: {
-        flexDirection:"row",
-        justifyContent:"space-between",
-        marginTop:20
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginTop: 20
     },
+    cardSmall: {
+        flex: 1,
+        backgroundColor: globalColors.light,
+        borderRadius: 12,
+        padding: 15,
+        marginHorizontal: 5,
+        alignItems: "center",
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderColor: '#ddd'
+    },
+    badge: {
+        backgroundColor: '#8BC34A',
+        paddingHorizontal: 10,
+        paddingVertical: 4,
+        borderRadius: 12,
+        marginBottom: 8,
+    },
+    badgeText: {
+        color: globalColors.light,
+        fontWeight: 'bold',
+        fontSize: 12
+    },
+    number: {
+        fontSize: 28,
+        fontWeight: "bold",
+        color: '#333',
+        marginBottom: 6
+    },
+    cardTitleSmall: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: '#333',
+        textAlign: 'center',
+        marginBottom: 4
+    },
+    cardSubtitleSmall: {
+        fontSize: 12,
+        color: 'gray',
+        textAlign: 'center'
+    },
+    teleContainer:{
+        width:50,
+        height:50,
+        alignItems:'center',
+        justifyContent:'center',
+        marginBottom:8
+    }
 
 })

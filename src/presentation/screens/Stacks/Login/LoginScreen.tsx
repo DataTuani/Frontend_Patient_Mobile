@@ -5,55 +5,90 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParams } from "../../../routes/StackNavigator";
 import { useContext } from "react";
 import { ThemeContext } from "../../../../../context/ThemeContext";
-import { Pressable, TextInput } from "react-native-gesture-handler";
 import { CustomInput } from "../../../components/shared/CustomInput";
+import * as Yup from 'yup';
+import { Formik } from 'formik';
+import { loginController } from "../../../../controller/authController";
 
 const { height } = Dimensions.get('window');
 
-export const LoginScreen = () => {
+export const LoginScreen = ({ Navigation }: any) => {
 
     const navigation = useNavigation<NavigationProp<RootStackParams>>();
     const { colors } = useContext(ThemeContext);
     const styles = globalStyles(colors);
 
+    const LoginSchema = Yup.object().shape({
+        correo: Yup.string().email('Correo invalido').required('Correo es requerido'),
+        contraseña: Yup.string().min(6, 'Minimo 6 caracteres').required('Contraseña es requerido')
+    })
+
     return (
-        <View style={[style.container, { backgroundColor: colors.background }]}>
+        <Formik
+            initialValues={{ correo: '', contraseña: '' }}
+            validationSchema={LoginSchema}
+            onSubmit={async (values, { setSubmitting }) => {
+                setSubmitting(true);
+                const result = await loginController(values.correo, values.contraseña);
+                if (result.success) {
+                    console.log(values)
+                    navigation.navigate("Home");
+                }
+                else {
+                    alert(result.message);
+                    console.log(values);
+                }
+                setSubmitting(false);
+            }}
+        >
+            {({ handleChange, handleSubmit, values, errors, touched, isSubmitting }) => (
+                <View style={[style.container, { backgroundColor: colors.background }]}>
 
-                <Image
-                    source={require('../../../assets/saludito-logo.png')}
-                    style={style.logo}
-                />
+                    <Image
+                        source={require('../../../assets/saludito-logo.png')}
+                        style={style.logo}
+                    />
 
-            <View style={[style.card]}>
-                <Text style={[style.cardTitle, { color: colors.primary, fontWeight: '600', }]}>¡Hola de nuevo!</Text>
-                <Text style={style.subtitle}>Digite su correo y contraseña</Text>
+                    <View style={[style.card]}>
+                        <Text style={[style.cardTitle, { color: colors.primary, fontWeight: '600', }]}>¡Hola de nuevo!</Text>
+                        <Text style={style.subtitle}>Digite su correo y contraseña</Text>
 
-                <CustomInput
-                    label="Correo Electronico"
-                    placeholder="Ingresar tu correo"
-                    variant="outlined"
-                />
+                        <CustomInput
+                            label="Correo Electronico"
+                            placeholder="Ingresar tu correo"
+                            variant="outlined"
+                            value={values.correo}
+                            onChangeText={handleChange('correo')}
+                        />
 
-                <CustomInput
-                    label="Contraseña"
-                    placeholder="Ingresar tu Contraseña"
-                    variant="outlined"
-                    secureTextEntry={true}
+                        {touched.correo && errors.correo && (
+                            <Text style={{ color: 'red' }}>{errors.correo}</Text>
+                        )}
 
-                />
-
-                <ButtonLogin title="Iniciar Sesión" onPress={() => { navigation.navigate('Home') }} />
-                <Text
-                    style={[style.footerText]}
-                >
-                    ¿Primera vez en Saludito? {''}
-                    <Text style={{ color: globalColors.secondary }}
-                        onPress={() => navigation.navigate('Register')}
-                    >Crear Cuenta</Text>
-                </Text>
-            </View>
-
-        </View>
+                        <CustomInput
+                            label="Contraseña"
+                            placeholder="Ingresar tu Contraseña"
+                            variant="outlined"
+                            secureTextEntry={true}
+                            value={values.contraseña}
+                            onChangeText={handleChange('contraseña')}
+                        />
+                        {touched.contraseña && errors.contraseña && (
+                            <Text style={{ color: 'red' }}>{errors.contraseña}</Text>
+                        )}
+                        <ButtonLogin title={isSubmitting ? "Cargando..." : "Iniciar Sesion"} onPress={handleSubmit} />
+                        <Text
+                            style={[style.footerText]}
+                        >
+                            ¿Primera vez en Saludito? {''}
+                            <Text style={{ color: globalColors.secondary }}
+                                onPress={() => navigation.navigate('Register')}
+                            >Crear Cuenta</Text>
+                        </Text>
+                    </View>
+                </View>
+            )}
+        </Formik>
     )
 }
 
@@ -63,16 +98,13 @@ const style = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        padding:100,
+        padding: 100,
         paddingHorizontal: 30,
-
-        
     },
     logo: {
         width: 170,
         height: 170,
         marginBottom: 10,
-
     },
     card: {
         width: '100%',
