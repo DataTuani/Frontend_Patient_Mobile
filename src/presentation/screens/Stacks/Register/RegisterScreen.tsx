@@ -67,8 +67,8 @@ export const RegisterScreen = () => {
             onSubmit={(values) => {
                 updateFormData({
                     nombreCompleto: values.nombreCompleto,
-                    genero: values.genero ?? '',
-                    fecha_nacimiento: values.fecha_nacimiento
+                    genero: values.genero,
+                    fecha_nacimiento: values.fecha_nacimiento 
                 });
                 console.log(values);
                 navigator.navigate('Register2');

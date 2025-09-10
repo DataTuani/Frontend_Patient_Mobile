@@ -11,7 +11,7 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { useRegisterStore } from '../../../../hooks/useRegisterStore';
 import { registerController } from '../../../../controller/authController';
-import { CustomDropdown, CustomDropdownNumber } from '../../../components/shared/CustomDropdown';
+import { CustomDropdownNumber } from '../../../components/shared/CustomDropdown';
 
 
 const height = Dimensions.get('window').height;
@@ -20,7 +20,7 @@ export const RegisterScreen4 = () => {
 
     const navigator = useNavigation<NavigationProp<RootStackParams>>();
     const { colors } = useContext(ThemeContext);
-    const { updateFormData } = useRegisterStore();
+    const { formData, updateFormData } = useRegisterStore();
 
     const Register4Schema = Yup.object().shape({
         correo: Yup.string().email('Correo invalido').required('Correo requerido'),
@@ -37,6 +37,7 @@ export const RegisterScreen4 = () => {
             }}
             validationSchema={Register4Schema}
             onSubmit={async (values) => {
+          
                 updateFormData({
                     correo: values.correo,
                     password: values.password,
@@ -45,19 +46,21 @@ export const RegisterScreen4 = () => {
 
                 const fullData = useRegisterStore.getState().formData;
 
-                const response = await registerController(fullData);
-                if (response.success) {
-                    console.log(fullData);
-                    console.log(response);
-                    navigator.navigate('Home');
+                try {
+                    const response = await registerController(fullData);
+                    if (response.success) {
+                        console.log('Registro exitoso', fullData);
+                        navigator.navigate('Home');
+                    } else {
+                        alert(response.message);
+                        console.log('Error del backend:', fullData);
+                    }
+                } catch (error) {
+                    alert('Error al registrar');
+                    console.log(error);
                 }
-                else {
-                    alert(response.message);
-                    console.log(fullData);
-
-                }
-                console.log(response);
             }}
+
         >
 
             {({ handleChange, handleSubmit, values, errors, touched, isSubmitting, setFieldValue }) => (

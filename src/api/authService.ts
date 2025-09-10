@@ -19,10 +19,10 @@ export const registerService = (
     telefono: string,
     genero: string,
     direccion: string,
-    rol_id:number,
+    rol_id: number,
     grupo_sanguineo: string,
-    enfermedades_cronicas: string,
-    alergias: string
+    enfermedades_cronicas: string[],
+    alergias: string[]
 ) => {
 
     return api.post('/api/auth/register', {
@@ -33,7 +33,8 @@ export const registerService = (
         primer_apellido,
         segundo_apellido,
         cedula,
-        fecha_nacimiento,
+        fecha_nacimiento: fecha_nacimiento ? fecha_nacimiento.toISOString().split('T')[0]
+            : null,
         telefono,
         genero,
         direccion,

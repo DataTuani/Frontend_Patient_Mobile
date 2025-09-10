@@ -12,8 +12,8 @@ export interface RegisterData {
     direccion: string;
     rol_id: number;
     grupo_sanguineo: string;
-    enfermedades_cronicas: string;
-    alergias: string;
+    enfermedades_cronicas: string[];
+    alergias: string[];
 }
 
 interface RegisterStore {
@@ -33,8 +33,8 @@ const initialData: RegisterData = {
     direccion: '',
     rol_id: 1,
     grupo_sanguineo: '',
-    enfermedades_cronicas: '',
-    alergias: ''
+    enfermedades_cronicas: [],
+    alergias: []
 };
 
 export const useRegisterStore = create<RegisterStore>((set) => ({

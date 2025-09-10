@@ -17,9 +17,15 @@ export const registerController = async (data: RegisterData) => {
         const nombres = data.nombreCompleto.trim().split(' ');
 
         const primer_nombre = nombres[0] || '';
-        const segundo_nombre = nombres.length > 3 ? nombres.slice(1, nombres.length - 2).join(' ') : nombres[1] || '';
-        const primer_apellido = nombres.length > 2 ? nombres[nombres.length - 2] : '';
-        const segundo_apellido = nombres.length > 3 ? nombres[nombres.length - 1] : '';
+        const segundo_nombre = nombres.length > 2 ? nombres[1] : '';
+        const primer_apellido = nombres.length >= 2 ? nombres[nombres.length - 2] : '';
+        const segundo_apellido = nombres.length >= 3 ? nombres[nombres.length - 1] : '';
+
+        const fechaNacimientoStr = data.fecha_nacimiento
+            ? data.fecha_nacimiento.toISOString().split('T')[0]
+            : '';
+
+        console.log('Payload enviado al registerService:', data); 
 
         const response = await registerService(
             data.correo,
@@ -38,8 +44,20 @@ export const registerController = async (data: RegisterData) => {
             data.enfermedades_cronicas,
             data.alergias
         );
+
+        console.log('Axios response completo: ', response);
+        console.log("response.data:", response.data);
+        console.log("response:", response);
+
         return { success: true, data: response.data }
     } catch (error: any) {
-        return { success: false, message: 'Error en el registro' }
+
+        if (error.response) {
+            // Error HTTP del backend
+            console.log('Error HTTP:', error.response.data);
+        } else {
+            console.log('Error desconocido:', error.message);
+        }
+        return { success: false, message: 'Error en el registro' };
     }
 }

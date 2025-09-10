@@ -10,11 +10,10 @@ interface DropdownProps {
   value: string | number;
   setValue: React.Dispatch<React.SetStateAction<string | null>>;
   placeholder?: string;
-
 }
 
 export const CustomDropdown = ({
-  title,
+  title, 
   items,
   value,
   setValue,
@@ -24,7 +23,6 @@ export const CustomDropdown = ({
 
   const [open, setOpen] = useState(false);
   const [localItems, setLocalItems] = useState(items);
-
 
   return (
     <View style={styles.container}>
@@ -80,6 +78,57 @@ export const CustomDropdownNumber = ({
     </View>
   );
 };
+
+/*Dropdown items */
+
+interface DropdownPropsItems {
+  title: string;
+  items: { label: string; value: string }[];
+  value: string[];
+  setValue: React.Dispatch<React.SetStateAction<string[]>>;
+  placeholder?: string;
+  multiple?: boolean
+}
+
+
+export const CustomDropdownItems = ({
+  title,
+  items,
+  value,
+  setValue,
+  placeholder = 'Seleccione...',
+
+}: DropdownPropsItems) => {
+
+  const [open, setOpen] = useState(false);
+  const [localItems, setLocalItems] = useState(items);
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.label}>{title}</Text>
+      <DropDownPicker
+        open={open}
+        value={value}
+        items={localItems}
+        setOpen={setOpen}
+        setValue={setValue}
+        setItems={setLocalItems}
+        placeholder={placeholder}
+        style={styles.DropDownStyles}
+
+        mode='BADGE'
+        multiple={true}
+        min={0}
+        max={items.length}
+
+        badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#2a9d8f", "#1d3557"]}
+      />
+    </View>
+  )
+}
+
+
+
 
 
 const styles = StyleSheet.create({

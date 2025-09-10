@@ -4,7 +4,7 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { globalColors, } from '../../../theme/theme';
 import { RootStackParams } from '../../../routes/StackNavigator';
 import { ThemeContext } from '../../../../../context/ThemeContext';
-import { CustomDropdown } from '../../../components/shared/CustomDropdown';
+import { CustomDropdown, CustomDropdownItems } from '../../../components/shared/CustomDropdown';
 import { PrimaryButton } from '../../../components/shared/PrimaryButton';
 import { RegisterStepper } from '../../../components/shared/RegisterStepper';
 import * as Yup from 'yup';
@@ -21,30 +21,30 @@ export const RegisterScreen3 = () => {
 
     const Register3Schema = Yup.object().shape({
         grupo_sanguineo: Yup.string().required('Seleccione una opcion'),
-        alergias: Yup.string().required('Seleccione una opcion'),
-        enfermedades_cronicas: Yup.string().required('Seleccione una opcion')
+        alergias: Yup.array().required('Seleccione una opcion'),
+        enfermedades_cronicas: Yup.array().required('Seleccione una opcion')
     })
 
     return (
         <Formik
             initialValues={{
                 grupo_sanguineo: '',
-                alergias: '',
-                enfermedades_cronicas: ''
+                alergias: [],
+                enfermedades_cronicas: []
             }}
             validationSchema={Register3Schema}
             onSubmit={(values) => {
                 updateFormData({
-                    grupo_sanguineo: values.grupo_sanguineo ?? '',
-                    alergias: values.alergias ?? '',
-                    enfermedades_cronicas: values.enfermedades_cronicas ?? ''
+                    grupo_sanguineo: values.grupo_sanguineo,
+                    alergias: values.alergias,
+                    enfermedades_cronicas: values.enfermedades_cronicas
                 });
                 console.log(values);
                 navigator.navigate('Register4');
             }}
         >
 
-            {({ handleChange, handleSubmit, values, errors, touched, isSubmitting, setFieldValue }) => (
+            {({ handleSubmit, values, errors, touched, isSubmitting, setFieldValue }) => (
                 <View style={[style.container, { backgroundColor: colors.background }]}>
 
                     <Text style={style.title}>Registrar</Text>
@@ -77,9 +77,7 @@ export const RegisterScreen3 = () => {
                         {touched.grupo_sanguineo && errors.grupo_sanguineo && (
                             <Text style={{ color: 'red' }}>{errors.grupo_sanguineo}</Text>
                         )}
-
-
-                        <CustomDropdown
+                        <CustomDropdownItems
                             title='Alergias'
                             items={[
                                 { label: 'Polvo', value: 'polvo' },
@@ -105,8 +103,7 @@ export const RegisterScreen3 = () => {
                         {touched.alergias && errors.alergias && (
                             <Text style={{ color: 'red' }}>{errors.alergias}</Text>
                         )}
-
-                        <CustomDropdown
+                        <CustomDropdownItems
                             title='Enfermedades Cronicas'
                             items={[
                                 { label: 'Diabetes (Tipo 1, Tipo 2)', value: 'diabetes' },
