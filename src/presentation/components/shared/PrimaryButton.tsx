@@ -6,7 +6,8 @@ import { ThemeContext } from '../../../../context/ThemeContext';
 interface Props {
     onPress: () => void;
     label: string;
-    style?: {}
+    style?: {};
+    
 }
 
 interface ButtonProps {

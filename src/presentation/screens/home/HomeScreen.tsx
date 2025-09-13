@@ -58,19 +58,19 @@ export const HomeScreen = () => {
                 </View>
 
                 {/* Teleconsultas */}
-
-                <View style={style.cardSmall}>
+                <Pressable style={style.cardSmall}
+                onPress={() =>  navigation.navigate('Waiting')}
+                >
                     <View style={style.teleContainer}>
                         <CustomIonicons
                             name={'laptop-outline'}
                             size={40}
                             color={'gray'}
-
                         />
                     </View>
                     <Text style={style.cardTitleSmall}>Teleconsulta</Text>
                     <Text style={style.cardSubtitleSmall}>Asistir a una teleconsulta</Text>
-                </View>
+                </Pressable>
             </View>
             <View style={{ marginTop: 20 }}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>

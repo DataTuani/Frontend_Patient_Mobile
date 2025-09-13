@@ -5,7 +5,7 @@ import { globalColors } from '../../theme/theme'
 
 
 interface PropsSetting {
-    title: string;  
+    title: string;
     icon: string;
     onPress: () => void;
     isActive: boolean;
@@ -15,7 +15,8 @@ export const ButtonIcon = ({
     title,
     icon,
     onPress,
-    isActive
+    isActive,
+
 }: PropsSetting) => {
     return (
 
@@ -36,6 +37,41 @@ export const ButtonIcon = ({
                 size={20}
                 color={isActive ? globalColors.success : globalColors.danger}
             />
+        </TouchableOpacity>
+    )
+};
+
+interface PropsButton {
+    title: string;
+    icon: string;
+    onPress: () => void;
+    isActive?: boolean;
+    style?: {}
+}
+
+export const ButtonIcons = ({
+    title,
+    icon,
+    onPress,
+    isActive,
+    style = {}
+
+}: PropsButton) => {
+    return (
+
+        <TouchableOpacity
+            style={style}
+            onPress={() => { onPress }}
+            activeOpacity={0.8}
+        >
+            <View style={styles.titleContainer}>
+                <CustomIonicons
+                    name={icon}
+                    size={20}
+                    color={globalColors.light}
+                />
+                <Text style={style}>{title}</Text>
+            </View>
         </TouchableOpacity>
     )
 }
