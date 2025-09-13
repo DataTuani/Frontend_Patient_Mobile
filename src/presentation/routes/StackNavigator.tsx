@@ -17,6 +17,7 @@ export type RootStackParams = {
     Register4: undefined;
     Home: undefined;
     Profile: undefined;
+
     // product: { id: number, name: string };
 }
 
@@ -33,6 +34,9 @@ export const StackNavigator = () => {
                 }
             }}
         >
+                        <Stack.Screen options={{
+                headerShown: false
+            }} name="Home" component={BottomTabNavigator} />
             <Stack.Screen
                 options={{
                     title: 'Initial',
@@ -46,9 +50,7 @@ export const StackNavigator = () => {
                     headerTitleAlign: 'center'
                 }}
                 name="Login" component={LoginScreen} />
-            <Stack.Screen options={{
-                headerShown: false
-            }} name="Home" component={BottomTabNavigator} />
+
 
             <Stack.Screen
                 options={{

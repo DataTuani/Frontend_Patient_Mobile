@@ -19,7 +19,7 @@ export const globalStyles = (colors: any) => StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        backgroundColor: colors.background
+        backgroundColor: globalColors.light
     },
 
     primaryButtom: {

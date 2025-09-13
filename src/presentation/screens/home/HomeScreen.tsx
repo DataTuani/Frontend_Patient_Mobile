@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Pressable, ScrollView } from 'react-native'
 import { type NavigationProp, useNavigation } from "@react-navigation/native";
 import { type RootStackParams } from '../../routes/StackNavigator';
 import { Header, } from '../../components/shared/HamburgerMenu';
@@ -12,6 +12,21 @@ export const HomeScreen = () => {
     const navigation = useNavigation<NavigationProp<RootStackParams>>();
     const { colors } = useContext(ThemeContext);
     const styles = globalStyles(colors);
+
+    interface Consulta {
+        id: number;
+        motivo: string;
+        fecha: string;
+        hora: string;
+    };
+    //Test
+    const consultas: Consulta[] = [
+        { id: 1, motivo: 'Motivo de la consulta 1', fecha: '04 Abril 2025', hora: '10:30' },
+        { id: 2, motivo: 'Motivo de la consulta 2', fecha: '05 Abril 2025', hora: '11:00' },
+        { id: 3, motivo: 'Motivo de la consulta 3', fecha: '06 Abril 2025', hora: '09:00' },
+        { id: 4, motivo: 'Motivo de la consulta 4', fecha: '07 Abril 2025', hora: '14:30' },
+        { id: 5, motivo: 'Motivo de la consulta 5', fecha: '08 Abril 2025', hora: '08:15' },
+    ]
 
     return (
         <View style={styles.container}>
@@ -46,16 +61,39 @@ export const HomeScreen = () => {
 
                 <View style={style.cardSmall}>
                     <View style={style.teleContainer}>
-                        <CustomIonicons 
-                        name={'laptop-outline'}
-                        size={40}
-                        color={'gray'}
+                        <CustomIonicons
+                            name={'laptop-outline'}
+                            size={40}
+                            color={'gray'}
 
                         />
                     </View>
                     <Text style={style.cardTitleSmall}>Teleconsulta</Text>
                     <Text style={style.cardSubtitleSmall}>Asistir a una teleconsulta</Text>
                 </View>
+            </View>
+            <View style={{ marginTop: 20 }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
+                    <Text style={{ fontWeight: 'bold', fontSize: 16, color: '#042558' }}>Proximas Consultas</Text>
+                    <Pressable
+                        onPress={() => console.log("Ver todas")}
+                    >
+                        <Text style={{ color: '#007AFF', fontStyle: 'italic' }}>Ver todas</Text>
+                    </Pressable >
+                </View>
+                <ScrollView style={{ maxHeight: 250 }}>
+                    {consultas.map(e => (
+                        <View key={e.id} style={style.consultaCard}>
+                            <View>
+                                <Text style={{color:'#000', fontWeight:'bold', fontSize:17}}>{e.motivo}</Text>
+                                <Text style={{color:globalColors.gray, fontWeight:'300'}}>{e.fecha} - {e.hora}</Text>
+                            </View>
+                            <Pressable onPress={() => console.log("Ver cita", e.id)}>
+                                <Text style={{color:globalColors.gray}}>Ver</Text>
+                            </Pressable>
+                        </View>
+                    ))}
+                </ScrollView>
             </View>
         </View >
     )
@@ -149,12 +187,22 @@ const style = StyleSheet.create({
         color: 'gray',
         textAlign: 'center'
     },
-    teleContainer:{
-        width:50,
-        height:50,
-        alignItems:'center',
-        justifyContent:'center',
-        marginBottom:8
-    }
+    teleContainer: {
+        width: 50,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 8
+    },
+    consultaCard: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 12,
+        backgroundColor:'#F5F5F5',
+        borderRadius: 10,
+        marginBottom: 8,
+        
+    },
+
 
 })
