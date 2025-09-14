@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { globalColors, globalStyles } from '../theme/theme';
 import { Pressable, Switch } from 'react-native-gesture-handler'
-import { ButtonIcon } from '../components/shared/ButtonIcon';
 import { HamburgerMenu } from '../components/shared/HamburgerMenu';
 import { useContext } from 'react';
 import { ThemeContext } from '../../../context/ThemeContext';

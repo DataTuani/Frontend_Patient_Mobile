@@ -4,6 +4,8 @@ import { SettingScreen } from '../settings/SettingScreen';
 import { globalColors } from '../theme/theme';
 import { CustomIonicons } from '../components/shared/Custom_Ionicons';
 import { Text, View } from 'react-native';
+import { ExpedienteScreen } from '../screens/Drawers/Expedientes/ExpedienteScreen';
+import { ProfileScreen } from '../screens/Drawers/Profile/ProfileScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -14,6 +16,10 @@ export const SideMenu = () => {
             drawerContent={(props) => <CustomDrawerContent {...props} />}
             screenOptions={{
                 headerShown: false,
+                drawerPosition: 'right',
+                drawerStyle: {
+                    width: 280
+                },
                 drawerType: 'front',
                 drawerActiveBackgroundColor: globalColors.light,
                 drawerActiveTintColor: globalColors.dark,
@@ -21,16 +27,38 @@ export const SideMenu = () => {
         >
             <Drawer.Screen options={{
                 drawerIcon: ({ color }) => (<CustomIonicons
-                    name='home-outline' color={color}
-                />)
-            }} name="Inicio" component={StackNavigator} />
+                    name='man-outline' color={color} size={25}
+                />),
+                title: 'Control Parental'
+
+            }} name="ControlParental" component={StackNavigator} />
             <Drawer.Screen
                 options={{
                     drawerIcon: ({ color }) => (<CustomIonicons
-                        name='settings-outline' color={color}
-                    />)
+                        name='reader-outline' color={color} size={25}
+                    />),
+                    title: 'Ver expediente medico'
+                }}
+
+                name="Expediente" component={ExpedienteScreen} />
+
+            <Drawer.Screen
+                options={{
+                    drawerIcon: ({ color }) => (<CustomIonicons
+                        name='settings-outline' color={color} size={25}
+                    />),
+                    title: 'Configuraciones'
                 }}
                 name="Ajuste" component={SettingScreen} />
+
+            <Drawer.Screen
+                options={{
+                    drawerIcon: ({ color }) => (<CustomIonicons
+                        name='person-circle-outline' color={color} size={25}
+                    />),
+                    title: 'Ver Perfil'
+                }}
+                name="Profile" component={ProfileScreen} />
         </Drawer.Navigator>
     );
 }
@@ -39,7 +67,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
     return (
         <DrawerContentScrollView
             {...props}
-            contentContainerStyle={{ paddingVertical: 20 }}
+
         >
             <View
                 style={{
@@ -53,7 +81,6 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
             <View style={{ gap: 12 }}>
                 <DrawerItemList {...props} />
             </View>
-
         </DrawerContentScrollView>
     )
 }

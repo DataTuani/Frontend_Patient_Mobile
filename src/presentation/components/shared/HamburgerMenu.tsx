@@ -47,25 +47,24 @@ export const Header = () => {
             headerRight: () => (
                 <View style={styles.header}>
                     <View style={styles.iconsContainer}>
-                        <Pressable style={styles.headerOption} onPress={() => navigation.navigate("Profile")}>
-                            <CustomIonicons
-                                name={"person-circle-outline"}
-                                color={globalColors.gray}
-                                size={25}
-
-                            />
-                        </Pressable>
-                    </View>
-                    <View style={styles.iconsContainer}>
-                        <Pressable style={styles.headerOption} onPress={() => navigation.navigate}>
+                        <Pressable style={styles.headerOption} onPress={() => console.log("hola")}>
                             <CustomIonicons
                                 name={"notifications-outline"}
                                 color={globalColors.gray}
-                                size={25}
+                                size={26}
                             />
                             <View style={styles.badge}>
                                 <Text style={styles.badgeText}>1</Text>
                             </View>
+                        </Pressable>
+                    </View>
+                    <View style={styles.iconsContainer}>
+                        <Pressable style={styles.headerOption} onPress={() => navigation.dispatch(DrawerActions.toggleDrawer)}>
+                            <CustomIonicons
+                                name={"person-circle-outline"}
+                                color={globalColors.gray}
+                                size={30}
+                            />
                         </Pressable>
                     </View>
                 </View>

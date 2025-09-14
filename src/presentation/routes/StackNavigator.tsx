@@ -6,7 +6,7 @@ import { InitialScreen } from "../screens/Stacks/Inicio/InitialScreen";
 import { RegisterScreen2 } from "../screens/Stacks/Register/RegisterScreen2";
 import { RegisterScreen4 } from "../screens/Stacks/Register/RegisterScreen4";
 import { RegisterScreen3 } from "../screens/Stacks/Register/RegisterScreen3";
-import { ProfileScreen } from "../screens/Stacks/Profile/ProfileScreen";
+import { ProfileScreen } from "../screens/Drawers/Profile/ProfileScreen";
 import { WaitingRoomScreen } from "../screens/Stacks/TeleConsultas/WaitingRoomScreen";
 import { ConnectingScreen } from "../screens/Stacks/TeleConsultas/ConnectingScreen";
 
@@ -38,15 +38,7 @@ export const StackNavigator = () => {
                 }
             }}
         >
-            <Stack.Screen options={{
-                headerShown: false
-            }} name="Home" component={BottomTabNavigator} />
-            <Stack.Screen
-                options={{
-                    title: 'Initial',
-                    headerTitleAlign: 'center'
-                }}
-                name="Initial" component={InitialScreen} />
+
             <Stack.Screen
                 options={{
                     headerShown: false,
@@ -84,6 +76,15 @@ export const StackNavigator = () => {
                 name="Register4"
                 component={RegisterScreen4}
             />
+            <Stack.Screen options={{
+                headerShown: false
+            }} name="Home" component={BottomTabNavigator} />
+            <Stack.Screen
+                options={{
+                    title: 'Initial',
+                    headerTitleAlign: 'center'
+                }}
+                name="Initial" component={InitialScreen} />
             <Stack.Screen
                 options={{
                     headerShown: false
@@ -96,27 +97,27 @@ export const StackNavigator = () => {
                     headerTitleStyle: {
                         color: '#003E6D',
                         fontSize: 25,
-                        fontWeight:'bold'
+                        fontWeight: 'bold'
                     },
                     headerStyle: {
-                            elevation:0
+                        elevation: 0
                     }
-                    
+
                 }}
                 name="Waiting" component={WaitingRoomScreen}
             />
-                        <Stack.Screen
+            <Stack.Screen
                 options={{
                     headerTitle: 'TeleConsulta',
                     headerTitleStyle: {
                         color: '#003E6D',
                         fontSize: 25,
-                        fontWeight:'bold'
+                        fontWeight: 'bold'
                     },
                     headerStyle: {
-                            elevation:0
+                        elevation: 0
                     }
-                    
+
                 }}
                 name="Connecting" component={ConnectingScreen}
             />
