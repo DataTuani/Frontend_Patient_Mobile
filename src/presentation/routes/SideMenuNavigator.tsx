@@ -1,3 +1,4 @@
+import React from 'react';
 import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
 import { StackNavigator } from './StackNavigator';
 import { SettingScreen } from '../settings/SettingScreen';

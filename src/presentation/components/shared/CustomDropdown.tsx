@@ -1,8 +1,8 @@
-import { useState } from 'react'
+
 import DropDownPicker from 'react-native-dropdown-picker';
 import { StyleSheet, Text, View } from 'react-native';
 import { globalColors } from '../../theme/theme';
-
+import React, { useState } from 'react';
 
 interface DropdownProps {
   title: string;
@@ -13,7 +13,7 @@ interface DropdownProps {
 }
 
 export const CustomDropdown = ({
-  title, 
+  title,
   items,
   value,
   setValue,

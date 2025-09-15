@@ -1,3 +1,4 @@
+import React from 'react';
 import { createStackNavigator } from "@react-navigation/stack";
 import { LoginScreen } from "../screens/Stacks/Login/LoginScreen";
 import { RegisterScreen } from "../screens/Stacks/Register/RegisterScreen";
@@ -9,6 +10,10 @@ import { RegisterScreen3 } from "../screens/Stacks/Register/RegisterScreen3";
 import { ProfileScreen } from "../screens/Drawers/Profile/ProfileScreen";
 import { WaitingRoomScreen } from "../screens/Stacks/TeleConsultas/WaitingRoomScreen";
 import { ConnectingScreen } from "../screens/Stacks/TeleConsultas/ConnectingScreen";
+import { TipoCitaScreen } from "../screens/Stacks/AgendarCitas/TipoCitaScreen";
+import { HoraDiaScreen } from "../screens/Stacks/AgendarCitas/HoraDiaScreen";
+import { ConfirmaScreen } from "../screens/Stacks/AgendarCitas/ConfirmaScreen";
+import { HospitalScreen } from "../screens/Stacks/AgendarCitas/HospitalScreen";
 
 export type RootStackParams = {
     Initial: undefined;
@@ -22,6 +27,11 @@ export type RootStackParams = {
     Waiting: undefined;
     Connecting: undefined;
     ConsultationScreen: undefined;
+    TipoCita: undefined;
+    SelectHospital: undefined;
+    HoraDia: undefined;
+    Confirma: undefined;
+
     // product: { id: number, name: string };
 }
 
@@ -38,7 +48,9 @@ export const StackNavigator = () => {
                 }
             }}
         >
-
+            <Stack.Screen options={{
+                headerShown: false
+            }} name="Home" component={BottomTabNavigator} />
             <Stack.Screen
                 options={{
                     headerShown: false,
@@ -46,7 +58,6 @@ export const StackNavigator = () => {
                     headerTitleAlign: 'center'
                 }}
                 name="Login" component={LoginScreen} />
-
 
             <Stack.Screen
                 options={{
@@ -76,9 +87,6 @@ export const StackNavigator = () => {
                 name="Register4"
                 component={RegisterScreen4}
             />
-            <Stack.Screen options={{
-                headerShown: false
-            }} name="Home" component={BottomTabNavigator} />
             <Stack.Screen
                 options={{
                     title: 'Initial',
@@ -120,6 +128,63 @@ export const StackNavigator = () => {
 
                 }}
                 name="Connecting" component={ConnectingScreen}
+            />
+            <Stack.Screen
+                options={{
+                    headerTitle: 'Agendar Cita',
+                    headerTitleStyle: {
+                        color: '#003E6D',
+                        fontSize: 25,
+                        fontWeight: 'bold'
+                    },
+                    headerStyle: {
+                        elevation: 0
+                    }
+
+                }}
+                name="TipoCita" component={TipoCitaScreen}
+            />
+            <Stack.Screen
+                options={{
+                    headerTitle: 'Agendar Cita',
+                    headerTitleStyle: {
+                        color: '#003E6D',
+                        fontSize: 25,
+                        fontWeight: 'bold'
+                    },
+                    headerStyle: {
+                        elevation: 0
+                    }
+                }}
+                name="SelectHospital" component={HospitalScreen}
+            />
+            <Stack.Screen
+                options={{
+                    headerTitle: 'Agendar Cita',
+                    headerTitleStyle: {
+                        color: '#003E6D',
+                        fontSize: 25,
+                        fontWeight: 'bold'
+                    },
+                    headerStyle: {
+                        elevation: 0
+                    }
+                }}
+                name="HoraDia" component={HoraDiaScreen}
+            />
+            <Stack.Screen
+                options={{
+                    headerTitle: 'Agendar Cita',
+                    headerTitleStyle: {
+                        color: '#003E6D',
+                        fontSize: 25,
+                        fontWeight: 'bold'
+                    },
+                    headerStyle: {
+                        elevation: 0
+                    }
+                }}
+                name="Confirma" component={ConfirmaScreen}
             />
         </Stack.Navigator>
     );

@@ -1,3 +1,4 @@
+import React from 'react';
 import { View, StyleSheet, Text, Image, Dimensions, Button, TouchableOpacity } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { globalColors, globalStyles } from '../../../theme/theme';
@@ -14,15 +15,11 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { useRegisterStore } from '../../../../hooks/useRegisterStore';
 
-
-const height = Dimensions.get('window').height;
-
 export const RegisterScreen = () => {
 
     const navigator = useNavigation<NavigationProp<RootStackParams>>();
     const { colors } = useContext(ThemeContext);
     const styles = globalStyles(colors);
-    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const showDatePicker = () => setDatePickerVisibility(true);
     const hideDatePicker = () => setDatePickerVisibility(false);
@@ -68,7 +65,7 @@ export const RegisterScreen = () => {
                 updateFormData({
                     nombreCompleto: values.nombreCompleto,
                     genero: values.genero,
-                    fecha_nacimiento: values.fecha_nacimiento 
+                    fecha_nacimiento: values.fecha_nacimiento
                 });
                 console.log(values);
                 navigator.navigate('Register2');
@@ -76,7 +73,7 @@ export const RegisterScreen = () => {
             }}
         >
             {({ handleChange, handleSubmit, values, errors, touched, isSubmitting, setFieldValue }) => (
-                <View style={[style.container, { backgroundColor: colors.background }]}>
+                <View style={[styles.ContainerRe]}>
                     <Text style={style.title}>Registrar</Text>
                     <RegisterStepper currentStep={1} />
                     <View style={style.card}>
@@ -151,12 +148,6 @@ export const RegisterScreen = () => {
 }
 
 const style = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        paddingHorizontal: 25,
-        alignItems: 'center',
-    },
     title: {
         fontSize: 50,
         fontWeight: 'bold',

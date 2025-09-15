@@ -1,3 +1,4 @@
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Pressable, ScrollView } from 'react-native'
 import { type NavigationProp, useNavigation } from "@react-navigation/native";
 import { type RootStackParams } from '../../routes/StackNavigator';
@@ -35,7 +36,9 @@ export const HomeScreen = () => {
                 <Text style={[style.TextStyle, { color: '#042558' }]}>Bienvenido a SINAES</Text>
                 <Text style={{ color: '042558' }}>En SIANES pensamos en tí y en tu familia.</Text>
             </View>
-            <TouchableOpacity style={style.cardAgendar}>
+            <TouchableOpacity style={style.cardAgendar}
+            onPress={() => navigation.navigate("TipoCita")}
+            >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View style={style.circlePlus}>
                         <Text style={style.plus}>+</Text>

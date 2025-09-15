@@ -1,10 +1,10 @@
+import React from 'react'
 import { Dimensions, SafeAreaView, View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { globalColors, globalStyles } from '../../../theme/theme';
 import { useContext, useState } from 'react';
 import { ThemeContext } from '../../../../../context/ThemeContext'
 import { RootStackParams } from '../../../routes/StackNavigator';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { ButtonIcon, ButtonIcons } from '../../../components/shared/ButtonIcon';
 import { CustomIonicons } from '../../../components/shared/Custom_Ionicons';
 import { PrimaryButton } from '../../../components/shared/PrimaryButton';
 

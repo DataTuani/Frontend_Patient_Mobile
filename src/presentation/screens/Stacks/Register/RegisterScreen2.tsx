@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { View, StyleSheet, Text, Image, Dimensions, } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { globalColors, } from '../../../theme/theme';
+import { globalColors, globalStyles, } from '../../../theme/theme';
 import { PrimaryButton } from '../../../components/shared/PrimaryButton';
 import { RootStackParams } from '../../../routes/StackNavigator';
 import { ThemeContext } from '../../../../../context/ThemeContext';
@@ -16,7 +16,9 @@ const height = Dimensions.get('window').height;
 export const RegisterScreen2 = () => {
 
   const navigator = useNavigation<NavigationProp<RootStackParams>>();
+  
   const { colors } = useContext(ThemeContext);
+  const styles = globalStyles(colors);
   const { updateFormData } = useRegisterStore();
 
   const RegisterSchema = Yup.object().shape({
@@ -46,7 +48,7 @@ export const RegisterScreen2 = () => {
       }}
     >
       {({ handleChange, handleSubmit, values, errors, touched, isSubmitting }) => (
-        <View style={[style.container, { backgroundColor: colors.background }]}>
+        <View style={[styles.ContainerRe]}>
 
           <Text style={style.title}>Registrar</Text>
           <RegisterStepper currentStep={2} />
@@ -100,12 +102,6 @@ export const RegisterScreen2 = () => {
 }
 
 const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 25,
-    alignItems: 'center',
-  },
   title: {
     fontSize: 50,
     fontWeight: 'bold',

@@ -1,3 +1,4 @@
+import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import { useContext } from 'react';
 import { ThemeContext } from '../../../../context/ThemeContext';

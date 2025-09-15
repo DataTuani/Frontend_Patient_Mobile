@@ -1,3 +1,4 @@
+import React from 'react'
 import { Text, View, Image, StyleSheet, Dimensions } from "react-native";
 import { globalColors, globalStyles } from "../../../theme/theme";
 import { ButtonLogin } from "../../../components/shared/PrimaryButton";
@@ -139,19 +140,6 @@ const style = StyleSheet.create({
     filled: {
         backgroundColor: globalColors.primary,
         color: '#fff'
-    },
-    outlined: {
-        borderWidth: 1,
-        borderRadius: globalColors.primary,
-        backgroundColor: 'transparent',
-        color: '#000'
-    },
-    label: {
-        fontSize: 14,
-        color: globalColors.primary,
-        marginBottom: 6,
-        textAlign: 'left',
-        fontWeight: 'bold'
     },
     input: {
         paddingHorizontal: 12,

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { View, StyleSheet, Text, Image, Dimensions, Button, TouchableOpacity } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { globalColors, } from '../../../theme/theme';
+import { globalColors, globalStyles, } from '../../../theme/theme';
 import { CustomInputRegister } from '../../../components/shared/CustomInput';
 import { PrimaryButton } from '../../../components/shared/PrimaryButton';
 import { RootStackParams } from '../../../routes/StackNavigator';
@@ -20,6 +20,7 @@ export const RegisterScreen4 = () => {
 
     const navigator = useNavigation<NavigationProp<RootStackParams>>();
     const { colors } = useContext(ThemeContext);
+    const styles  = globalStyles(colors);
     const { formData, updateFormData } = useRegisterStore();
 
     const Register4Schema = Yup.object().shape({
@@ -65,7 +66,7 @@ export const RegisterScreen4 = () => {
 
             {({ handleChange, handleSubmit, values, errors, touched, isSubmitting, setFieldValue }) => (
 
-                <View style={[style.container, { backgroundColor: colors.background }]}>
+                <View style={[styles.ContainerRe]}>
 
                     <Text style={style.title}>Registrar</Text>
                     <RegisterStepper currentStep={4} />
@@ -142,12 +143,6 @@ export const RegisterScreen4 = () => {
 
 
 const style = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        paddingHorizontal: 25,
-        alignItems: 'center',
-    },
     title: {
         fontSize: 50,
         fontWeight: 'bold',

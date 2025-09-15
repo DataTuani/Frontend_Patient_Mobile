@@ -1,3 +1,4 @@
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { globalColors, globalStyles } from '../theme/theme';
 import { Pressable, Switch } from 'react-native-gesture-handler'

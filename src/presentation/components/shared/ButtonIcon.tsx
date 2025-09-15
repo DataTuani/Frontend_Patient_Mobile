@@ -1,99 +1,90 @@
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Pressable } from 'react-native'
 import { CustomIonicons } from './Custom_Ionicons'
 import { globalColors } from '../../theme/theme'
+import { MaterialIcons } from '@expo/vector-icons';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 
-interface PropsSetting {
-    title: string;
-    icon: string;
-    onPress: () => void;
-    isActive: boolean;
-}
+// interface PropsSetting {
+//     title: string;
+//     icon: string;
+//     onPress: () => void;
+//     isActive: boolean;
+// }
 
-export const ButtonIcon = ({
-    title,
-    icon,
-    onPress,
-    isActive,
+// export const ButtonIcon = ({
+//     title,
+//     icon,
+//     onPress,
+//     isActive,
 
-}: PropsSetting) => {
-    return (
+// }: PropsSetting) => {
+//     return (
 
-        <TouchableOpacity
-            style={styles.settingButton}
-            onPress={() => { onPress }}>
-            <View style={styles.titleContainer}>
-                <CustomIonicons
-                    name={icon}
-                    size={20}
-                    color={globalColors.light}
-                />
-                <Text style={styles.title}>{title}</Text>
-            </View>
-            <CustomIonicons
-                name={isActive ? 'checkmark-circle-outline'
-                    : 'ellipse-outline'}
-                size={20}
-                color={isActive ? globalColors.success : globalColors.danger}
-            />
-        </TouchableOpacity>
-    )
-};
+//         <TouchableOpacity
+//             style={styles.settingButton}
+//             onPress={() => { onPress }}>
+//             <View style={styles.titleContainer}>
+//                 <CustomIonicons
+//                     name={icon}
+//                     size={20}
+//                     color={globalColors.light}
+//                 />
+//                 <Text style={styles.title}>{title}</Text>
+//             </View>
+//             <CustomIonicons
+//                 name={isActive ? 'checkmark-circle-outline'
+//                     : 'ellipse-outline'}
+//                 size={20}
+//                 color={isActive ? globalColors.success : globalColors.danger}
+//             />
+//         </TouchableOpacity>
+//     )
+// };
 
 interface PropsButton {
     title: string;
-    icon: string;
+    icon: React.ComponentProps<typeof MaterialIcons>["name"];
+    colors?: string;
     onPress: () => void;
-    isActive?: boolean;
-    style?: {}
+    isActivate?: boolean;
 }
 
 export const ButtonIcons = ({
     title,
     icon,
     onPress,
-    isActive,
-    style = {}
-
+    isActivate = false,
+    colors
 }: PropsButton) => {
     return (
 
-        <TouchableOpacity
-            style={style}
+        <Pressable
+            style={[styles.settingButton, { backgroundColor: isActivate ? colors : globalColors.light }]}
             onPress={() => { onPress }}
-            activeOpacity={0.8}
         >
             <View style={styles.titleContainer}>
-                <CustomIonicons
-                    name={icon}
-                    size={20}
-                    color={globalColors.light}
-                />
-                <Text style={style}>{title}</Text>
+                <MaterialIcons name={icon} size={50} color={isActivate ? 'white' : colors} />
+                <Text style={{ textAlign: 'center', color: isActivate ? 'white' : globalColors.dark }}>{title}</Text>
             </View>
-        </TouchableOpacity>
+        </Pressable>
     )
 }
 
 const styles = StyleSheet.create({
     settingButton: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: globalColors.primary,
-        padding: 20,
+        padding: 10,
+        marginBottom: 20,
+        borderWidth: 1,
+        borderColor: globalColors.dark,
         borderRadius: 10,
-        marginBottom: 10
     },
     titleContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        gap: 10
+        gap: 15
     },
-    title: {
-        fontSize: 18,
-        fontWeight: "bold",
-        color: globalColors.light
-    }
 })
