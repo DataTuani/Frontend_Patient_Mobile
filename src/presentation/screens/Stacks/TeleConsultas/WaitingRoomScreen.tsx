@@ -1,6 +1,6 @@
 import React from 'react'
 import { Dimensions, SafeAreaView, View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import { globalColors, globalStyles } from '../../../theme/theme';
+import { globalColors, } from '../../../theme/theme';
 import { useContext, useState } from 'react';
 import { ThemeContext } from '../../../../../context/ThemeContext'
 import { RootStackParams } from '../../../routes/StackNavigator';
@@ -48,7 +48,7 @@ export const WaitingRoomScreen = () => {
                     <View style={{ marginLeft: 30 }}>
                         <CustomIonicons name={cameraOn ? 'camera' : 'camera-outline'} size={18} color={cameraOn ? colors.buttonText : colors.primary} />
                     </View>
-
+ 
                     <Text style={{ color: cameraOn ? colors.buttonText : colors.primary, marginLeft: 8, fontSize: 14, fontWeight: '600' }}>Cámara</Text>
                 </TouchableOpacity>
 

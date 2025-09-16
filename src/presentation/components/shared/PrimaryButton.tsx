@@ -1,5 +1,5 @@
 import React from 'react'
-import { Pressable, Text, StyleSheet } from 'react-native'
+import { Pressable, Text, StyleSheet, View } from 'react-native'
 import { globalColors, globalStyles } from '../../theme/theme'
 import { useContext } from 'react';
 import { ThemeContext } from '../../../../context/ThemeContext';
@@ -8,7 +8,7 @@ interface Props {
     onPress: () => void;
     label: string;
     style?: {};
-    
+
 }
 
 interface ButtonProps {
@@ -81,3 +81,40 @@ const styles = StyleSheet.create({
         color: '042558'
     }
 })
+
+
+{/*Button Citas */ }
+
+interface PropsButtonCita {
+    label: string;
+    onPress: () => void;
+    style?: {}
+}
+
+export const ButtonCitas = ({
+    label,
+    onPress,
+    style = {}
+}: PropsButtonCita) => {
+    return (
+        <View style={{ marginTop: 20, width: '80%' }}>
+            <Pressable
+                style={[
+                    { backgroundColor: globalColors.tertiary },
+                    {
+                        padding: 15,
+                        borderRadius: 10,
+                        alignItems: "center",
+                        marginLeft: 70,
+                    },
+                    style
+                ]}
+                onPress={() => onPress()}
+            >
+                <Text style={{ color: "#fff", fontWeight: "600", fontSize: 16, textAlign: 'center' }}>
+                    {label}
+                </Text>
+            </Pressable>
+        </View>
+    )
+}

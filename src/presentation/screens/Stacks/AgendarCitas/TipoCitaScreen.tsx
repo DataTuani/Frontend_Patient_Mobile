@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react'
-import { Pressable, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { ThemeContext } from '../../../../../context/ThemeContext';
 import { globalColors, globalStyles } from '../../../theme/theme';
 import { RegisterStepper } from '../../../components/shared/RegisterStepper';
-import { PrimaryButton } from '../../../components/shared/PrimaryButton';
+import { ButtonCitas, PrimaryButton } from '../../../components/shared/PrimaryButton';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParams } from '../../../routes/StackNavigator';
 import { ButtonIcons } from '../../../components/shared/ButtonIcon';
@@ -20,7 +20,7 @@ export const TipoCitaScreen = () => {
     const nextStep = () => {
         if (currentStep < 4) {
             setCurrenStep(currentStep + 1);
-        }else{
+        } else {
             navigation.navigate('SelectHospital');
         }
     }
@@ -38,23 +38,31 @@ export const TipoCitaScreen = () => {
                 <ButtonIcons
                     title={'Hospital'}
                     icon={'local-hospital'}
-                    onPress={() => setActivateButton('Hospital')}
+                    onPress={() => setActivateButton("Hospital")}
                     colors={'#E6188F'}
-                    isActivate={activateButton === 'Hospital '}
+                    isActivate={activateButton === "Hospital"}
                 />
                 <ButtonIcons
                     title={'TeleConsulta'}
                     icon={'laptop-mac'}
-                    isActivate={activateButton === 'TeleConsulta'}
-                    onPress={() => console.log('Hola')}
+                    isActivate={activateButton === "TeleConsulta"}
+                    onPress={() => setActivateButton("TeleConsulta")}
                     colors={'#93C51B'}
                 />
             </View>
-            <PrimaryButton
-                onPress={() => nextStep()}
+            <ButtonCitas
                 label='Siguiente'
-                style={{colors:globalColors.tertiary}}
+                onPress={() => navigation.navigate("SelectHospital")}
+                style={style.option}
             />
         </View>
     )
 }
+
+
+const style = StyleSheet.create({
+    option:{
+        marginLeft:50,
+        marginRight:50
+    }
+})

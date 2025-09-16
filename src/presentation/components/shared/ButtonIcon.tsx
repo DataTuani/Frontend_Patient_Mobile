@@ -1,49 +1,11 @@
-import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Pressable } from 'react-native'
-import { CustomIonicons } from './Custom_Ionicons'
+import React, { useRef } from 'react'
+import { Text, StyleSheet, Pressable } from 'react-native'
 import { globalColors } from '../../theme/theme'
 import { MaterialIcons } from '@expo/vector-icons';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-
-// interface PropsSetting {
-//     title: string;
-//     icon: string;
-//     onPress: () => void;
-//     isActive: boolean;
-// }
-
-// export const ButtonIcon = ({
-//     title,
-//     icon,
-//     onPress,
-//     isActive,
-
-// }: PropsSetting) => {
-//     return (
-
-//         <TouchableOpacity
-//             style={styles.settingButton}
-//             onPress={() => { onPress }}>
-//             <View style={styles.titleContainer}>
-//                 <CustomIonicons
-//                     name={icon}
-//                     size={20}
-//                     color={globalColors.light}
-//                 />
-//                 <Text style={styles.title}>{title}</Text>
-//             </View>
-//             <CustomIonicons
-//                 name={isActive ? 'checkmark-circle-outline'
-//                     : 'ellipse-outline'}
-//                 size={20}
-//                 color={isActive ? globalColors.success : globalColors.danger}
-//             />
-//         </TouchableOpacity>
-//     )
-// };
 
 interface PropsButton {
+  
     title: string;
     icon: React.ComponentProps<typeof MaterialIcons>["name"];
     colors?: string;
@@ -52,22 +14,43 @@ interface PropsButton {
 }
 
 export const ButtonIcons = ({
+   
     title,
     icon,
     onPress,
+    colors,
     isActivate = false,
-    colors
-}: PropsButton) => {
-    return (
 
+}: PropsButton) => {
+
+    return (
         <Pressable
-            style={[styles.settingButton, { backgroundColor: isActivate ? colors : globalColors.light }]}
-            onPress={() => { onPress }}
+            onPress={() => onPress()}
+            style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: isActivate ? colors : "#f2f2f2",
+                padding: 15,
+                borderRadius: 10,
+                marginBottom: 15,
+            }}
         >
-            <View style={styles.titleContainer}>
-                <MaterialIcons name={icon} size={50} color={isActivate ? 'white' : colors} />
-                <Text style={{ textAlign: 'center', color: isActivate ? 'white' : globalColors.dark }}>{title}</Text>
-            </View>
+            <MaterialIcons
+                name={icon}
+                size={22}
+                color={isActivate ? "#fff" : "#000"}
+                style={{ marginRight: 10 }}
+            />
+            <Text
+                style={{
+                    fontSize: 16,
+                    fontWeight: "600",
+                    color: isActivate ? "#fff" : "#000",
+                }}
+            >
+                {title}
+            </Text>
         </Pressable>
     )
 }

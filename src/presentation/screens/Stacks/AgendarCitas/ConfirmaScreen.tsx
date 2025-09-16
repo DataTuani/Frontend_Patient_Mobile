@@ -1,9 +1,10 @@
 
 import React, { useContext, useState } from 'react'
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { globalColors, globalStyles } from '../../../theme/theme';
 import { ThemeContext } from '../../../../../context/ThemeContext';
 import { RegisterStepper } from '../../../components/shared/RegisterStepper';
+import { CustomIonicons } from '../../../components/shared/Custom_Ionicons';
 
 export const ConfirmaScreen = () => {
 
@@ -53,6 +54,33 @@ export const ConfirmaScreen = () => {
                 </View>
             </View>
 
+            <View style={style.toggleRow}>
+                <TouchableOpacity
+                    style={[
+                        style.toggleButton,{
+                            backgroundColor:globalColors.light
+                        },{
+                            borderColor:"gray"
+                        },{
+                            borderWidth:1
+                        }
+                    ]}
+                    onPress={() => console.log('Hola')}
+                >
+                    <Text style={{ color: 'gray',marginLeft:50,fontSize: 14, fontWeight: 'bold' }}>Modificar</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={[
+                        style.toggleButton,
+                        { backgroundColor: globalColors.tertiary }
+                    ]}
+                    onPress={() => console.log('Hola')}
+                >
+                    <Text style={{ color: globalColors.light, marginLeft: 55, fontSize: 14, fontWeight: "bold" }}>Agendar</Text>
+                </TouchableOpacity>
+            </View>
+
         </View>
     )
 }
@@ -69,8 +97,8 @@ const style = StyleSheet.create({
         shadowRadius: 4,
         elevation: 3,
         marginTop: 60,
-        width:'80%',
-        height:'20%'
+        width: '80%',
+        height: '20%'
     },
     cardTitle: {
         fontSize: 18,
@@ -93,4 +121,19 @@ const style = StyleSheet.create({
         fontWeight: '400',
         color: '#000',
     },
+    toggleButton: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 15,
+        marginHorizontal: 6,
+        borderRadius: 10,
+        gap: 15
+    },
+    toggleRow: {
+        flexDirection: 'row',
+        width: '90%',
+        justifyContent: 'space-between',
+        marginTop: 20
+    }
 });

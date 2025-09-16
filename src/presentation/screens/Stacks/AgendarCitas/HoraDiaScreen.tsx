@@ -5,7 +5,7 @@ import { ThemeContext } from '../../../../../context/ThemeContext';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParams } from '../../../routes/StackNavigator';
 import { RegisterStepper } from '../../../components/shared/RegisterStepper';
-import { PrimaryButton } from '../../../components/shared/PrimaryButton';
+import { ButtonCitas, PrimaryButton } from '../../../components/shared/PrimaryButton';
 export const HoraDiaScreen = () => {
 
   const { colors } = useContext(ThemeContext);
@@ -102,10 +102,10 @@ export const HoraDiaScreen = () => {
           );
         })}
       </View>
-      <PrimaryButton
+      <ButtonCitas
         label='Siguiente'
-        onPress={nextStep}
-        style={{ marginTop: 20 }}
+        onPress={() => navigation.navigate("Confirma")}
+        style={style.option}
       />
 
     </View>
@@ -151,4 +151,8 @@ const style = StyleSheet.create({
     backgroundColor: "#E6188F",
     borderColor: "#E6188F",
   },
+  option:{
+    marginRight:50,
+    marginLeft:50,
+  }
 });
