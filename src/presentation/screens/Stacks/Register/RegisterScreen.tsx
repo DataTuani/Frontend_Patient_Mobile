@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Text, Image, Dimensions, Button, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, Image, Dimensions,  TouchableOpacity } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { globalColors, globalStyles } from '../../../theme/theme';
 import { RootStackParams } from '../../../routes/StackNavigator';
