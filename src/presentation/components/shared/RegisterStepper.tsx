@@ -9,7 +9,7 @@ interface StepperProps {
 
 export const RegisterStepper = ({
     currentStep,
-    totalSteps = 4
+    totalSteps = 5
 }: StepperProps) => {
     return (
         <View style={styles.stepsContainer}>

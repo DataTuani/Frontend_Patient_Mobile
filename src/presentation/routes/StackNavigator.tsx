@@ -14,6 +14,7 @@ import { TipoCitaScreen } from "../screens/Stacks/AgendarCitas/TipoCitaScreen";
 import { HoraDiaScreen } from "../screens/Stacks/AgendarCitas/HoraDiaScreen";
 import { ConfirmaScreen } from "../screens/Stacks/AgendarCitas/ConfirmaScreen";
 import { HospitalScreen } from "../screens/Stacks/AgendarCitas/HospitalScreen";
+import { MotivoScreen } from '../screens/Stacks/AgendarCitas/MotivoScreen';
 
 export type RootStackParams = {
     Initial: undefined;
@@ -31,6 +32,7 @@ export type RootStackParams = {
     SelectHospital: undefined;
     HoraDia: undefined;
     Confirma: undefined;
+    Motivo: undefined;
 
     // product: { id: number, name: string };
 }
@@ -48,9 +50,13 @@ export const StackNavigator = () => {
                 }
             }}
         >
-            <Stack.Screen options={{
-                headerShown: false
-            }} name="Home" component={BottomTabNavigator} />
+            <Stack.Screen
+                options={{
+                    title: 'Initial',
+                    headerTitleAlign: 'center'
+                }}
+                name="Initial" component={InitialScreen} />
+
             <Stack.Screen
                 options={{
                     headerShown: false,
@@ -87,12 +93,10 @@ export const StackNavigator = () => {
                 name="Register4"
                 component={RegisterScreen4}
             />
-            <Stack.Screen
-                options={{
-                    title: 'Initial',
-                    headerTitleAlign: 'center'
-                }}
-                name="Initial" component={InitialScreen} />
+
+            <Stack.Screen options={{
+                headerShown: false
+            }} name="Home" component={BottomTabNavigator} />
             <Stack.Screen
                 options={{
                     headerShown: false
@@ -185,6 +189,20 @@ export const StackNavigator = () => {
                     }
                 }}
                 name="Confirma" component={ConfirmaScreen}
+            />
+            <Stack.Screen
+                options={{
+                    headerTitle: 'Agendar Cita',
+                    headerTitleStyle: {
+                        color: '#003E6D',
+                        fontSize: 25,
+                        fontWeight: 'bold'
+                    },
+                    headerStyle: {
+                        elevation: 0
+                    }
+                }}
+                name="Motivo" component={MotivoScreen}
             />
         </Stack.Navigator>
     );

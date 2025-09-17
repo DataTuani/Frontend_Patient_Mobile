@@ -1,11 +1,17 @@
 
 import { loginService, registerService } from "../api/authService";
+import { useAuthStore } from "../hooks/authStore";
 import { RegisterData } from "../hooks/useRegisterStore";
 
 
 export const loginController = async (correo: string, contraseña: string) => {
     try {
         const response = await loginService(correo, contraseña);
+
+        const { user, token } = response.data;
+
+        useAuthStore.getState().setUser(user, token);
+
         return { success: true, data: response.data }
     } catch (error: any) {
         return { success: false, message: 'Error en el login' }
@@ -25,7 +31,7 @@ export const registerController = async (data: RegisterData) => {
             ? data.fecha_nacimiento.toISOString().split('T')[0]
             : '';
 
-        console.log('Payload enviado al registerService:', data); 
+        console.log('Payload enviado al registerService:', data);
 
         const response = await registerService(
             data.correo,

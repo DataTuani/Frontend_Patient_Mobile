@@ -18,7 +18,7 @@ export const TipoCitaScreen = () => {
     const [activateButton, setActivateButton] = useState<string | null>(null);
 
     const nextStep = () => {
-        if (currentStep < 4) {
+        if (currentStep < 5) {
             setCurrenStep(currentStep + 1);
         } else {
             navigation.navigate('SelectHospital');

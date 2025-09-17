@@ -6,9 +6,8 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParams } from '../../../routes/StackNavigator';
 import { RegisterStepper } from '../../../components/shared/RegisterStepper';
 import { ButtonCitas } from '../../../components/shared/PrimaryButton';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { CustomIonicons } from '../../../components/shared/Custom_Ionicons';
-import { CalendarHours } from '../../../components/fechas';
+
 
 const hours = [
   { id: "1", label: "8:00 AM - 09:00 AM" },
@@ -21,27 +20,37 @@ const hours = [
   { id: "8", label: "4:00 PM - 05:00 PM" },
 ];
 
-
 export const HoraDiaScreen = () => {
 
   const { colors } = useContext(ThemeContext);
   const styles = globalStyles(colors);
   const [currentStep, setCurrentStep] = useState(3);
   const navigation = useNavigation<NavigationProp<RootStackParams>>();
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [selectedHour, setSelectedHour] = useState<string | null>(null);
-  const [selectDate, setSelectedDate] = useState<string | null>(null);
-  const [bookedDates, setBookedDates] = useState<string[]>([]);
 
+  const [selectedHour, setSelectedHour] = useState<string | null>(null);
 
   const nextStep = () => {
-    if (currentStep < 4) {
+    if (currentStep < 5) {
       setCurrentStep(currentStep + 1);
     } else {
       navigation.navigate('Confirma');
     }
   }
 
+  const today = new Date();
+
+  const reservarHora = () => {
+
+    if (!selectedHour) {
+      alert("Seleccione una hora")
+      return;
+    } else {
+      const selectedLabel = hours.find((h) => h.id === selectedHour)?.label;
+      alert(`✅ Cita reservada\nFecha: ${today.toLocaleDateString()}\nHora: ${selectedLabel}`);
+    }
+
+
+  }
 
   return (
     <View style={styles.ContainerAgendar}>
@@ -52,10 +61,54 @@ export const HoraDiaScreen = () => {
       <Text style={{ fontSize: 17, marginTop: 10, textAlign: 'center' }}>
         Elige el momento que mejor te convenga
       </Text>
-      <CalendarHours />
+      <View style={{ marginTop: 40 }}>
+        <Text style={{ fontWeight: '300', textAlign: 'center', fontSize: 15 }}>El agendamiento de consultas médicas se realiza para el <Text style={{
+          fontWeight: 'bold'
+        }}>mismo dia</Text>. Debes seleccionar el intervalo de tiempo que mejor se ajuste a tu disponibilidad.</Text>
+      </View>
+
+      <View style={{ flex: 1, padding: 20, maxHeight: 400 }}>
+
+        <Text style={{ fontSize: 18, marginBottom: 20, marginTop: 10, fontWeight: "bold" }}>Hora disponible</Text>
+
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 10}}>
+          {hours.map((hour) => {
+            const isSelected = selectedHour === hour.id;
+            return (
+              <Pressable
+                key={hour.id}
+                style={[
+                  style.hourBox,
+                  isSelected && style.hourBoxSelected,
+
+                ]}
+                onPress={() => setSelectedHour(hour.id)}
+              >
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+                  <CustomIonicons
+                    name='time-outline'
+                    size={17}
+                    color={isSelected ? '#fff' : '#8C8C8C'}
+                  />
+                  <Text
+                    style={{
+                      color: isSelected ? "#fff" : "#8C8C8C",
+
+                    }}
+                  >
+                    {hour.label}
+                  </Text>
+                </View>
+
+              </Pressable>
+            );
+          })}
+        </View>
+
+      </View>
       <ButtonCitas
         label='Siguiente'
-        onPress={() => navigation.navigate("Confirma")}
+        onPress={() => navigation.navigate("Motivo")}
         style={style.option}
       />
 
@@ -67,5 +120,14 @@ const style = StyleSheet.create({
   option: {
     marginRight: 50,
     marginLeft: 50,
-  }
+  },
+  hourBox: {
+    padding: 10,
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: '#8C8C8C',
+    minWidth: 160,
+    alignItems: "center",
+  },
+  hourBoxSelected: { backgroundColor: "#007bff", borderColor: "#007bff" },
 });

@@ -10,6 +10,7 @@ import { CustomInput } from "../../../components/shared/CustomInput";
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { loginController } from "../../../../controller/authController";
+import { useAuthStore } from '../../../../hooks/authStore';
 
 const { height } = Dimensions.get('window');
 
@@ -19,11 +20,13 @@ export const LoginScreen = () => {
     const { colors } = useContext(ThemeContext);
     const styles = globalStyles(colors);
 
+    const setUser = useAuthStore((state) => state.setUser);
+
     const LoginSchema = Yup.object().shape({
         correo: Yup.string().email('Correo invalido').required('Correo es requerido'),
         contraseña: Yup.string().min(6, 'Minimo 6 caracteres').required('Contraseña es requerido')
     })
- 
+
     return (
         <Formik
             initialValues={{ correo: '', contraseña: '' }}
@@ -32,13 +35,18 @@ export const LoginScreen = () => {
                 setSubmitting(true);
                 const result = await loginController(values.correo, values.contraseña);
                 if (result.success) {
+
+                    const { user, token } = result.data;
+
+                    setUser(user, token);
+                    console.log(result.data);
                     console.log(values)
                     navigation.navigate("Home");
                 }
                 else {
                     alert(result.message);
                     console.log(values);
-                } 
+                }
                 setSubmitting(false);
             }}
         >
@@ -49,14 +57,14 @@ export const LoginScreen = () => {
                         source={require('../../../assets/saludito-logo.png')}
                         style={style.logo}
                     />
- 
+
                     <View style={[style.card]}>
                         <Text style={[style.cardTitle, { color: colors.primary, fontWeight: '600', }]}>¡Hola de nuevo!</Text>
                         <Text style={style.subtitle}>Digite su correo y contraseña</Text>
 
                         <CustomInput
                             label="Correo Electronico"
-                            placeholder="Ingresar tu correo" 
+                            placeholder="Ingresar tu correo"
                             variant="outlined"
                             value={values.correo}
                             onChangeText={handleChange('correo')}

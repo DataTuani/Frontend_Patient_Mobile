@@ -27,7 +27,7 @@ export const HospitalScreen = () => {
     const [hospitalSelect, setHospitalSelect] = useState<number | null>(null);
 
     const nextStep = () => {
-        if (currentStep < 4) {
+        if (currentStep < 5) {
             setCurrenStep(currentStep + 1);
         } else {
             navigation.navigate('HoraDia');
