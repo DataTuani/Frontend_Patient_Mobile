@@ -42,7 +42,7 @@ export const registerService = (
         grupo_sanguineo,
         enfermedades_cronicas,
         alergias
-    })
+    }) 
 
 }
 

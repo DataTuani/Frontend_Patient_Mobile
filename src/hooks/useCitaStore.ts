@@ -2,10 +2,10 @@ import { create } from "zustand";
 
 export interface CitasData {
 
-    paciente_id: number;
     hospital_id: number;
     fecha_hora: Date | null,
     motivo_consulta: string[];
+    tipoCita: number | null;
 }
 
 interface CitaStore {
@@ -15,10 +15,11 @@ interface CitaStore {
 }
 
 const initialData: CitasData = {
-    paciente_id: 1,
+  
     hospital_id: 1,
     fecha_hora: null,
-    motivo_consulta: []
+    motivo_consulta: [],
+    tipoCita:null
 }
 
 export const useCitaStore = create<CitaStore>((set) => ({

@@ -27,10 +27,6 @@ export const registerController = async (data: RegisterData) => {
         const primer_apellido = nombres.length >= 2 ? nombres[nombres.length - 2] : '';
         const segundo_apellido = nombres.length >= 3 ? nombres[nombres.length - 1] : '';
 
-        const fechaNacimientoStr = data.fecha_nacimiento
-            ? data.fecha_nacimiento.toISOString().split('T')[0]
-            : '';
-
         console.log('Payload enviado al registerService:', data);
 
         const response = await registerService(

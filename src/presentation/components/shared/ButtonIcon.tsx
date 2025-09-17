@@ -11,6 +11,7 @@ interface PropsButton {
     colors?: string;
     onPress: () => void;
     isActivate?: boolean;
+    
 }
 
 export const ButtonIcons = ({
