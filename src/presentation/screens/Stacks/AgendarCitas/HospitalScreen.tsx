@@ -1,21 +1,22 @@
-import React, { useContext, useState } from 'react'
-import { Pressable, Text, View, StyleSheet, FlatList, ScrollView } from "react-native";
+import React, { useContext, useEffect, useState } from 'react'
+import { Pressable, Text, View, StyleSheet, ScrollView } from "react-native";
 import { ThemeContext } from '../../../../../context/ThemeContext';
 import { globalColors, globalStyles } from '../../../theme/theme';
 import { RegisterStepper } from '../../../components/shared/RegisterStepper';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParams } from '../../../routes/StackNavigator';
 import { CustomIonicons } from '../../../components/shared/Custom_Ionicons';
-import { ButtonCitas, PrimaryButton } from '../../../components/shared/PrimaryButton';
+import { ButtonCitas } from '../../../components/shared/PrimaryButton';
+import { useCitaStore, useHospitalStore } from '../../../../hooks/useCitaStore';
+import * as Yup from 'yup';
+import { Formik } from 'formik';
 
 
 interface Hospitales {
     id: number;
     centro: string;
-    km: string;
+    codigo: string;
     direccion: string;
-    fecha: string;
-    hora: string;
 }
 
 export const HospitalScreen = () => {
@@ -25,6 +26,8 @@ export const HospitalScreen = () => {
     const styles = globalStyles(colors);
     const navigation = useNavigation<NavigationProp<RootStackParams>>();
     const [hospitalSelect, setHospitalSelect] = useState<number | null>(null);
+    const { hospitales, fetchHospitales, loading, error } = useHospitalStore();
+    const { updateFormData } = useCitaStore();
 
     const nextStep = () => {
         if (currentStep < 5) {
@@ -33,79 +36,96 @@ export const HospitalScreen = () => {
             navigation.navigate('HoraDia');
         }
     }
-    const hospitales: Hospitales[] = [
-        { id: 1, centro: 'Hospital Dermatológico', km: '2.5 Km', direccion: 'Av. Principal 123, Centro', fecha: '04 Abril 2025', hora: '10:30' },
-        { id: 2, centro: 'Hospital Alemán Nicaragüense', km: '3.2 Km', direccion: 'Km 5 Carretera Norte, Managua', fecha: '05 Abril 2025', hora: '09:00' },
-        { id: 3, centro: 'Hospital Vivian Pellas', km: '4.1 Km', direccion: 'Carretera Sur, Managua', fecha: '06 Abril 2025', hora: '11:15' },
-        { id: 4, centro: 'Hospital Dermatológico', km: '2.5 Km', direccion: 'Av. Principal 123, Centro', fecha: '04 Abril 2025', hora: '10:30' },
-        { id: 5, centro: 'Hospital Alemán Nicaragüense', km: '3.2 Km', direccion: 'Km 5 Carretera Norte, Managua', fecha: '05 Abril 2025', hora: '09:00' },
-        { id: 6, centro: 'Hospital Vivian Pellas', km: '4.1 Km', direccion: 'Carretera Sur, Managua', fecha: '06 Abril 2025', hora: '11:15' },
 
+    useEffect(() => { 
+        fetchHospitales();
+    }, []);
 
-    ];
-
+    const CitaSchema = Yup.object().shape({
+        hospital_id: Yup.number().required("Seleccione un Hospital")
+    })
 
     return (
-        <View style={style.container}>
-            <RegisterStepper
-                currentStep={2}
-            />
-            <Text style={{ fontSize: 30, fontWeight: '700', color: globalColors.tertiary, textAlign: 'center' }}>Selecciona el Hospital</Text>
-            <Text style={{ fontSize: 17, marginTop: 0, textAlign: 'center' }}>Centros médicos cercanos</Text>
+        <Formik
+            initialValues={{ hospital_id: null }}
+            validationSchema={CitaSchema}
+            onSubmit={(values) => {
+                updateFormData({ hospital_id: values.hospital_id });
+                console.log(values);
+                navigation.navigate("HoraDia");
+            }}
+        >
+            {({ handleSubmit, setFieldValue, errors, touched }) => (
+                <View style={style.container}>
+                    <RegisterStepper
+                        currentStep={2}
+                    />
+                    <Text style={{ fontSize: 30, fontWeight: '700', color: globalColors.tertiary, textAlign: 'center' }}>Selecciona el Hospital</Text>
+                    <Text style={{ fontSize: 17, marginTop: 0, textAlign: 'center' }}>Centros médicos cercanos</Text>
 
-            <ScrollView
-                showsVerticalScrollIndicator={false}
-                style={{ maxHeight: 550 }}
-                contentContainerStyle={{ paddingBottom: 10 }}
-            >
-                {hospitales.map((item) => {
-                    const isSelected = hospitalSelect === item.id;
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        style={{ maxHeight: 550 }}
+                        contentContainerStyle={{ paddingBottom: 10 }}
+                    >
+                        {Array.isArray(hospitales) && hospitales.map((item) => {
+                            const isSelected = hospitalSelect === item.id;
 
-                    return (
-                        <Pressable
-                            key={item.id}
-                            style={[style.card, isSelected && style.cardSelected]}
-                            onPress={() => setHospitalSelect(item.id)}
-                        >
-                            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                                <Text
-                                    style={{
-                                        fontSize: 16,
-                                        fontWeight: "600",
-                                        color: isSelected ? globalColors.tertiary : "#000",
+                            return (
+                                <Pressable
+                                    key={item.id}
+                                    style={[style.card, isSelected && style.cardSelected]}
+                                    onPress={() => {
+                                        setHospitalSelect(item.id);
+                                        setFieldValue('hospital_id', item.id);
                                     }}
+
                                 >
-                                    {item.centro}
-                                </Text>
-                                <Text style={{ fontSize: 14, color: "#333" }}>{item.km}</Text>
-                            </View>
+                                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                        <Text
+                                            style={{
+                                                fontSize: 16,
+                                                fontWeight: "600",
+                                                color: isSelected ? globalColors.tertiary : "#000",
+                                            }}
+                                        >
+                                            {item.nombre}
+                                        </Text>
+                                        <Text style={{ fontSize: 14, color: "#333" }}>Codigo: {item.codigo}</Text>
+                                    </View>
 
-                            <View style={style.row}>
-                                <CustomIonicons name="navigate-sharp" size={18} color="gray" />
-                                <Text style={{ marginLeft: 5, color: "gray", fontSize: 14 }}>
-                                    {item.direccion}
-                                </Text>
-                            </View>
+                                    <View style={style.row}>
+                                        <CustomIonicons name="navigate-sharp" size={18} color="gray" />
+                                        <Text style={{ marginLeft: 5, color: "gray", fontSize: 14 }}>
+                                            {item.direccion}
+                                        </Text>
+                                    </View>
 
-                            <Text style={{ marginLeft: 5, color: "gray", fontSize: 14 }}>
-                                Lun-Sáb 8:00 am - 7:00 pm
-                            </Text>
+                                    <Text style={{ marginLeft: 5, color: "gray", fontSize: 14 }}>
+                                        Lun-Sáb 24 horas
+                                    </Text>
 
-                            <View style={style.tagsRow}>
-                                <Text style={style.tag}>Medicina General</Text>
-                                <Text style={style.tag}>Dermatología</Text>
-                            </View>
-                        </Pressable>
-                    );
-                })}
-            </ScrollView>
+                                    <View style={style.tagsRow}>
+                                        <Text style={style.tag}>{item.email}</Text>
+                                        <Text style={style.tag}>{item.telefono}</Text>
+                                    </View>
+                                </Pressable>
+                            );
+                        })}
+                    </ScrollView>
+                    {touched.hospital_id && errors.hospital_id && (
+                        <Text style={{ color: 'red' }}>{errors.hospital_id}</Text>
+                    )}
+                    <ButtonCitas
+                        label='Confirmar Hospital'
+                        onPress={handleSubmit}
 
-            <ButtonCitas
-                label='Confirmar Hospital'
-                onPress={() => navigation.navigate("HoraDia")}
-                
-            />
-        </View>
+                    />
+                </View>
+            )}
+
+        </Formik>
+
     )
 }
 

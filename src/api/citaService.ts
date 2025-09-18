@@ -11,3 +11,17 @@ export const citaService = (paciente_id: number, hospital_id: number,
         tipoCita
     });
 };
+
+// export const getHospital = async () => {
+
+//     const token = useAuthStore.getState().token;
+
+//     const res = await api.get('/api/hospitales', {
+//         headers: {
+//             Authorization: `Bearer ${token}`
+//         },
+//     });
+
+//     return res.data;
+
+// }

@@ -45,7 +45,7 @@ export const TipoCitaScreen = () => {
                 navigation.navigate("SelectHospital");
 
             }}
-        >
+        > 
             {({ values, setFieldValue, handleSubmit, errors, touched }) => (
                 <View style={[styles.ContainerAgendar]}>
                     <RegisterStepper

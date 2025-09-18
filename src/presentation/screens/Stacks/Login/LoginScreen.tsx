@@ -39,7 +39,7 @@ export const LoginScreen = () => {
                     const { user, token } = result.data;
 
                     setUser(user, token);
-                    console.log(result.data);
+                    console.log("Token: ", token);
                     console.log(values)
                     navigation.navigate("Home");
                 }
