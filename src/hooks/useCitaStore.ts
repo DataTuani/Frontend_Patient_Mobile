@@ -8,20 +8,23 @@ export interface CitasData {
     fecha_hora: Date | null,
     motivo_consulta: string;
     tipoCita: number | null;
+    File?: string;
 }
 
 interface CitaStore {
     formData: CitasData;
     updateFormData: (data: Partial<CitasData>) => void;
-    resetForm: () => void;
+    resetForm: () => void; 
 }
 
 const initialData: CitasData = {
 
-    hospital_id: null, 
+    hospital_id: null,
     fecha_hora: null,
     motivo_consulta: '',
-    tipoCita: null
+    tipoCita: null,
+    File: ''
+
 }
 
 export const useCitaStore = create<CitaStore>((set) => ({

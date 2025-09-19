@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { View, Text, StyleSheet, Pressable, TextInput } from 'react-native';
 import { RegisterStepper } from '../../../components/shared/RegisterStepper';
-
 import { useContext } from 'react';
 import { globalColors, globalStyles } from '../../../theme/theme';
 import { ThemeContext } from '../../../../../context/ThemeContext';
@@ -13,6 +12,9 @@ import { useCitaStore } from '../../../../hooks/useCitaStore';
 import * as Yup from 'yup';
 import { Formik } from "formik";
 import { citasController } from '../../../../controller/citasController';
+import * as ImagePicker from 'expo-image-picker';
+import * as Document from 'expo-document-picker';
+
 
 
 export const MotivoScreen = () => {
@@ -34,6 +36,44 @@ export const MotivoScreen = () => {
             .required('Campo requerido'),
     });
 
+    const pickImage = async () => {
+        //pedir permiso
+        const permiso = await ImagePicker.requestCameraPermissionsAsync()
+        if (!permiso.granted) {
+            alert("Se requiere permiso para acceder a la galeria");
+            return;
+        }
+
+        const result = await ImagePicker.launchCameraAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            quality: 1
+        });
+
+        if (!result.canceled) {
+            const uri = result.assets[0].uri;
+            //guarda en el store            
+            updateFormData({ File: uri });
+        }
+    }
+
+    const pickDocument = async () => {
+        try {
+            const result = await Document.getDocumentAsync({
+                type: "*/*",
+                copyToCacheDirectory: true,
+            });
+
+            if (result.assets && result.assets.length > 0) {
+                const uri = result.assets[0].uri;
+                updateFormData({ File: uri });
+            }
+        } catch (err) {
+            console.log("Error al seleccionar un archivo: ", err);
+        }
+    }
+
+
     return (
         <Formik
             initialValues={{
@@ -46,8 +86,18 @@ export const MotivoScreen = () => {
                 });
 
                 const fullData = useCitaStore.getState().formData;
-
                 try {
+
+                    const formData = new FormData();
+
+                    if (fullData.File) {
+                        formData.append("File", {
+                            uri: fullData.File,
+                            name: "archivo.png",
+                            type: "image/png", 
+                        } as any);
+                    }
+
                     const response = await citasController(fullData);
                     if (response.success) {
                         alert("Cita hecha :D")
@@ -91,10 +141,12 @@ export const MotivoScreen = () => {
                                 <Text style={{ color: 'red' }}>{errors.motivo_consulta}</Text>
                             )}
                             <View style={{ flexDirection: 'row', marginTop: 8 }}>
-                                <Pressable style={{ marginRight: 16 }}>
+                                <Pressable style={{ marginRight: 16 }}
+                                    onPress={pickDocument}
+                                >
                                     <CustomIonicons name="document-attach-outline" size={22} color="#444" />
                                 </Pressable>
-                                <Pressable>
+                                <Pressable onPress={pickImage}>
                                     <CustomIonicons name="camera-outline" size={22} color="#444" />
                                 </Pressable>
                             </View>
@@ -136,3 +188,6 @@ const style = StyleSheet.create({
         textAlignVertical: 'top'
     },
 })
+
+
+

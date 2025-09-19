@@ -17,7 +17,8 @@ export const citasController = async (data: CitasData) => {
             data.hospital_id ?? 0,
             data.fecha_hora!,
             data.motivo_consulta,
-            data.tipoCita ?? 0 // provide a default value if null
+            data.tipoCita ?? 0 ,// provide a default value if null
+            data.File ?? ''
         );
 
         return { success: true, data: response.data, message: 'Sistema aceptada' }
