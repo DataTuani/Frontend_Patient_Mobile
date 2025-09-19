@@ -73,7 +73,7 @@ export const RegisterScreen4 = () => {
                     <View style={style.card}>
                         <View style={{ width: '90%' }}>
                             <Text style={style.titleInfo}>Credenciales</Text>
-
+ 
                         </View>
                         <CustomInputRegister
                             label='Correo Electronico'

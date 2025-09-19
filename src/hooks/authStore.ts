@@ -1,9 +1,11 @@
 import { create } from "zustand";
+import {persist} from 'zustand/middleware';
 
 interface User {
     id: number;
     correo: string;
     contraseña: string;
+    paciente_id: number | null;
 };
 
 interface AuthState {

@@ -6,7 +6,7 @@ export interface CitasData {
 
     hospital_id: number | null;
     fecha_hora: Date | null,
-    motivo_consulta: string[];
+    motivo_consulta: string;
     tipoCita: number | null;
 }
 
@@ -18,9 +18,9 @@ interface CitaStore {
 
 const initialData: CitasData = {
 
-    hospital_id: null,
+    hospital_id: null, 
     fecha_hora: null,
-    motivo_consulta: [],
+    motivo_consulta: '',
     tipoCita: null
 }
 

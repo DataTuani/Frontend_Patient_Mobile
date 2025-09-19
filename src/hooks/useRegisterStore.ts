@@ -30,7 +30,7 @@ const initialData: RegisterData = {
     password: '',
     cedula: '',
     telefono: '',
-    direccion: '',
+    direccion: '', 
     rol_id: 1,
     grupo_sanguineo: '',
     enfermedades_cronicas: [],

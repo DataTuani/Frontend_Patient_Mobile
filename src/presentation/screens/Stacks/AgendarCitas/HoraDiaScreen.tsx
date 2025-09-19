@@ -61,14 +61,21 @@ export const HoraDiaScreen = () => {
       initialValues={{ fecha_hora: null as Date | null }}
       validationSchema={CitasSchema}
       onSubmit={(values) => {
+        if (values.fecha_hora) {
+          const localHora = values.fecha_hora.toLocaleTimeString('es-Ni', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+          });
+          console.log('Hora Local:', localHora);
+        }
         updateFormData({ fecha_hora: values.fecha_hora });
-
         console.log(values);
         navigation.navigate('Motivo');
         reservarHora();
       }}
     >
- 
+
       {({ handleSubmit, setFieldValue, errors, touched }) => (
         <View style={styles.ContainerAgendar}>
           <RegisterStepper currentStep={3} />
@@ -123,7 +130,6 @@ export const HoraDiaScreen = () => {
                       <Text
                         style={{
                           color: isSelected ? "#fff" : "#8C8C8C",
-
                         }}
                       >
                         {hour.label}

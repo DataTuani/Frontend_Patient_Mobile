@@ -67,7 +67,7 @@ export const RegisterScreen3 = () => {
                                 { label: 'O-', value: 'o-' }
                             ]}
                             value={values.grupo_sanguineo}
-                            setValue={(val) => {
+                            setValue={(val) => { 
                                 const newValue = typeof val == 'function'
                                     ? val(values.grupo_sanguineo)
                                     : val;

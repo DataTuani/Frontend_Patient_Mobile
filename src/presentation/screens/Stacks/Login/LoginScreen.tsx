@@ -36,9 +36,17 @@ export const LoginScreen = () => {
                 const result = await loginController(values.correo, values.contraseña);
                 if (result.success) {
 
-                    const { user, token } = result.data;
+                    const { usuario, token } = result.data;
 
-                    setUser(user, token);
+                    setUser(
+                        {
+                            id: usuario.id,
+                            correo: usuario.correo,
+                            contraseña: "", 
+                            paciente_id: usuario.Paciente?.id ?? null,
+                        },
+                        token
+                    );
                     console.log("Token: ", token);
                     console.log(values)
                     navigation.navigate("Home");

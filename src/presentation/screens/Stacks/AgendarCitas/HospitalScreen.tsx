@@ -79,7 +79,7 @@ export const HospitalScreen = () => {
                                         setHospitalSelect(item.id);
                                         setFieldValue('hospital_id', item.id);
                                     }}
-
+ 
                                 >
                                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                                         <Text

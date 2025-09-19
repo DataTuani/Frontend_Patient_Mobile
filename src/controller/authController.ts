@@ -1,16 +1,24 @@
 
 import { loginService, registerService } from "../api/authService";
-import { useAuthStore } from "../hooks/authStore";
+import { useAuthStore } from '../hooks/authStore';
 import { RegisterData } from "../hooks/useRegisterStore";
 
 
 export const loginController = async (correo: string, contraseña: string) => {
     try {
         const response = await loginService(correo, contraseña);
+        const { usuario, token } = response.data;
 
-        const { user, token } = response.data;
-
-        useAuthStore.getState().setUser(user, token);
+        useAuthStore.getState().setUser({
+            id: usuario.id,
+            correo: usuario.correo,
+            contraseña: usuario.contraseña ?? "",
+            paciente_id: usuario.Paciente?.id ?? null,
+        },
+            token
+        );
+        console.log("Usuario guardado: ", useAuthStore.getState().user);
+        console.log("Token guardado: ", useAuthStore.getState().token);
 
         return { success: true, data: response.data }
     } catch (error: any) {
