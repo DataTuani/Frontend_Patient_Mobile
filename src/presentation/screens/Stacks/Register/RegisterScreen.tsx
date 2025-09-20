@@ -6,7 +6,7 @@ import { RootStackParams } from '../../../routes/StackNavigator';
 import { useContext, useState } from 'react';
 import { ThemeContext } from '../../../../../context/ThemeContext';
 import { CustomInputRegister } from '../../../components/shared/CustomInput';
-import { CustomDropdown } from '../../../components/shared/CustomDropdown';
+import { CustomRadioButton } from '../../../components/shared/CustomDropdown';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { Ionicons } from '@expo/vector-icons';
 import { PrimaryButton } from '../../../components/shared/PrimaryButton';
@@ -14,6 +14,7 @@ import { RegisterStepper } from '../../../components/shared/RegisterStepper';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { useRegisterStore } from '../../../../hooks/useRegisterStore';
+import { height } from '../../../../constants/Dimensions';
 
 export const RegisterScreen = () => {
 
@@ -51,6 +52,8 @@ export const RegisterScreen = () => {
         fecha_nacimiento: Yup.date()
             .max(new Date(), 'Fecha inválida')
             .required('Fecha de nacimiento requerida'),
+        direccion: Yup.string().required('Direccion requerido'),
+        telefono: Yup.string().min(8, 'Mínimo 8 caracteres').required('Telefono requerido'),
     })
 
     return (
@@ -59,13 +62,18 @@ export const RegisterScreen = () => {
                 nombreCompleto: '',
                 genero: '',
                 fecha_nacimiento: null as Date | null,
+                direccion: '',
+                telefono: ''
             }}
             validationSchema={RegisterSchema}
             onSubmit={(values) => {
                 updateFormData({
                     nombreCompleto: values.nombreCompleto,
                     genero: values.genero,
-                    fecha_nacimiento: values.fecha_nacimiento
+                    fecha_nacimiento: values.fecha_nacimiento,
+                    direccion: values.direccion,
+                    telefono: values.telefono
+
                 });
                 console.log(values);
                 navigator.navigate('Register2');
@@ -75,71 +83,85 @@ export const RegisterScreen = () => {
             {({ handleChange, handleSubmit, values, errors, touched, isSubmitting, setFieldValue }) => (
                 <View style={[styles.ContainerRe]}>
                     <Text style={style.title}>Registrar</Text>
+                    <Text style={{ fontWeight: '400' }}>Completa tu registro y sé parte de SINAES</Text>
                     <RegisterStepper currentStep={1} />
-                    <View style={style.card}>
-                        <Text style={[style.titleInput, { color: colors.primary, fontWeight: '600' }]}>Crear Cuenta Nueva</Text>
-                        <View style={{ width: '90%' }}>
-                            <Text style={style.titleInfo}>Informacion Personal I</Text>
+                    <View style={{ width: '90%' }}>
+                        <Text style={style.titleInfo}>Informacion Personal I</Text>
 
-                        </View>
-                        <CustomInputRegister
-                            label='Nombre Completo'
-                            placeholder='Ingresa tu nombre completo'
-                            value={values.nombreCompleto}
-                            onChangeText={handleChange('nombreCompleto')}
-                        />
-                        {touched.nombreCompleto && errors.nombreCompleto && (
-                            <Text style={{ color: 'red' }}>{errors.nombreCompleto}</Text>
-                        )}
-                        <CustomDropdown
-                            title='Sexo'
-                            items={[
-                                { label: 'Masculino', value: 'M' },
-                                { label: 'Femenino', value: 'F' }
-                            ]}
-                            value={values.genero}
-                            setValue={(val) => {
-                                const newValue = typeof val === 'function'
-                                    ? val(values.genero)
-                                    : val;
-                                setFieldValue('genero', newValue);
+                    </View>
+                    <CustomInputRegister
+                        label='Nombre Completo'
+                        placeholder='Ingresa tu nombre completo'
+                        value={values.nombreCompleto}
+                        onChangeText={handleChange('nombreCompleto')}
+                    />
+                    {touched.nombreCompleto && errors.nombreCompleto && (
+                        <Text style={{ color: 'red', marginRight: 160, marginTop: 5 }}>{errors.nombreCompleto}</Text>
+                    )}
+
+                    <View style={style.Container}>
+                        <Text style={style.label}>Fecha de nacimiento</Text>
+                        <TouchableOpacity style={style.inputContainer} onPress={showDatePicker}>
+                            <Text style={style.inputText}>{values.fecha_nacimiento ? values.fecha_nacimiento.toLocaleDateString() : 'dd/mm/aaaa'}</Text>
+                            <Ionicons name='calendar-outline' size={20} color='gray' />
+                        </TouchableOpacity>
+
+                        <DateTimePickerModal
+                            isVisible={isDatePickerVisible}
+                            mode="date"
+                            onConfirm={(date) => {
+                                handleConfirm(date, setFieldValue);
                             }}
-                            placeholder='Selecciona tu género'
+                            onCancel={hideDatePicker}
                         />
-                        {touched.genero && errors.genero && (
-                            <Text style={{ color: 'red' }}>{errors.genero}</Text>
+
+                        {touched.fecha_nacimiento && errors.fecha_nacimiento && (
+                            <Text style={{ color: 'red', marginTop: 5 ,marginLeft:10}}>{errors.fecha_nacimiento}</Text>
                         )}
-                        <View style={style.Container}>
-                            <Text style={style.label}>Fecha de nacimiento</Text>
-                            <TouchableOpacity style={style.inputContainer} onPress={showDatePicker}>
-                                <Text style={style.inputText}>{values.fecha_nacimiento ? values.fecha_nacimiento.toLocaleDateString() : 'dd/mm/aaaa'}</Text>
-                                <Ionicons name='calendar-outline' size={20} color='gray' />
-                            </TouchableOpacity>
+                    </View>
+                    <CustomInputRegister
+                        label='Teléfono'
+                        placeholder='Digite numero de telefono'
+                        value={values.telefono}
+                        onChangeText={handleChange('telefono')}
+                    />
+                    {touched.telefono && errors.telefono && (
+                        <Text style={{ color: 'red' , marginRight:210, marginTop:5}}>{errors.telefono}</Text>
+                    )}
+                    <CustomRadioButton
+                        title='Genero'
+                        value={values.genero}
+                        setValue={(val) => {
+                            setFieldValue('genero', val);
+                        }}
+                        options={[
+                            { label: "Masculino", value: "M", color: '#2196F3', icon: "male" },
+                            { label: "Femenino", value: "F", color: '#E91E63', icon: "female" }
+                        ]}
+                    />
+                    {touched.genero && errors.genero && (
+                        <Text style={{ color: 'red', marginRight: 210, marginTop: 2 }}>{errors.genero}</Text>)}
 
-                            <DateTimePickerModal
-                                isVisible={isDatePickerVisible}
-                                mode="date"
-                                onConfirm={(date) => {
-                                    handleConfirm(date, setFieldValue);
-                                }}
-                                onCancel={hideDatePicker}
-                            />
-
-                            {touched.fecha_nacimiento && errors.fecha_nacimiento && (
-                                <Text style={{ color: 'red' }}>{errors.fecha_nacimiento}</Text>
-                            )}
-                        </View>
-                        <PrimaryButton
-                            onPress={() => handleSubmit()}
-                            label={isSubmitting ? 'Cargando...' : 'Siguiente'}
-                        />
-                        <View style={{ alignItems: 'center' }}>
-                            <Text style={{ marginTop: 60, fontSize: 16, color: colors.primary }}>¿Ya tienes una cuenta? {''}
-                                <Text style={{ fontWeight: 'bold', color: colors.secondary }}
-                                    onPress={() => navigator.navigate('Login')}
-                                >Inicia Sesion</Text>
-                            </Text>
-                        </View>
+                    <CustomInputRegister
+                        label='Direccion'
+                        placeholder='Ingresa tu direccion completa'
+                        value={values.direccion}
+                        onChangeText={handleChange('direccion')}
+                        style={{ height: 70 }}
+                    />
+                    {touched.direccion && errors.direccion && (
+                        <Text style={{ color: 'red', marginRight: 210, marginTop: 5 }}>{errors.direccion}</Text>
+                    )}
+                    <PrimaryButton
+                        onPress={() => handleSubmit()}
+                        label={isSubmitting ? 'Cargando...' : 'Siguiente'}
+                    />
+                    <View style={{ alignItems: 'center' }}>
+                        <Text style={{ marginTop: 60, fontSize: 16, color: globalColors.dark }}>¿Ya tienes una cuenta? {''}
+                            <Text style={{ fontWeight: 'bold', color: globalColors.dark }}
+                                onPress={() => navigator.navigate('Login')}
+                            >Inicia Sesion</Text>
+                        </Text>
                     </View>
                 </View>
             )}
@@ -151,8 +173,8 @@ const style = StyleSheet.create({
     title: {
         fontSize: 50,
         fontWeight: 'bold',
-        marginBottom: 50,
-        color: '#003E6D'
+        marginBottom: 10,
+        color: globalColors.primary
     },
     titleInput: {
         fontSize: 22,
@@ -172,9 +194,9 @@ const style = StyleSheet.create({
     },
     label: {
         fontSize: 14,
-        fontWeight: 'bold',
+        fontWeight: '400',
         marginBottom: 10,
-        color: globalColors.primary
+        color: globalColors.dark
     },
     inputContainer: {
         flexDirection: 'row',

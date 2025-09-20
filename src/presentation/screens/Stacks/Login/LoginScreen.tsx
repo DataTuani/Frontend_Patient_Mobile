@@ -42,7 +42,7 @@ export const LoginScreen = () => {
                         {
                             id: usuario.id,
                             correo: usuario.correo,
-                            contraseña: "", 
+                            contraseña: "",
                             paciente_id: usuario.Paciente?.id ?? null,
                         },
                         token
@@ -62,47 +62,42 @@ export const LoginScreen = () => {
                 <View style={[style.container, { backgroundColor: colors.background }]}>
 
                     <Image
-                        source={require('../../../assets/saludito-logo.png')}
+                        source={require('../../../assets/sinaes_logo .png')}
                         style={style.logo}
                     />
+                    <Text style={[style.cardTitle, { color: colors.primary, fontWeight: '600', }]}>SINAES</Text>
+                    <CustomInput
+                        label="Correo Electronico"
+                        placeholder="Ingresar tu correo"
+                        variant="outlined"
+                        value={values.correo}
+                        onChangeText={handleChange('correo')}
+                    />
 
-                    <View style={[style.card]}>
-                        <Text style={[style.cardTitle, { color: colors.primary, fontWeight: '600', }]}>¡Hola de nuevo!</Text>
-                        <Text style={style.subtitle}>Digite su correo y contraseña</Text>
+                    {touched.correo && errors.correo && (
+                        <Text style={{ color: 'red' }}>{errors.correo}</Text>
+                    )}
 
-                        <CustomInput
-                            label="Correo Electronico"
-                            placeholder="Ingresar tu correo"
-                            variant="outlined"
-                            value={values.correo}
-                            onChangeText={handleChange('correo')}
-                        />
-
-                        {touched.correo && errors.correo && (
-                            <Text style={{ color: 'red' }}>{errors.correo}</Text>
-                        )}
-
-                        <CustomInput
-                            label="Contraseña"
-                            placeholder="Ingresar tu Contraseña"
-                            variant="outlined"
-                            secureTextEntry={true}
-                            value={values.contraseña}
-                            onChangeText={handleChange('contraseña')}
-                        />
-                        {touched.contraseña && errors.contraseña && (
-                            <Text style={{ color: 'red' }}>{errors.contraseña}</Text>
-                        )}
-                        <ButtonLogin title={isSubmitting ? "Cargando..." : "Iniciar Sesion"} onPress={handleSubmit} />
-                        <Text
-                            style={[style.footerText]}
-                        >
-                            ¿Primera vez en Saludito? {''}
-                            <Text style={{ color: globalColors.secondary }}
-                                onPress={() => navigation.navigate('Register')}
-                            >Crear Cuenta</Text>
-                        </Text>
-                    </View>
+                    <CustomInput
+                        label="Contraseña"
+                        placeholder="Ingresar tu Contraseña"
+                        variant="outlined"
+                        secureTextEntry={true}
+                        value={values.contraseña}
+                        onChangeText={handleChange('contraseña')}
+                    />
+                    {touched.contraseña && errors.contraseña && (
+                        <Text style={{ color: 'red' }}>{errors.contraseña}</Text>
+                    )}
+                    <ButtonLogin title={isSubmitting ? "Cargando..." : "Iniciar Sesion"} onPress={handleSubmit} />
+                    <Text
+                        style={[style.footerText]}
+                    >
+                        ¿Primera vez en Saludito? {''}
+                        <Text style={{ color: globalColors.gay_2, fontWeight:'bold' }}
+                            onPress={() => navigation.navigate('Register')}
+                        >Crear Cuenta</Text>
+                    </Text>
                 </View>
             )}
         </Formik>
@@ -123,24 +118,10 @@ const style = StyleSheet.create({
         height: 170,
         marginBottom: 10,
     },
-    card: {
-        width: '100%',
-        backgroundColor: 'white',
-        borderRadius: 15,
-        padding: 25,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 5,
-        alignItems: 'center'
-    },
+
     cardTitle: {
-        fontSize: 22,
-        marginBottom: 8,
+        fontSize: 50,
+        marginBottom: 10,
         textAlign: 'center'
     },
     subtitle: {
@@ -151,10 +132,11 @@ const style = StyleSheet.create({
     footerText: {
         marginTop: 20,
         fontSize: 13,
-        fontWeight: 'bold'
+        color:globalColors.gray,
+        fontWeight: '400'
     },
     filled: {
-        backgroundColor: globalColors.primary,
+        backgroundColor: globalColors.gay_2,
         color: '#fff'
     },
     input: {

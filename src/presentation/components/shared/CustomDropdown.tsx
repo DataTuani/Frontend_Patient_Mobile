@@ -1,43 +1,64 @@
 
 import DropDownPicker from 'react-native-dropdown-picker';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { globalColors } from '../../theme/theme';
 import React, { useState } from 'react';
 
-interface DropdownProps {
-  title: string;
-  items: { label: string; value: string }[];
-  value: string | number;
-  setValue: React.Dispatch<React.SetStateAction<string | null>>;
-  placeholder?: string;
+import { Ionicons } from '@expo/vector-icons';
+
+interface Option {
+  label: string;
+  value: string;
+  color?: string;
+  icon?: keyof typeof Ionicons.glyphMap;
 }
 
-export const CustomDropdown = ({
+
+interface CustomRadioButtonProps {
+  title: string;
+  options: Option[];
+  value: string | null;
+  setValue: (value: string) => void;
+}
+
+
+export const CustomRadioButton = ({
   title,
-  items,
+  options,
   value,
-  setValue,
-  placeholder = 'Seleccione...',
+  setValue
+}: CustomRadioButtonProps) => {
 
-}: DropdownProps) => {
-
-  const [open, setOpen] = useState(false);
-  const [localItems, setLocalItems] = useState(items);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>{title}</Text>
-      <DropDownPicker
-        open={open}
-        value={value}
-        items={localItems}
-        setOpen={setOpen}
-        setValue={setValue}
-        setItems={setLocalItems}
-        placeholder={placeholder}
-        style={styles.DropDownStyles}
-
-      />
+    <View style={{ marginVertical: 10, marginRight: 75 }}>
+      <Text style={{ fontSize: 14, marginBottom: 5, fontWeight: '400' }}>{title}</Text>
+      <View style={{ flexDirection: "row", alignItems: 'center' }}>
+        {options.map((e) => {
+          const selected = value === e.value;
+          return (
+            <Pressable
+              key={e.value}
+              style={styleBox.option}
+              onPress={() => setValue(e.value)}
+            >
+              <Ionicons
+                name={e.icon || 'person-circle'}
+                size={20}
+                color={selected ? e.color || '#007AFF' : '#999'}
+              />
+              <View style={[
+                styleBox.radio,
+                { borderColor: e.color || '#007AFF' },
+                selected && {
+                  backgroundColor: e.color || "#007AFF"
+                },
+              ]} />
+              <Text style={{ fontSize: 15 }}>{e.label}</Text>
+            </Pressable>
+          )
+        })}
+      </View>
     </View>
 
   )
@@ -128,6 +149,45 @@ export const CustomDropdownItems = ({
 }
 
 
+interface DropdownProps {
+  title: string;
+  items: { label: string; value: string }[];
+  value: string | number;
+  setValue: React.Dispatch<React.SetStateAction<string | null>>;
+  placeholder?: string;
+}
+
+export const CustomDropdown = ({
+  title,
+  items,
+  value,
+  setValue,
+  placeholder = 'Seleccione...',
+
+}: DropdownProps) => {
+
+  const [open, setOpen] = useState(false);
+  const [localItems, setLocalItems] = useState(items);
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.label}>{title}</Text>
+      <DropDownPicker
+        open={open}
+        value={value}
+        items={localItems}
+        setOpen={setOpen}
+        setValue={setValue}
+        setItems={setLocalItems}
+        placeholder={placeholder}
+        style={styles.DropDownStyles}
+
+      />
+    </View>
+
+  )
+}
+
 
 
 
@@ -138,9 +198,9 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 14,
-    color: globalColors.primary,
+    color: globalColors.dark,
     marginBottom: 6,
-    fontWeight: 'bold',
+    fontWeight: '400',
     textAlign: 'left'
   },
 
@@ -153,4 +213,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderColor: '#fff'
   }
+})
+
+const styleBox = StyleSheet.create({
+
+  option: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 20,
+  },
+
+  radio: {
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    borderWidth: 2,
+    marginHorizontal: 6
+  }
+
 })

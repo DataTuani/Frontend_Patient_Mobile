@@ -24,7 +24,7 @@ export const CustomInput = ({
             <Text style={styles.label}>{label} </Text>
             <TextInput
                 style={[styles.input,
-                variant === 'filled' ? styles.filled : styles.outlined
+                styles.outlined
                 ]}
                 placeholder={placeholder}
                 secureTextEntry={secureTextEntry}
@@ -37,31 +37,27 @@ export const CustomInput = ({
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
+        width: '85%',
         marginVertical: 8
     },
     label: {
         fontSize: 14,
-        color: globalColors.primary,
+        color: globalColors.dark,
         marginBottom: 6,
-        fontWeight: 'bold',
+        fontWeight: '400',
         textAlign: 'left'
     },
     input: {
         paddingHorizontal: 12,
         paddingVertical: 10,
-        borderRadius: 8,
-        fontSize: 16
-    },
-    filled: {
-        backgroundColor: globalColors.primary,
-        color: "#fff",
+        borderRadius: 5,
+        fontSize: 16,
     },
     outlined: {
         borderWidth: 1,
-        borderColor: globalColors.primary,
+        borderColor: globalColors.gray,
         backgroundColor: 'transparent',
-        color: globalColors.dark
+        color: globalColors.dark,
     }
 })
 
@@ -71,6 +67,7 @@ interface CustomInputRegisterProps {
     secureTextEntry?: boolean
     value: string;
     onChangeText: (text: string) => void;
+    style?:{}
 }
 
 export const CustomInputRegister = ({
@@ -78,13 +75,14 @@ export const CustomInputRegister = ({
     placeholder,
     secureTextEntry = false,
     value,
-    onChangeText
+    onChangeText,
+    style={}
 
 }: CustomInputRegisterProps) => {
     return (
         <View style={stylesR.container}>
             <Text style={stylesR.label}>{label} </Text>
-            <TextInput style={stylesR.input}
+            <TextInput style={[stylesR.input, style]}
                 placeholder={placeholder}
                 secureTextEntry={secureTextEntry}
                 value={value}
@@ -104,9 +102,9 @@ const stylesR = StyleSheet.create({
     },
     label: {
         fontSize: 14,
-        color: globalColors.primary,
+        color: globalColors.dark,
         marginBottom: 6,
-        fontWeight: 'bold',
+        fontWeight: '400',
         textAlign: 'left'
     },
     input: {

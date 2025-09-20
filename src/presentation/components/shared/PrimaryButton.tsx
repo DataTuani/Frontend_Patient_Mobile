@@ -56,14 +56,14 @@ export const ButtonLogin = ({
 
 const styles = StyleSheet.create({
     button: {
-        width: '85%',
+        width: '70%',
         paddingVertical: 12,
-        borderRadius: 8,
+        borderRadius: 10,
         alignItems: 'center',
-        marginVertical: 6
+        marginTop:30
     },
     filled: {
-        backgroundColor: globalColors.primary,
+        backgroundColor: globalColors.tertiary,
     },
     outlined: {
         borderWidth: 1,

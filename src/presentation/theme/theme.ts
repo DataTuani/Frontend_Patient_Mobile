@@ -3,13 +3,13 @@ import { StyleSheet } from 'react-native';
 
 
 export const globalColors = {
-    primary: '#042558',
+    primary: '#003E6D',
     secondary: '#67C3DC',
     tertiary: '#008CCA',
     dark: '#000000',
     light: '#FFFFFF',
-    gray: '#1E1E1E',
-    danger: '#C60726',
+    gray: '#8C8C8C',
+    gay_2: '#4D4D4D',
     success: '#29842C'
 }
 
@@ -36,8 +36,8 @@ export const globalStyles = (colors: any) => StyleSheet.create({
     },
 
     primaryButtom: {
-        backgroundColor: colors.primary,
-        borderRadius: 42,
+        backgroundColor: globalColors.tertiary,
+        borderRadius: 15,
         padding: 15,
         //marginBottom: 50,
         width: '50%',

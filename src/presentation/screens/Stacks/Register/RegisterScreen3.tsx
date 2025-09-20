@@ -10,6 +10,8 @@ import { RegisterStepper } from '../../../components/shared/RegisterStepper';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { useRegisterStore } from '../../../../hooks/useRegisterStore';
+import { CustomInputRegister } from '../../../components/shared/CustomInput';
+import { registerController } from '../../../../controller/authController';
 
 const height = Dimensions.get('window').height;
 
@@ -17,132 +19,109 @@ export const RegisterScreen3 = () => {
 
     const navigator = useNavigation<NavigationProp<RootStackParams>>();
     const { colors } = useContext(ThemeContext);
-    const  styles = globalStyles(colors);
+    const styles = globalStyles(colors);
     const { updateFormData } = useRegisterStore();
 
     const Register3Schema = Yup.object().shape({
-        grupo_sanguineo: Yup.string().required('Seleccione una opcion'),
-        alergias: Yup.array().required('Seleccione una opcion'),
-        enfermedades_cronicas: Yup.array().required('Seleccione una opcion')
+        correo: Yup.string().email('Correo invalido').required('Correo requerido'),
+        password: Yup.string().min(6, 'Minimo 6 caracteres').required('Contraseña es requerida'),
+        confirmPassword: Yup.string()
+            .oneOf([Yup.ref('password')], 'Las contraseña no coincide')
+            .required('Debes confirmar tu contraseña'),
     })
 
     return (
         <Formik
             initialValues={{
-                grupo_sanguineo: '',
-                alergias: [],
-                enfermedades_cronicas: []
+                correo: '', password: '', confirmPassword: '', rol_id: 1
             }}
             validationSchema={Register3Schema}
-            onSubmit={(values) => {
+            onSubmit={async (values) => {
                 updateFormData({
-                    grupo_sanguineo: values.grupo_sanguineo,
-                    alergias: values.alergias,
-                    enfermedades_cronicas: values.enfermedades_cronicas
+                    correo: values.correo,
+                    password: values.password,
+                    rol_id: values.rol_id
                 });
-                console.log(values);
-                navigator.navigate('Register4');
+
+                const fullData = useRegisterStore.getState().formData;
+                try {
+                    const response = await registerController(fullData);
+
+                    if (response.success) {
+                        console.log('Registro Exitoso', fullData);
+                        navigator.navigate('Home');
+                    }else{
+                        alert(response.message);
+                        console.log("Error del backend", fullData);
+                    }
+
+                } catch (error) {
+                    alert("Error al registrar");
+                    console.log(error)
+
+                }
             }}
         >
 
-            {({ handleSubmit, values, errors, touched, isSubmitting, setFieldValue }) => (
+            {({ handleSubmit, values, errors, touched, isSubmitting, handleChange }) => (
                 <View style={[styles.ContainerRe]}>
 
                     <Text style={style.title}>Registrar</Text>
+                    <Text style={{ fontWeight: '400' }}>Completa tu registro y sé parte de SINAES</Text>
                     <RegisterStepper currentStep={3} />
-                    <View style={style.card}>
-                        <View style={{ width: '90%' }}>
-                            <Text style={style.titleInfo}>Informacion Medica</Text>
-                        </View>
-                        <CustomDropdown
-                            title='Grupo Sanguineo'
-                            items={[
-                                { label: 'A+', value: 'a+' },
-                                { label: 'A-', value: 'a-' },
-                                { label: 'B+', value: 'b+' },
-                                { label: 'B-', value: 'b-' },
-                                { label: 'AB+', value: 'ab+' },
-                                { label: 'AB-', value: 'ab-' },
-                                { label: 'O+', value: 'o+' },
-                                { label: 'O-', value: 'o-' }
-                            ]}
-                            value={values.grupo_sanguineo}
-                            setValue={(val) => { 
-                                const newValue = typeof val == 'function'
-                                    ? val(values.grupo_sanguineo)
-                                    : val;
-                                setFieldValue('grupo_sanguineo', newValue);
-                            }}
-                            placeholder='Selecciona tu grupo sanguineo'
-                        />
-                        {touched.grupo_sanguineo && errors.grupo_sanguineo && (
-                            <Text style={{ color: 'red' }}>{errors.grupo_sanguineo}</Text>
-                        )}
-                        <CustomDropdownItems
-                            title='Alergias'
-                            items={[
-                                { label: 'Polvo', value: 'polvo' },
-                                { label: 'Pólenes', value: 'polenes' },
-                                { label: 'Ácaros', value: 'acaros' },
-                                { label: 'Picaduras de insectos', value: 'picaduras de insectos' },
-                                { label: 'Medicamentos (penicilina, aspirina, etc.)', value: 'medicamentos' },
-                                { label: 'Alimentos (maní, mariscos, lácteos, huevo, trigo, soya)', value: 'alimentos' },
-                                { label: 'Látex', value: 'latex' },
-                                { label: 'Perfumes o fragancias', value: 'perfume o fragrancias' },
-                                { label: 'Pelo de animales', value: 'pelo de animales' },
-                                { label: 'Moho', value: 'moho' },
-                            ]}
-                            value={values.alergias}
-                            setValue={(val) => {
-                                const newValue = typeof val === 'function'
-                                    ? val(values.alergias)
-                                    : val;
-                                setFieldValue('alergias', newValue);
-                            }}
-                            placeholder='Selecciona si tienes alergias'
-                        />
-                        {touched.alergias && errors.alergias && (
-                            <Text style={{ color: 'red' }}>{errors.alergias}</Text>
-                        )}
-                        <CustomDropdownItems
-                            title='Enfermedades Cronicas'
-                            items={[
-                                { label: 'Diabetes (Tipo 1, Tipo 2)', value: 'diabetes' },
-                                { label: 'Hipertensión arterial', value: 'Ha' },
-                                { label: 'Asma', value: 'asma' },
-                                { label: 'Epilepsia', value: 'epilepsia' },
-                                { label: 'Enfermedad pulmonar obstructiva crónica (EPOC)', value: 'epoc' },
-                                { label: 'Enfermedades cardíacas (insuficiencia cardíaca, arritmias)', value: 'ec' },
-                                { label: 'Enfermedad renal crónica', value: 'erc' },
-                                { label: 'Hipotiroidismo o hipertiroidismo', value: 'eh' },
-                                { label: 'Artritis reumatoide', value: 'ar' },
-                                { label: 'Migraña crónica', value: 'migraña' },
-                            ]}
-                            value={values.enfermedades_cronicas}
-                            setValue={(val) => {
-                                const newValue = typeof val === 'function'
-                                    ? val(values.enfermedades_cronicas)
-                                    : val;
-                                setFieldValue('enfermedades_cronicas', newValue);
-                            }}
-                            placeholder='Selecciona si tienes enfermedades cronicas'
-                        />
-                        {touched.enfermedades_cronicas && errors.enfermedades_cronicas && (
-                            <Text style={{ color: 'red' }}>{errors.enfermedades_cronicas}</Text>
-                        )}
-                        <PrimaryButton
-                            onPress={() => handleSubmit()}
-                            label={isSubmitting ? 'Cargando...' : 'Siguiente'}
-                        />
-                        <View style={{ alignItems: 'center' }}>
-                            <Text style={{ marginTop: 60, fontSize: 16, color: colors.primary }}>¿Ya tienes una cuenta? {''}
-                                <Text style={{ fontWeight: 'bold', color: colors.secondary }}
-                                    onPress={() => navigator.navigate('Login')}
-                                >Inicia Sesion</Text>
-                            </Text>
-                        </View>
+
+                    <CustomInputRegister
+                        label='Correo Electronico'
+                        placeholder='correo@ejemplo.com'
+                        value={values.correo}
+                        onChangeText={handleChange('correo')}
+                    />
+                    {touched.correo && errors.correo && (
+                        <Text style={{ color: 'red', marginRight: 220, marginTop: 5 }}>{errors.correo}</Text>
+                    )}
+                    <CustomInputRegister
+                        label='Contraseña'
+                        placeholder='Escribe contraseña'
+                        value={values.password}
+                        onChangeText={handleChange('password')}
+                        secureTextEntry={true}
+                    />
+                    {touched.password && errors.password && (
+                        <Text style={{ color: 'red', marginRight: 180, marginTop: 5 }}>{errors.password}</Text>
+                    )}
+                    <CustomInputRegister
+                        label='Confirmar contraseña'
+                        placeholder='Escribe contraseña'
+                        value={values.confirmPassword}
+                        onChangeText={handleChange('confirmPassword')}
+                        secureTextEntry={true}
+                    />
+                    {touched.confirmPassword && errors.confirmPassword && (
+                        <Text style={{ color: 'red', marginRight: 145, marginTop: 5 }}>{errors.confirmPassword}</Text>
+                    )}
+                    <View style={{ marginTop: 5, marginRight: 20 }}>
+                        <Text style={{ fontWeight: '400', marginBottom: 5, color: globalColors.gay_2 }}>Políticas de contraseña</Text>
+                        <Text style={{ fontWeight: '400', color: globalColors.gay_2 }}>  ○ La contraseña debe tener mínimo 8 caracteres.</Text>
+                        <Text style={{ fontWeight: '400', color: globalColors.gay_2 }}>  ○ Debe incluir letras mayúsculas y minúsculas.</Text>
+                        <Text style={{ fontWeight: '400', color: globalColors.gay_2 }}>  ○ Debe contener al menos un número.</Text>
+                        <Text style={{ fontWeight: '400', color: globalColors.gay_2 }}>  ○ Debe tener al menos un carácter especial (@, #, $, %, &).</Text>
+                        <Text style={{ fontWeight: '400', color: globalColors.gay_2 }}>  ○ No debe contener espacios.</Text>
+                        <Text style={{ fontWeight: '400', color: globalColors.gay_2 }}>  ○ No puede ser igual al nombre de usuario.</Text>
+                    </View>
+
+                    <PrimaryButton
+                        onPress={() => handleSubmit()}
+                        label={isSubmitting ? 'Cargando...' : 'Siguiente'}
+                    />
+                    <View style={{ alignItems: 'center' }}>
+                        <Text style={{ marginTop: 60, fontSize: 16, color: globalColors.dark }}>¿Ya tienes una cuenta? {''}
+                            <Text style={{ fontWeight: 'bold', color: globalColors.dark }}
+                                onPress={() => navigator.navigate('Login')}
+                            >Inicia Sesion</Text>
+                        </Text>
                     </View>
                 </View>
+
             )}
         </Formik>
     )
@@ -153,7 +132,7 @@ const style = StyleSheet.create({
     title: {
         fontSize: 50,
         fontWeight: 'bold',
-        marginBottom: 50,
+        marginBottom: 10,
         color: '#003E6D'
     },
     titleInfo: {
