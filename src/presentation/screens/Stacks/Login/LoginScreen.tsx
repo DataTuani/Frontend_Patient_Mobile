@@ -1,16 +1,18 @@
-import React from 'react'
-import { Text, View, Image, StyleSheet, Dimensions } from "react-native";
+import React, { useState } from 'react'
+import { Text, View, Image, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import { globalColors, globalStyles } from "../../../theme/theme";
 import { ButtonLogin } from "../../../components/shared/PrimaryButton";
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParams } from "../../../routes/StackNavigator";
 import { useContext } from "react";
 import { ThemeContext } from "../../../../../context/ThemeContext";
-import { CustomInput } from "../../../components/shared/CustomInput";
+import { CustomInput, CustomInputPas } from "../../../components/shared/CustomInput";
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { loginController } from "../../../../controller/authController";
 import { useAuthStore } from '../../../../hooks/authStore';
+import { CustomIonicons } from '../../../components/shared/Custom_Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 
 const { height } = Dimensions.get('window');
 
@@ -19,7 +21,7 @@ export const LoginScreen = () => {
     const navigation = useNavigation<NavigationProp<RootStackParams>>();
     const { colors } = useContext(ThemeContext);
     const styles = globalStyles(colors);
-
+    const [showPassword, setShowPassword] = useState(false);
     const setUser = useAuthStore((state) => state.setUser);
 
     const LoginSchema = Yup.object().shape({
@@ -69,7 +71,7 @@ export const LoginScreen = () => {
                     <CustomInput
                         label="Correo Electronico"
                         placeholder="Ingresar tu correo"
-                        variant="outlined"
+
                         value={values.correo}
                         onChangeText={handleChange('correo')}
                     />
@@ -78,13 +80,21 @@ export const LoginScreen = () => {
                         <Text style={{ color: 'red' }}>{errors.correo}</Text>
                     )}
 
-                    <CustomInput
+                    <CustomInputPas
                         label="Contraseña"
                         placeholder="Ingresar tu Contraseña"
-                        variant="outlined"
-                        secureTextEntry={true}
+                        secureTextEntry={!showPassword}
                         value={values.contraseña}
                         onChangeText={handleChange('contraseña')}
+                        rightIcon={
+                            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                                <Ionicons
+                                    name={showPassword ? "eye-off-outline" : "eye-outline"}
+                                    size={20}
+                                    color="gray"
+                                />
+                            </TouchableOpacity>
+                        }
                     />
                     {touched.contraseña && errors.contraseña && (
                         <Text style={{ color: 'red' }}>{errors.contraseña}</Text>
@@ -94,7 +104,7 @@ export const LoginScreen = () => {
                         style={[style.footerText]}
                     >
                         ¿Primera vez en Saludito? {''}
-                        <Text style={{ color: globalColors.gay_2, fontWeight:'bold' }}
+                        <Text style={{ color: globalColors.gay_2, fontWeight: 'bold' }}
                             onPress={() => navigation.navigate('Register')}
                         >Crear Cuenta</Text>
                     </Text>
@@ -132,7 +142,7 @@ const style = StyleSheet.create({
     footerText: {
         marginTop: 20,
         fontSize: 13,
-        color:globalColors.gray,
+        color: globalColors.gray,
         fontWeight: '400'
     },
     filled: {

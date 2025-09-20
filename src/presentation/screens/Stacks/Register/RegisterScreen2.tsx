@@ -176,20 +176,5 @@ const style = StyleSheet.create({
     marginVertical: 7,
     color: globalColors.primary
   },
-  card: {
-    width: '100%',
-    backgroundColor: 'white',
-    borderRadius: 15,
-    padding: 25,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 5,
-    alignItems: 'center'
-  },
 }
 )

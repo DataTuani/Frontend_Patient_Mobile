@@ -9,27 +9,30 @@ interface StepperProps {
 
 export const RegisterStepper = ({
     currentStep,
-    totalSteps = 4
+    totalSteps = 3
 }: StepperProps) => {
     return (
         <View style={styles.stepsContainer}>
             {Array.from({ length: totalSteps }, (_, i) => {
                 const step = i + 1;
-                const isActive = step === currentStep;
+                const isCompleted = step < currentStep; 
+                const isActive = step === currentStep;//paso actual
                 return (
                     <React.Fragment key={step}>
                         <View
                             style={[styles.circle,
-                            { backgroundColor: isActive ? "#007ACC" : "#E0E0E0" }
+                            { backgroundColor: isCompleted || isActive ? "#007ACC" : "#E0E0E0" }
                             ]}
                         >
                             <Text
                                 style={[styles.circleText,
-                                { color: isActive ? "white" : "black" }
+                                { color: isCompleted ||isActive ? "white" : "black" }
                                 ]}
                             >{step}</Text>
                         </View>
-                        {step < totalSteps && <View style={styles.line} />}
+                        {step < totalSteps && <View style={[styles.line,{
+                            backgroundColor: step < currentStep ? '#007ACC' : '#E0E0E0'
+                        }]} />}
                     </React.Fragment>
                 )
             })}

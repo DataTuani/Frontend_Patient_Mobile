@@ -48,6 +48,7 @@ export const StackNavigator = () => {
                 }
             }}
         >
+
             <Stack.Screen
                 options={{
                     headerShown: false,
@@ -60,23 +61,24 @@ export const StackNavigator = () => {
                 options={{
                     title: 'Register',
                     headerTitleAlign: 'center',
-                    headerShown: false
+
                 }}
                 name="Register" component={RegisterScreen} />
             <Stack.Screen
                 options={{
-                    headerShown: false
+
                 }}
                 name="Register2"
                 component={RegisterScreen2}
             />
             <Stack.Screen
                 options={{
-                    headerShown: false
+
                 }}
                 name='Register3'
                 component={RegisterScreen3}
             />
+
             <Stack.Screen options={{
                 headerShown: false
             }} name="Home" component={BottomTabNavigator} />

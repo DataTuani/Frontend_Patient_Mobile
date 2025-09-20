@@ -136,12 +136,11 @@ export const CustomDropdownItems = ({
         setItems={setLocalItems}
         placeholder={placeholder}
         style={styles.DropDownStyles}
-
         mode='BADGE'
         multiple={true}
         min={0}
         max={items.length}
-
+        dropDownDirection="TOP"
         badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#2a9d8f", "#1d3557"]}
       />
     </View>
@@ -170,7 +169,7 @@ export const CustomDropdown = ({
   const [localItems, setLocalItems] = useState(items);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { zIndex: 2000 }]}>
       <Text style={styles.label}>{title}</Text>
       <DropDownPicker
         open={open}
@@ -181,7 +180,7 @@ export const CustomDropdown = ({
         setItems={setLocalItems}
         placeholder={placeholder}
         style={styles.DropDownStyles}
-
+        dropDownDirection='TOP'
       />
     </View>
 
@@ -194,7 +193,8 @@ export const CustomDropdown = ({
 const styles = StyleSheet.create({
   container: {
     width: '90%',
-    marginVertical: 8
+    marginVertical: 8,
+
   },
   label: {
     fontSize: 14,

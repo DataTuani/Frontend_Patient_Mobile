@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { View, StyleSheet, Text, Image, Dimensions } from 'react-native';
+import { View, StyleSheet, Text, Image, Dimensions, TouchableOpacity } from 'react-native';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { globalColors, globalStyles, } from '../../../theme/theme';
 import { RootStackParams } from '../../../routes/StackNavigator';
@@ -10,8 +10,9 @@ import { RegisterStepper } from '../../../components/shared/RegisterStepper';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { useRegisterStore } from '../../../../hooks/useRegisterStore';
-import { CustomInputRegister } from '../../../components/shared/CustomInput';
+import { CustomInputPas, CustomInputRegister } from '../../../components/shared/CustomInput';
 import { registerController } from '../../../../controller/authController';
+import { Ionicons } from '@expo/vector-icons';
 
 const height = Dimensions.get('window').height;
 
@@ -21,6 +22,7 @@ export const RegisterScreen3 = () => {
     const { colors } = useContext(ThemeContext);
     const styles = globalStyles(colors);
     const { updateFormData } = useRegisterStore();
+    const [showPassword, setShowPassword] = useState(false);
 
     const Register3Schema = Yup.object().shape({
         correo: Yup.string().email('Correo invalido').required('Correo requerido'),
@@ -50,7 +52,7 @@ export const RegisterScreen3 = () => {
                     if (response.success) {
                         console.log('Registro Exitoso', fullData);
                         navigator.navigate('Home');
-                    }else{
+                    } else {
                         alert(response.message);
                         console.log("Error del backend", fullData);
                     }
@@ -79,22 +81,41 @@ export const RegisterScreen3 = () => {
                     {touched.correo && errors.correo && (
                         <Text style={{ color: 'red', marginRight: 220, marginTop: 5 }}>{errors.correo}</Text>
                     )}
-                    <CustomInputRegister
+                    <CustomInputPas
                         label='Contraseña'
                         placeholder='Escribe contraseña'
                         value={values.password}
                         onChangeText={handleChange('password')}
-                        secureTextEntry={true}
+                        secureTextEntry={!showPassword}
+                        style={{}}
+                        rightIcon={
+                            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                                <Ionicons
+                                    name={showPassword ? "eye-off-outline" : "eye-outline"}
+                                    size={20}
+                                    color="gray"
+                                />
+                            </TouchableOpacity>
+                        }
                     />
                     {touched.password && errors.password && (
                         <Text style={{ color: 'red', marginRight: 180, marginTop: 5 }}>{errors.password}</Text>
                     )}
-                    <CustomInputRegister
+                    <CustomInputPas
                         label='Confirmar contraseña'
                         placeholder='Escribe contraseña'
                         value={values.confirmPassword}
                         onChangeText={handleChange('confirmPassword')}
-                        secureTextEntry={true}
+                        secureTextEntry={!showPassword}
+                        rightIcon={
+                            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                                <Ionicons
+                                    name={showPassword ? "eye-off-outline" : "eye-outline"}
+                                    size={20}
+                                    color="gray"
+                                />
+                            </TouchableOpacity>
+                        }
                     />
                     {touched.confirmPassword && errors.confirmPassword && (
                         <Text style={{ color: 'red', marginRight: 145, marginTop: 5 }}>{errors.confirmPassword}</Text>
@@ -134,28 +155,6 @@ const style = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 10,
         color: '#003E6D'
-    },
-    titleInfo: {
-        fontWeight: '600',
-        textAlign: 'left',
-        fontSize: 17,
-        marginVertical: 7,
-        color: globalColors.primary
-    },
-    card: {
-        width: '100%',
-        backgroundColor: 'white',
-        borderRadius: 15,
-        padding: 25,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 5,
-        alignItems: 'center'
     },
 }
 )

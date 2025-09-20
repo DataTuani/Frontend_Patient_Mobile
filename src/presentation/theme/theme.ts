@@ -17,7 +17,7 @@ export const globalColors = {
 export const globalStyles = (colors: any) => StyleSheet.create({
     ContainerRe: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         paddingHorizontal: 25,
         alignItems: 'center',
         backgroundColor:globalColors.light
@@ -43,7 +43,7 @@ export const globalStyles = (colors: any) => StyleSheet.create({
         width: '50%',
         alignItems: 'center',
         position: 'relative',
-        top: 35
+        top: 20
     },
     title: {
         fontSize: 30,

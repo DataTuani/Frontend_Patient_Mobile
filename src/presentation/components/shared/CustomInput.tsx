@@ -3,25 +3,26 @@ import { View, TextInput, Text, StyleSheet } from 'react-native';
 import { globalColors } from '../../theme/theme';
 
 
+//Input de login
 interface CustomInputProps {
     label: string;
     placeholder?: string;
-    variant?: 'filled' | 'outlined';
     secureTextEntry?: boolean;
     value: string;
     onChangeText: (text: string) => void;
 }
 
 export const CustomInput = ({
-    label, placeholder, variant = 'outlined',
-    secureTextEntry = false,
+    label, placeholder,
+    secureTextEntry,
     value,
-    onChangeText
+    onChangeText,
 
 }: CustomInputProps) => {
     return (
         <View style={styles.container}>
             <Text style={styles.label}>{label} </Text>
+
             <TextInput
                 style={[styles.input,
                 styles.outlined
@@ -31,7 +32,8 @@ export const CustomInput = ({
                 value={value}
                 onChangeText={onChangeText}
             />
-        </View>
+
+        </View >
     )
 }
 
@@ -47,27 +49,30 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         textAlign: 'left'
     },
+
     input: {
         paddingHorizontal: 12,
         paddingVertical: 10,
-        borderRadius: 5,
+        borderRadius: 8,
         fontSize: 16,
     },
     outlined: {
         borderWidth: 1,
-        borderColor: globalColors.gray,
+        borderColor: '#ccc',
         backgroundColor: 'transparent',
         color: globalColors.dark,
+        
     }
 })
 
+//Input de registros
 interface CustomInputRegisterProps {
     label: string;
     placeholder?: string;
     secureTextEntry?: boolean
     value: string;
     onChangeText: (text: string) => void;
-    style?:{}
+    style?: {}
 }
 
 export const CustomInputRegister = ({
@@ -76,7 +81,7 @@ export const CustomInputRegister = ({
     secureTextEntry = false,
     value,
     onChangeText,
-    style={}
+    style = {}
 
 }: CustomInputRegisterProps) => {
     return (
@@ -117,4 +122,71 @@ const stylesR = StyleSheet.create({
         borderColor: globalColors.light
 
     }
+})
+
+//Input de contraseña
+
+interface CustomInputPropsP {
+    label: string;
+    placeholder?: string;
+    secureTextEntry?: boolean;
+    value: string;
+    onChangeText: (text: string) => void;
+    rightIcon?: React.ReactNode;
+    style?:{}
+}
+
+export const CustomInputPas = ({
+    label,
+    placeholder,
+    secureTextEntry,
+    value,
+    onChangeText,
+    rightIcon,
+    style
+}: CustomInputPropsP) => {
+    return (
+        <View style={stylesPass.container}>
+            <Text style={stylesPass.label}>{label}</Text>
+            <View style={stylesPass.inputWrapper}>
+                <TextInput
+                    style={[stylesPass.input,style]}
+                    placeholder={placeholder}
+                    secureTextEntry={secureTextEntry}
+                    value={value}
+                    onChangeText={onChangeText}
+                />
+                {rightIcon && <View style={stylesPass.iconContainer}>{rightIcon}</View>}
+            </View>
+        </View>
+    );
+};
+
+
+const stylesPass = StyleSheet.create({
+    container: {
+        width:'85%'
+    },
+    label: {
+        marginBottom: 5,
+        fontSize: 14,
+        color: "#333",
+    },
+    inputWrapper: {
+        flexDirection: "row",
+        alignItems: "center",
+        borderWidth: 1,
+        borderColor: "#ccc",
+        borderRadius: 8,
+        paddingHorizontal: 10,
+        
+    },
+    input: {
+        flex: 1,
+        paddingVertical: 12,
+        
+    },
+    iconContainer: {
+        paddingHorizontal: 5,
+    },
 })

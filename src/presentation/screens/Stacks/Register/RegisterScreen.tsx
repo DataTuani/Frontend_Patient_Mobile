@@ -14,7 +14,6 @@ import { RegisterStepper } from '../../../components/shared/RegisterStepper';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { useRegisterStore } from '../../../../hooks/useRegisterStore';
-import { height } from '../../../../constants/Dimensions';
 
 export const RegisterScreen = () => {
 
@@ -33,7 +32,7 @@ export const RegisterScreen = () => {
     }
 
     const nextStep = () => {
-        if (currentStep < 4) {
+        if (currentStep < 3) {
             setCurrentStep(currentStep + 1);
         }
     };
@@ -109,6 +108,8 @@ export const RegisterScreen = () => {
                         <DateTimePickerModal
                             isVisible={isDatePickerVisible}
                             mode="date"
+                            display="spinner"
+                            maximumDate={new Date()}
                             onConfirm={(date) => {
                                 handleConfirm(date, setFieldValue);
                             }}
@@ -147,7 +148,7 @@ export const RegisterScreen = () => {
                         placeholder='Ingresa tu direccion completa'
                         value={values.direccion}
                         onChangeText={handleChange('direccion')}
-                        style={{ height: 70 }}
+                        style={{ height: 50 }}
                     />
                     {touched.direccion && errors.direccion && (
                         <Text style={{ color: 'red', marginRight: 210, marginTop: 5 }}>{errors.direccion}</Text>
@@ -173,7 +174,6 @@ const style = StyleSheet.create({
     title: {
         fontSize: 50,
         fontWeight: 'bold',
-        marginBottom: 10,
         color: globalColors.primary
     },
     titleInput: {
@@ -185,7 +185,7 @@ const style = StyleSheet.create({
         fontWeight: '600',
         textAlign: 'left',
         fontSize: 17,
-        marginVertical: 7,
+        marginVertical: 1,
         color: globalColors.primary
     },
     Container: {
@@ -195,7 +195,7 @@ const style = StyleSheet.create({
     label: {
         fontSize: 14,
         fontWeight: '400',
-        marginBottom: 10,
+        marginBottom: 5,
         color: globalColors.dark
     },
     inputContainer: {
@@ -213,20 +213,6 @@ const style = StyleSheet.create({
         fontSize: 16,
         color: '#999'
     },
-    card: {
-        width: '100%',
-        backgroundColor: 'white',
-        borderRadius: 15,
-        padding: 25,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 5,
-        alignItems: 'center'
-    },
+
 }
 )
