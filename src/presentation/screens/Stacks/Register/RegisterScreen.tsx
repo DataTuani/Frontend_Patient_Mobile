@@ -83,7 +83,7 @@ export const RegisterScreen = () => {
                 <View style={[styles.ContainerRe]}>
                     <Text style={style.title}>Registrar</Text>
                     <Text style={{ fontWeight: '400' }}>Completa tu registro y sé parte de SINAES</Text>
-                    <RegisterStepper currentStep={1} />
+                    <RegisterStepper currentStep={1} totalSteps={3} />
                     <View style={{ width: '90%' }}>
                         <Text style={style.titleInfo}>Informacion Personal I</Text>
 

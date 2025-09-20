@@ -80,44 +80,45 @@ export const MotivoScreen = () => {
                 motivo_consulta: ''
             }}
             validationSchema={CitaSchema}
-            onSubmit={async (values) => {
+            onSubmit={(values) => {
                 updateFormData({
                     motivo_consulta: values.motivo_consulta
                 });
 
-                const fullData = useCitaStore.getState().formData;
-                try {
+                // const fullData = useCitaStore.getState().formData;
+                // try {
 
-                    const formData = new FormData();
+                //     const formData = new FormData();
 
-                    if (fullData.File) {
-                        formData.append("File", {
-                            uri: fullData.File,
-                            name: "archivo.png",
-                            type: "image/png", 
-                        } as any);
-                    }
+                //     if (fullData.File) {
+                //         formData.append("File", {
+                //             uri: fullData.File,
+                //             name: "archivo.png",
+                //             type: "image/png", 
+                //         } as any);
+                //     }
 
-                    const response = await citasController(fullData);
-                    if (response.success) {
-                        alert("Cita hecha :D")
-                        console.log("Cita hecha", fullData);
-                        navigation.navigate('Home');
-                    } else {
-                        alert(response.message);
-                        console.log(console.error(response.data));
-                        console.log('Error del backend', fullData);
-                    }
-                } catch (error) {
-                    alert('Error de agendar cita');
-                    console.log(error)
-                }
-
+                //     const response = await citasController(fullData);
+                //     if (response.success) {
+                //         alert("Cita hecha :D")
+                //         console.log("Cita hecha", fullData);
+                //         navigation.navigate('Home');
+                //     } else {
+                //         alert(response.message);
+                //         console.log(console.error(response.data));
+                //         console.log('Error del backend', fullData);
+                //     }
+                // } catch (error) {
+                //     alert('Error de agendar cita');
+                //     console.log(error)
+                // }
+                console.log(values);
+                navigation.navigate("Confirma");
             }}
         >
             {({ handleSubmit, values, errors, touched, handleChange }) => (
                 <View style={styles.ContainerAgendar}>
-                    <RegisterStepper currentStep={4} />
+                    <RegisterStepper currentStep={4} totalSteps={5}/>
                     <Text style={{ fontSize: 30, fontWeight: '700', color: globalColors.tertiary, textAlign: 'center', marginTop: 20 }}>
                         Explícanos el motivo de la consulta
                     </Text>

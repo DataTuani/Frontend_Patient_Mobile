@@ -50,6 +50,7 @@ export const TipoCitaScreen = () => {
                 <View style={[styles.ContainerAgendar]}>
                     <RegisterStepper
                         currentStep={1}
+                        totalSteps={5}
 
                     />
                     <Text style={{ fontSize: 30, fontWeight: '700', marginTop: 15, color: globalColors.tertiary }}>Selecciona el tipo de cita</Text>

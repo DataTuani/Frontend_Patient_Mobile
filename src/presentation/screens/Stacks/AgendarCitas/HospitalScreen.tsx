@@ -67,6 +67,7 @@ export const HospitalScreen = () => {
                 <View style={style.container}>
                     <RegisterStepper
                         currentStep={2}
+                        totalSteps={5}
                     />
                     <Text style={{ fontSize: 30, fontWeight: '700', color: globalColors.tertiary, textAlign: 'center' }}>Selecciona el Hospital</Text>
                     <Text style={{ fontSize: 17, marginTop: 0, textAlign: 'center' }}>Centros médicos cercanos</Text>
@@ -87,6 +88,7 @@ export const HospitalScreen = () => {
                                         setHospitalSelect(item.id);
                                         setFieldValue('hospital_id', item.id);
                                     }}
+
                                 >
                                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                                         <Text

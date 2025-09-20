@@ -4,12 +4,12 @@ import { View, Text, StyleSheet } from 'react-native';
 
 interface StepperProps {
     currentStep: number;
-    totalSteps?: number;
+    totalSteps: number;
 }
 
 export const RegisterStepper = ({
     currentStep,
-    totalSteps = 3
+    totalSteps 
 }: StepperProps) => {
     return (
         <View style={styles.stepsContainer}>

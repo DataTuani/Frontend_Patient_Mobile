@@ -53,7 +53,7 @@ export const RegisterScreen2 = () => {
 
           <Text style={style.title}>Registrar</Text>
           <Text style={{ fontWeight: '400' }}>Completa tu registro y sé parte de SINAES</Text>
-          <RegisterStepper currentStep={2} />
+          <RegisterStepper currentStep={2} totalSteps={3}/>
 
           <CustomInputRegister
             label='Nro. Cédula'

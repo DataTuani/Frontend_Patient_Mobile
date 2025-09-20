@@ -88,14 +88,14 @@ export const HoraDiaScreen = () => {
 
       {({ handleSubmit, setFieldValue, errors, touched }) => (
         <View style={styles.ContainerAgendar}>
-          <RegisterStepper currentStep={3} />
+          <RegisterStepper currentStep={3} totalSteps={5}/>
           <Text style={{ fontSize: 30, fontWeight: '700', color: globalColors.tertiary, textAlign: 'center' }}>
             Selecciona fecha y hora
           </Text>
           <Text style={{ fontSize: 17, marginTop: 10, textAlign: 'center' }}>
             Elige el momento que mejor te convenga
           </Text>
-          <View style={{ marginTop: 40 }}>
+          <View style={{ marginTop: 20 }}>
             <Text style={{ fontWeight: '300', textAlign: 'center', fontSize: 15 }}>El agendamiento de consultas médicas se realiza para el <Text style={{
               fontWeight: 'bold'
             }}>mismo dia</Text>. Debes seleccionar el intervalo de tiempo que mejor se ajuste a tu disponibilidad.</Text>
@@ -103,7 +103,7 @@ export const HoraDiaScreen = () => {
 
           <View style={{ flex: 1, padding: 20, maxHeight: 400 }}>
 
-            <Text style={{ fontSize: 18, marginBottom: 20, marginTop: 10, fontWeight: "bold" }}>Hora disponible</Text>
+            <Text style={{ fontSize: 18, marginBottom: 10, marginTop: 5, fontWeight: "bold" }}>Hora disponible</Text>
 
             <View style={style.turnosContainer}>
               {loading && <ActivityIndicator />}

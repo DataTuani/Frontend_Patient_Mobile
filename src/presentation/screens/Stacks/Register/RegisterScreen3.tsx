@@ -13,8 +13,8 @@ import { useRegisterStore } from '../../../../hooks/useRegisterStore';
 import { CustomInputPas, CustomInputRegister } from '../../../components/shared/CustomInput';
 import { registerController } from '../../../../controller/authController';
 import { Ionicons } from '@expo/vector-icons';
+import { useAuthStore } from '../../../../hooks/authStore';
 
-const height = Dimensions.get('window').height;
 
 export const RegisterScreen3 = () => {
 
@@ -23,6 +23,7 @@ export const RegisterScreen3 = () => {
     const styles = globalStyles(colors);
     const { updateFormData } = useRegisterStore();
     const [showPassword, setShowPassword] = useState(false);
+    const setUser = useAuthStore((state) => state.setUser);
 
     const Register3Schema = Yup.object().shape({
         correo: Yup.string().email('Correo invalido').required('Correo requerido'),
@@ -50,8 +51,21 @@ export const RegisterScreen3 = () => {
                     const response = await registerController(fullData);
 
                     if (response.success) {
+
+                        const { usuario, token } = response.data;
+
+                        setUser(
+                            {
+                                id: usuario.id,
+                                correo: usuario.correo,
+                                contraseña: "",
+                                paciente_id: usuario.Paciente?.id ?? null
+                            },
+                            token
+                        );
+
                         console.log('Registro Exitoso', fullData);
-                        navigator.navigate('Home');
+                        navigator.navigate('Login');
                     } else {
                         alert(response.message);
                         console.log("Error del backend", fullData);
@@ -70,7 +84,7 @@ export const RegisterScreen3 = () => {
 
                     <Text style={style.title}>Registrar</Text>
                     <Text style={{ fontWeight: '400' }}>Completa tu registro y sé parte de SINAES</Text>
-                    <RegisterStepper currentStep={3} />
+                    <RegisterStepper currentStep={3} totalSteps={3}/>
 
                     <CustomInputRegister
                         label='Correo Electronico'

@@ -1,12 +1,13 @@
-
 import React, { useContext, useState } from 'react'
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { globalColors, globalStyles } from '../../../theme/theme';
 import { ThemeContext } from '../../../../../context/ThemeContext';
 import { RegisterStepper } from '../../../components/shared/RegisterStepper';
-import { CustomIonicons } from '../../../components/shared/Custom_Ionicons';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParams } from '../../../routes/StackNavigator';
+import { useCitaStore, useHospitalStore } from '../../../../hooks/useCitaStore';
+import { useAuthStore } from '../../../../hooks/authStore';
+import { citasController } from '../../../../controller/citasController';
 
 export const ConfirmaScreen = () => {
 
@@ -14,6 +15,61 @@ export const ConfirmaScreen = () => {
     const styles = globalStyles(colors);
     const [currentStep, setCurrentStep] = useState(5);
     const navigation = useNavigation<NavigationProp<RootStackParams>>();
+
+    //Obtener datos de los formularios
+    const { formData, resetForm } = useCitaStore();
+    const { hospitales } = useHospitalStore();
+    const { user, token } = useAuthStore();
+
+    //Datos a mostrar
+
+    const hospitalesNombre =
+        hospitales.find((e) => e.id === formData.hospital_id)?.nombre ?? "-";
+    const tipoText =
+        formData.tipoCita === 1
+            ? "Presencial"
+            : formData.tipoCita === 2
+                ? "TeleConsulta"
+                : "-";
+    const fecha = formData.fecha_hora
+        ? new Date(formData.fecha_hora).toLocaleDateString('es-ES', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+        })
+        : '-';
+
+    const hora = formData.fecha_hora
+        ? new Date(formData.fecha_hora).toLocaleTimeString('es-ES', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true, // true = formato 12 h con AM/PM
+        })
+        : '—';
+
+
+    //Obtener todo los datos recogido
+    const fullData = useCitaStore.getState().formData;
+    const handleAgendar = async () => {
+        try {
+            if (!user?.paciente_id) {
+                Alert.alert("Error", "No se encontró el paciente logueado")
+                return;
+            }
+            const res = await citasController(fullData);
+            if (res.success) {
+                alert('Cita hecha :D');
+                console.log("Cita hecha", fullData);
+                navigation.navigate('Home');
+            }
+            else {
+                alert(res.message);
+                console.log("Error del backend", fullData);
+            }
+        } catch (error) {
+            console.log("Error al agendar cita");
+        }
+    }
 
 
     const nextStep = () => {
@@ -24,7 +80,7 @@ export const ConfirmaScreen = () => {
     return (
         <View style={styles.ContainerAgendar}>
             <RegisterStepper
-                currentStep={5}
+                currentStep={5} totalSteps={5}
             />
             <Text style={{ fontSize: 30, fontWeight: '700', color: globalColors.tertiary, textAlign: 'center' }}>
                 Confirmar cita
@@ -38,22 +94,22 @@ export const ConfirmaScreen = () => {
 
                 <View style={style.cardRow}>
                     <Text style={style.cardLabel}>Tipo:</Text>
-                    <Text style={style.cardValue}>Presencial</Text>
+                    <Text style={style.cardValue}>{tipoText}</Text>
                 </View>
 
                 <View style={style.cardRow}>
                     <Text style={style.cardLabel}>Hospital:</Text>
-                    <Text style={style.cardValue}>Hospital Dermatológico</Text>
+                    <Text style={style.cardValue}>{hospitalesNombre}</Text>
                 </View>
 
                 <View style={style.cardRow}>
                     <Text style={style.cardLabel}>Fecha:</Text>
-                    <Text style={style.cardValue}>15 Sept 2025</Text>
+                    <Text style={style.cardValue}>{fecha}</Text>
                 </View>
 
                 <View style={style.cardRow}>
                     <Text style={style.cardLabel}>Hora:</Text>
-                    <Text style={style.cardValue}>8:10 AM</Text>
+                    <Text style={style.cardValue}>{hora}</Text>
                 </View>
             </View>
 
@@ -68,7 +124,7 @@ export const ConfirmaScreen = () => {
                             borderWidth: 1
                         }
                     ]}
-                    onPress={() => console.log('Hola')}
+                    onPress={() => navigation.goBack()}
                 >
                     <Text style={{ color: 'gray', marginLeft: 50, fontSize: 14, fontWeight: 'bold' }}>Modificar</Text>
                 </TouchableOpacity>
@@ -78,7 +134,7 @@ export const ConfirmaScreen = () => {
                         style.toggleButton,
                         { backgroundColor: globalColors.tertiary }
                     ]}
-                    onPress={() => console.log("hola")}
+                    onPress={handleAgendar}
                 >
                     <Text style={{ color: globalColors.light, marginLeft: 55, fontSize: 14, fontWeight: "bold" }}>Agendar</Text>
                 </TouchableOpacity>
