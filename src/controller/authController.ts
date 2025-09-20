@@ -55,6 +55,17 @@ export const registerController = async (data: RegisterData) => {
             data.alergias
         );
 
+        const { usuario, token } = response.data;
+
+        useAuthStore.getState().setUser(
+            {
+                id: usuario.id,
+                correo: usuario.correo,
+                contraseña: usuario.contraseña ?? '',
+                paciente_id: usuario.Paciente?.ud ?? null
+            }, token
+        );
+
         console.log('Axios response completo: ', response);
         console.log("response.data:", response.data);
         console.log("response:", response);

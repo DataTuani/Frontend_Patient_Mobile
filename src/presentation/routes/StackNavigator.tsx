@@ -4,7 +4,6 @@ import { LoginScreen } from "../screens/Stacks/Login/LoginScreen";
 import { RegisterScreen } from "../screens/Stacks/Register/RegisterScreen";
 import { BottomTabNavigator } from "./ButtomTabsNavigator";
 import { RegisterScreen2 } from "../screens/Stacks/Register/RegisterScreen2";
-import { RegisterScreen4 } from "../screens/Stacks/Register/RegisterScreen4";
 import { RegisterScreen3 } from "../screens/Stacks/Register/RegisterScreen3";
 import { ProfileScreen } from "../screens/Drawers/Profile/ProfileScreen";
 import { WaitingRoomScreen } from "../screens/Stacks/TeleConsultas/WaitingRoomScreen";

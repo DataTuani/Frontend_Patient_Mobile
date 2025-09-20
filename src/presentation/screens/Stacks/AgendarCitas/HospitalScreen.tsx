@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Pressable, Text, View, StyleSheet, ScrollView } from "react-native";
+import { Pressable, Text, View, StyleSheet, ScrollView, Alert } from "react-native";
 import { ThemeContext } from '../../../../../context/ThemeContext';
 import { globalColors, globalStyles } from '../../../theme/theme';
 import { RegisterStepper } from '../../../components/shared/RegisterStepper';
@@ -7,17 +7,10 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParams } from '../../../routes/StackNavigator';
 import { CustomIonicons } from '../../../components/shared/Custom_Ionicons';
 import { ButtonCitas } from '../../../components/shared/PrimaryButton';
-import { useCitaStore, useHospitalStore } from '../../../../hooks/useCitaStore';
+import { useCitaStore, useHospitalStore, userHorarioStore } from '../../../../hooks/useCitaStore';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 
-
-interface Hospitales {
-    id: number;
-    centro: string;
-    codigo: string;
-    direccion: string;
-}
 
 export const HospitalScreen = () => {
 
@@ -32,12 +25,10 @@ export const HospitalScreen = () => {
     const nextStep = () => {
         if (currentStep < 5) {
             setCurrenStep(currentStep + 1);
-        } else {
-            navigation.navigate('HoraDia');
         }
     }
 
-    useEffect(() => { 
+    useEffect(() => {
         fetchHospitales();
     }, []);
 
@@ -45,12 +36,29 @@ export const HospitalScreen = () => {
         hospital_id: Yup.number().required("Seleccione un Hospital")
     })
 
+    //importar horarios
+    const { fetchHorario, horario } = userHorarioStore();
+
     return (
         <Formik
             initialValues={{ hospital_id: null }}
             validationSchema={CitaSchema}
-            onSubmit={(values) => {
+            onSubmit={async (values) => {
+                if (values.hospital_id === null) return;
                 updateFormData({ hospital_id: values.hospital_id });
+
+                //consultar horario
+                await fetchHorario(values.hospital_id);
+                const horarios = userHorarioStore.getState().horario;
+
+                if (horarios.length === 0) {
+                    Alert.alert(
+                        "Sin turnos",
+                        "Este hospital no tiene turnos disponibles"
+                    );
+                    return;
+                }
+
                 console.log(values);
                 navigation.navigate("HoraDia");
             }}
@@ -79,7 +87,7 @@ export const HospitalScreen = () => {
                                         setHospitalSelect(item.id);
                                         setFieldValue('hospital_id', item.id);
                                     }}
- 
+
                                 >
                                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                                         <Text

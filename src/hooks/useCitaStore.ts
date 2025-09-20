@@ -14,7 +14,7 @@ export interface CitasData {
 interface CitaStore {
     formData: CitasData;
     updateFormData: (data: Partial<CitasData>) => void;
-    resetForm: () => void; 
+    resetForm: () => void;
 }
 
 const initialData: CitasData = {
@@ -59,7 +59,7 @@ export const useHospitalStore = create<CitaState>((set) => ({
     loading: false,
     error: null,
     fetchHospitales: async () => {
-        try {
+        try { 
             set({ loading: true, error: null });
             const token = useAuthStore.getState().token;
 
@@ -74,6 +74,43 @@ export const useHospitalStore = create<CitaState>((set) => ({
         } catch (err: any) {
             set({ error: err.message || "Error al cargar hospitales", loading: false });
 
+        }
+    },
+}));
+
+//Obtener Turnos
+
+type HorarioState = {
+    horario: string[];
+    loading: boolean;
+    error: string | null;
+    fetchHorario: (hospitalId: number) => Promise<void>;
+};
+
+export const userHorarioStore = create<HorarioState>((set) => ({
+    horario: [],
+    loading: false,
+    error: null,
+    fetchHorario: async (hospitalId: number) => {
+        try {
+            set({ loading: true, error: null });
+            const token = useAuthStore.getState().token;
+
+            const res = await api.get(
+                `/api/enfermeria/turnos-disponibles?hospital_id=${hospitalId}`, {
+                headers: {
+                    "x-token": token,
+                },
+            }
+            );
+            console.log(res.data);
+            set({ horario: res.data.horarios, loading: false });
+
+        } catch (err: any) {
+            set({
+                error: err.message || "Error al cargar horarios",
+                loading: false,
+            });
         }
     },
 }));
