@@ -36,11 +36,11 @@ export const Header = () => {
                 <View style={styles.logoContainer}>
                     <Image
                         style={{ width: 60, height: 60, resizeMode: "contain", marginLeft: 15 }}
-                        source={require('../../assets/sinaes-logo.png')}
+                        source={require('../../assets/sinaes-logo _small.png')}
                     />
                     <Image
                         style={{ width: 140, height: 180, resizeMode: 'contain' }}
-                        source={require('../../assets/sinaes.png')}
+                        source={require('../../assets/sinaes_description.png')}
                     />
                 </View>
             ),

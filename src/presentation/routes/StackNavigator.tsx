@@ -76,7 +76,7 @@ export const StackNavigator = () => {
 
                 }}
                 name='Register3'
-                component={RegisterScreen3}
+                component={RegisterScreen3} 
             />
 
             <Stack.Screen options={{
