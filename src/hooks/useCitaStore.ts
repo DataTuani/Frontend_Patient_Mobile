@@ -59,7 +59,7 @@ export const useHospitalStore = create<CitaState>((set) => ({
     loading: false,
     error: null,
     fetchHospitales: async () => {
-        try { 
+        try {
             set({ loading: true, error: null });
             const token = useAuthStore.getState().token;
 
@@ -111,6 +111,52 @@ export const userHorarioStore = create<HorarioState>((set) => ({
                 error: err.message || "Error al cargar horarios",
                 loading: false,
             });
+        }
+    },
+}));
+
+//Obtener historial de citas
+
+type Cita = {
+    id: number;
+    motivo_consulta: string;
+    fecha_hora: string;
+    hospital: { nombre: string};
+    medico: { usuario: { primer_nombre: string; primer_apellido: string; especialidad: string } };
+    estado: { nombre: string };
+};
+
+interface HistorialState {
+    citas: Cita[];
+    loading: boolean;
+    error: string | null;
+    fetchHistorial: () => Promise<void>;
+}
+
+export const useHistorialCitaStore = create<HistorialState>((set) => ({
+    citas: [],
+    loading: false,
+    error: null,
+
+    fetchHistorial: async () => {
+        try {
+            set({ loading: true, error: null });
+            const { user, token } = useAuthStore.getState();
+
+            if (!user?.paciente_id) throw new Error("No se encontro el paciente");
+
+            const res = await api.get(
+                `/api/citas/paciente?paciente_id=${user.paciente_id}`,
+                {
+                    headers: { "x-token": token }
+                }
+            );
+            set({ citas: res.data.citas, loading: false });
+        } catch (err: any) {
+            set({
+                error: err.res?.data?.message || err.message || "Error al obtener citas",
+                loading: false
+            })
         }
     },
 }));

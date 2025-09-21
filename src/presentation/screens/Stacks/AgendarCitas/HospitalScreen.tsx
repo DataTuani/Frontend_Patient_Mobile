@@ -13,20 +13,12 @@ import { Formik } from 'formik';
 
 
 export const HospitalScreen = () => {
-
-    const [currentStep, setCurrenStep] = useState(2);
     const { colors } = useContext(ThemeContext);
     const styles = globalStyles(colors);
     const navigation = useNavigation<NavigationProp<RootStackParams>>();
     const [hospitalSelect, setHospitalSelect] = useState<number | null>(null);
     const { hospitales, fetchHospitales, loading, error } = useHospitalStore();
     const { updateFormData } = useCitaStore();
-
-    const nextStep = () => {
-        if (currentStep < 5) {
-            setCurrenStep(currentStep + 1);
-        }
-    }
 
     useEffect(() => {
         fetchHospitales();
@@ -128,13 +120,10 @@ export const HospitalScreen = () => {
                     <ButtonCitas
                         label='Confirmar Hospital'
                         onPress={handleSubmit}
-
                     />
                 </View>
             )}
-
         </Formik>
-
     )
 }
 

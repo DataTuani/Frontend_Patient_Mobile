@@ -12,22 +12,11 @@ import { Formik } from "formik";
 import { useCitaStore } from '../../../../hooks/useCitaStore';
 
 export const TipoCitaScreen = () => {
-
-    const [currentStep, setCurrenStep] = useState(1);
     const { colors } = useContext(ThemeContext);
     const styles = globalStyles(colors);
     const navigation = useNavigation<NavigationProp<RootStackParams>>();
     const [activateButton, setActivateButton] = useState<string | null>(null);
     const { updateFormData } = useCitaStore();
-
-
-    const nextStep = () => {
-        if (currentStep < 5) {
-            setCurrenStep(currentStep + 1);
-        } else {
-            navigation.navigate('SelectHospital');
-        }
-    }
 
     const CitaSchema = Yup.object().shape({
         tipoCita: Yup.number().required('Escoge una opcion')

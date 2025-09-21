@@ -41,13 +41,6 @@ export const HoraDiaScreen = () => {
   }, {} as Record<string, { inicio: string; fin: string }[]>);
 
 
-  //Pasos interfaz
-  const nextStep = () => {
-    if (currentStep < 5) {
-      setCurrentStep(currentStep + 1);
-    }
-  }
-
   //Reservar hora
   const reservarHora = () => {
     if (!selectedHour) {

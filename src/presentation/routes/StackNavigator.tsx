@@ -49,17 +49,7 @@ export const StackNavigator = () => {
                 }
             }}
         >
-            <Stack.Screen
-                options={{
-                    headerTitle: 'Mis citas',
-                    headerTitleStyle: {
-                        color: '#003E6D',
-                        fontSize: 25,
-                        fontWeight: 'bold'
-                    },
-                }}
-                name="HistorialCitas" component={HistorialCitaScreen}
-            />
+
             <Stack.Screen
                 options={{
                     headerShown: false,
@@ -199,6 +189,17 @@ export const StackNavigator = () => {
                     }
                 }}
                 name="Motivo" component={MotivoScreen}
+            />
+            <Stack.Screen
+                options={{
+                    headerTitle: 'Mis citas',
+                    headerTitleStyle: {
+                        color: '#003E6D',
+                        fontSize: 25,
+                        fontWeight: 'bold'
+                    },
+                }}
+                name="HistorialCitas" component={HistorialCitaScreen}
             />
 
         </Stack.Navigator>

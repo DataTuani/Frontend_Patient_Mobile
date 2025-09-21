@@ -13,7 +13,6 @@ export const ConfirmaScreen = () => {
 
     const { colors } = useContext(ThemeContext)
     const styles = globalStyles(colors);
-    const [currentStep, setCurrentStep] = useState(5);
     const navigation = useNavigation<NavigationProp<RootStackParams>>();
 
     //Obtener datos de los formularios
@@ -71,12 +70,6 @@ export const ConfirmaScreen = () => {
         }
     }
 
-
-    const nextStep = () => {
-        if (currentStep < 5) {
-            setCurrentStep(currentStep + 1);
-        }
-    }
     return (
         <View style={styles.ContainerAgendar}>
             <RegisterStepper

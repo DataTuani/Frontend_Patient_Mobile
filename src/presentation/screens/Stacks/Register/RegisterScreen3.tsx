@@ -78,7 +78,6 @@ export const RegisterScreen3 = () => {
                 }
             }}
         >
-
             {({ handleSubmit, values, errors, touched, isSubmitting, handleChange }) => (
                 <View style={[styles.ContainerRe]}>
 
