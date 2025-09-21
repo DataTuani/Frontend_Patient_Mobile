@@ -49,9 +49,9 @@ SINAES-APP/
 
     Node.js >= 18.x
 
-    npm o yarn
+    npm 
 
-    Expo CLI (opcional, si usas Expo)
+    Expo CLI
 
     Android Studio o Xcode (para emuladores o build nativo)
 
