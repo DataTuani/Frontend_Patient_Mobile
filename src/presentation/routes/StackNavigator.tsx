@@ -13,6 +13,7 @@ import { HoraDiaScreen } from "../screens/Stacks/AgendarCitas/HoraDiaScreen";
 import { ConfirmaScreen } from "../screens/Stacks/AgendarCitas/ConfirmaScreen";
 import { HospitalScreen } from "../screens/Stacks/AgendarCitas/HospitalScreen";
 import { MotivoScreen } from '../screens/Stacks/AgendarCitas/MotivoScreen';
+import { HistorialCitaScreen } from '../screens/Stacks/HistorialCitas/HistorialCitaScreen';
 
 export type RootStackParams = {
 
@@ -31,7 +32,7 @@ export type RootStackParams = {
     HoraDia: undefined;
     Confirma: undefined;
     Motivo: undefined;
-
+    HistorialCitas: undefined;
     // product: { id: number, name: string };
 }
 
@@ -48,7 +49,17 @@ export const StackNavigator = () => {
                 }
             }}
         >
-
+            <Stack.Screen
+                options={{
+                    headerTitle: 'Mis citas',
+                    headerTitleStyle: {
+                        color: '#003E6D',
+                        fontSize: 25,
+                        fontWeight: 'bold'
+                    },
+                }}
+                name="HistorialCitas" component={HistorialCitaScreen}
+            />
             <Stack.Screen
                 options={{
                     headerShown: false,
@@ -76,7 +87,7 @@ export const StackNavigator = () => {
 
                 }}
                 name='Register3'
-                component={RegisterScreen3} 
+                component={RegisterScreen3}
             />
 
             <Stack.Screen options={{
@@ -189,6 +200,7 @@ export const StackNavigator = () => {
                 }}
                 name="Motivo" component={MotivoScreen}
             />
+
         </Stack.Navigator>
     );
 }

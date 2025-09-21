@@ -79,7 +79,7 @@ export const HomeScreen = () => {
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
                     <Text style={{ fontWeight: 'bold', fontSize: 16, color: '#042558' }}>Proximas Consultas</Text>
                     <Pressable
-                        onPress={() => console.log("Ver todas")}
+                        onPress={() => navigation.navigate("HistorialCitas")}
                     >
                         <Text style={{ color: '#007AFF', fontStyle: 'italic' }}>Ver todas</Text>
                     </Pressable >
