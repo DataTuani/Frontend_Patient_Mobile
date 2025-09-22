@@ -201,10 +201,6 @@ export const StackNavigator = () => {
                 }}
                 name="HistorialCitas" component={HistorialCitaScreen}
             />
-<<<<<<< HEAD
-=======
-
->>>>>>> 3dbfd2f4877f6cfa20471bf25af9716d7f246237
         </Stack.Navigator>
     );
 }

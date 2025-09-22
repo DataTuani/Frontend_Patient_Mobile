@@ -67,44 +67,33 @@ export const HistorialCitaScreen = () => {
                     </TextInput>
                     <CustomIonicons name="menu-outline" />
                 </View>
-
                 <ScrollView style={{ marginTop: 10 }}>
-                    {citasFiltradas.length === 0 ? (
-                        <Text style={{ textAlign: "center", marginTop: 20 }}>
-                            No hay citas {activeTab === "Proximas" ? "próximas" : "registradas"}.
-                        </Text>
-                    ) : (
-                        citasFiltradas.map((cita) => {
-                            const dateObj = new Date(cita.fecha_hora); // usa la zona local del dispositivo
+                    {citasFiltradas.map((cita) => {
+                        const dateObj = new Date(cita.fecha_hora);
+                        const fecha = dateObj.toLocaleDateString("es-ES", {
+                            weekday: "long",
+                            day: "numeric",
+                            month: "long",
+                            year: "numeric",
+                        });
 
-                            // Fecha en español, ej: "Viernes 12 de septiembre de 2025"
-                            let fecha = dateObj.toLocaleDateString("es-ES", {
-                                weekday: "long",
-                                day: "numeric",
-                                month: "long",
-                                year: "numeric",
-                            });
-
-                            return (
-                                <AppointmentCard
-                                    key={cita.id}
-                                    date={`${fecha}`}
-                                    hospital={cita.hospital.nombre}
-                                    doctor={`Dr. ${cita.medico.usuario.primer_nombre} ${cita.medico.usuario.primer_apellido}`}
-                                    specialty={cita.medico.usuario.especialidad}
-                                    estado={cita.estado.nombre}
-                                    onPress={() => {
-                                        console.log("Asistir/Ver cita", cita.id);
-                                    }}
-                                    onMenuPress={() => {
-                                        console.log("Menú cita", cita.id);
-                                    }}
-
-                                />
-                            );
-                        })
-                    )}
+                        return (
+                            <AppointmentCard
+                                key={cita.id}
+                                date={fecha}
+                                hospital={cita.hospital.nombre}
+                                doctor={`Dr. ${cita.medico.usuario.primer_nombre} ${cita.medico.usuario.primer_apellido}`}
+                                specialty={cita.medico.usuario.especialidad}
+                                estado={cita.estado.nombre}
+                                tipo={cita.tipo.tipo}                        // 👈 tipo desde backend
+                                showButton={cita.tipo.tipo === "TeleConsulta"} // 👈 botón solo si teleconsulta
+                                onPress={() => console.log("Asistir/Ver cita", cita.id)}
+                                onMenuPress={() => console.log("Menú cita", cita.id)}
+                            />
+                        );
+                    })}
                 </ScrollView>
+
             </View>
         </View>
     )

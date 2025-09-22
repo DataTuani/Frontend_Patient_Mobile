@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import React, { useEffect } from 'react';
-=======
 import React, { useEffect, useState } from 'react';
->>>>>>> 3dbfd2f4877f6cfa20471bf25af9716d7f246237
 import { View, Text, StyleSheet, TouchableOpacity, Pressable, ScrollView } from 'react-native'
 import { type NavigationProp, useNavigation } from "@react-navigation/native";
 import { type RootStackParams } from '../../routes/StackNavigator';
@@ -19,13 +15,7 @@ export const HomeScreen = () => {
     const { colors } = useContext(ThemeContext);
     const styles = globalStyles(colors);
     const { citas, loading, error, fetchHistorial } = useHistorialCitaStore();
-
-<<<<<<< HEAD
-=======
-
-    const { citas, loading, error, fetchHistorial } = useHistorialCitaStore();
-
->>>>>>> 3dbfd2f4877f6cfa20471bf25af9716d7f246237
+    
     useEffect(() => {
         fetchHistorial();
     }, []);
