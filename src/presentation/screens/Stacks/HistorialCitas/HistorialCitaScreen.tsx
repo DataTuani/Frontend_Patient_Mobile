@@ -99,6 +99,7 @@ export const HistorialCitaScreen = () => {
                                     onMenuPress={() => {
                                         console.log("Menú cita", cita.id);
                                     }}
+
                                 />
                             );
                         })

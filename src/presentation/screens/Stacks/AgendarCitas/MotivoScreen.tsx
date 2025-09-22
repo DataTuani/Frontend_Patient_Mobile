@@ -11,25 +11,17 @@ import { CustomIonicons } from '../../../components/shared/Custom_Ionicons';
 import { useCitaStore } from '../../../../hooks/useCitaStore';
 import * as Yup from 'yup';
 import { Formik } from "formik";
-import { citasController } from '../../../../controller/citasController';
 import * as ImagePicker from 'expo-image-picker';
 import * as Document from 'expo-document-picker';
 
 
 
 export const MotivoScreen = () => {
-
     const { colors } = useContext(ThemeContext);
     const styles = globalStyles(colors);
-    const [currentStep, setCurrentStep] = useState(4);
     const navigation = useNavigation<NavigationProp<RootStackParams>>();
     const { updateFormData } = useCitaStore();
 
-    const nextStep = () => {
-        if (currentStep < 5) {
-            setCurrentStep(currentStep + 1);
-        }
-    }
 
     const CitaSchema = Yup.object().shape({
         motivo_consulta: Yup.string()
@@ -84,34 +76,6 @@ export const MotivoScreen = () => {
                 updateFormData({
                     motivo_consulta: values.motivo_consulta
                 });
-
-                // const fullData = useCitaStore.getState().formData;
-                // try {
-
-                //     const formData = new FormData();
-
-                //     if (fullData.File) {
-                //         formData.append("File", {
-                //             uri: fullData.File,
-                //             name: "archivo.png",
-                //             type: "image/png", 
-                //         } as any);
-                //     }
-
-                //     const response = await citasController(fullData);
-                //     if (response.success) {
-                //         alert("Cita hecha :D")
-                //         console.log("Cita hecha", fullData);
-                //         navigation.navigate('Home');
-                //     } else {
-                //         alert(response.message);
-                //         console.log(console.error(response.data));
-                //         console.log('Error del backend', fullData);
-                //     }
-                // } catch (error) {
-                //     alert('Error de agendar cita');
-                //     console.log(error)
-                // }
                 console.log(values);
                 navigation.navigate("Confirma");
             }}

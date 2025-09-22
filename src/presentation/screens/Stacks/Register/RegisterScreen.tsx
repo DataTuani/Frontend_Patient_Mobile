@@ -23,25 +23,12 @@ export const RegisterScreen = () => {
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const showDatePicker = () => setDatePickerVisibility(true);
     const hideDatePicker = () => setDatePickerVisibility(false);
-    const [currentStep, setCurrentStep] = useState(1);
     const { updateFormData } = useRegisterStore();
 
     const handleConfirm = (date: Date, setFieldValue: (filed: string, value: any) => void) => {
         setFieldValue('fecha_nacimiento', date);
         hideDatePicker();
     }
-
-    const nextStep = () => {
-        if (currentStep < 3) {
-            setCurrentStep(currentStep + 1);
-        }
-    };
-
-    const prevStep = () => {
-        if (currentStep > 1) {
-            setCurrentStep(currentStep - 1);
-        }
-    };
 
     const RegisterSchema = Yup.object().shape({
         nombreCompleto: Yup.string()
@@ -76,7 +63,7 @@ export const RegisterScreen = () => {
                 });
                 console.log(values);
                 navigator.navigate('Register2');
-                nextStep();
+                
             }}
         >
             {({ handleChange, handleSubmit, values, errors, touched, isSubmitting, setFieldValue }) => (
@@ -86,7 +73,6 @@ export const RegisterScreen = () => {
                     <RegisterStepper currentStep={1} totalSteps={3} />
                     <View style={{ width: '90%' }}>
                         <Text style={style.titleInfo}>Informacion Personal I</Text>
-
                     </View>
                     <CustomInputRegister
                         label='Nombre Completo'
@@ -117,7 +103,7 @@ export const RegisterScreen = () => {
                         />
 
                         {touched.fecha_nacimiento && errors.fecha_nacimiento && (
-                            <Text style={{ color: 'red', marginTop: 5 ,marginLeft:10}}>{errors.fecha_nacimiento}</Text>
+                            <Text style={{ color: 'red', marginTop: 5, marginLeft: 10 }}>{errors.fecha_nacimiento}</Text>
                         )}
                     </View>
                     <CustomInputRegister
@@ -127,7 +113,7 @@ export const RegisterScreen = () => {
                         onChangeText={handleChange('telefono')}
                     />
                     {touched.telefono && errors.telefono && (
-                        <Text style={{ color: 'red' , marginRight:210, marginTop:5}}>{errors.telefono}</Text>
+                        <Text style={{ color: 'red', marginRight: 210, marginTop: 5 }}>{errors.telefono}</Text>
                     )}
                     <CustomRadioButton
                         title='Genero'
