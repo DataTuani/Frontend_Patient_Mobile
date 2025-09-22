@@ -121,19 +121,10 @@ type Cita = {
     id: number;
     motivo_consulta: string;
     fecha_hora: string;
-<<<<<<< HEAD
-    hospital: { nombre: string };
-    medico: {
-        usuario: { primer_nombre: string; primer_apellido: string; especialidad: string }
-    };
-    estado: { nombre: string };
-
-
-=======
     hospital: { nombre: string};
     medico: { usuario: { primer_nombre: string; primer_apellido: string; especialidad: string } };
     estado: { nombre: string };
->>>>>>> 3dbfd2f4877f6cfa20471bf25af9716d7f246237
+
 };
 
 interface HistorialState {

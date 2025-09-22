@@ -120,11 +120,10 @@ export const HospitalScreen = () => {
                     <ButtonCitas
                         label='Confirmar Hospital'
                         onPress={handleSubmit}
-<<<<<<< HEAD
+
                     /> 
-=======
-                    />
->>>>>>> 3dbfd2f4877f6cfa20471bf25af9716d7f246237
+
+                
                 </View>
             )}
         </Formik>
