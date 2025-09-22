@@ -22,27 +22,27 @@ Este frontend consume la **API del backend de SINAES**, permitiendo a los pacien
 ```plaintext
 SINAES-APP/
 ├── android/               # Archivos de configuración Android
-├── .expo/                 # Configuración Expo (si se usa)
+├── context/               # Contextos globales de la app
+├── node_modules/          # Dependencias instaladas
 ├── src/
 │   ├── api/               # Conexiones y peticiones al backend
-│   ├── constants/         # Constantes globales (colores, variables, etc.)
 │   ├── controller/        # Lógica de negocio para distintas funcionalidades
-│   ├── helpers/           # Funciones reutilizables
-│   ├── hooks/             # Custom hooks
-│   ├── presentation/      # UI principal
+│   ├── hooks/             # Custom hooks reutilizables
+│   ├── presentation/      # UI principal y vistas
 │   │   ├── assets/        # Recursos como imágenes, íconos, fuentes
 │   │   ├── components/    # Componentes reutilizables
-│   │   │   └── shared/    # Componentes compartidos
 │   │   ├── interface/     # Tipos e interfaces TypeScript
 │   │   ├── routes/        # Definición de rutas y navegación
 │   │   ├── screens/       # Pantallas principales de la app
-│   │   └── settings/      # Configuración de usuario y app
-│   │   └── theme/         # Manejo de temas de la app
-│   └── ...
-├── App.tsx                # Punto de entrada de la app
-├── index.ts               # Configuración principal
+│   │   ├── settings/      # Configuración de usuario y app
+│   │   └── theme/         # Manejo de temas y estilos globales
+├── .gitignore             # Archivos y carpetas ignoradas en git
+├── app.json               # Configuración de la app
+├── App.tsx                # Punto de entrada principal
+├── index.ts               # Configuración inicial
 ├── package.json           # Dependencias del proyecto
-└── app.json               # Configuración de la app
+├── package-lock.json      # Bloqueo de dependencias
+└── tsconfig.json          # Configuración de TypeScript
 ```
 
 ⚙️ Requerimientos técnicos
