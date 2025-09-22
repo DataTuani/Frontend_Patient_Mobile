@@ -41,13 +41,6 @@ export const HoraDiaScreen = () => {
   }, {} as Record<string, { inicio: string; fin: string }[]>);
 
 
-  //Pasos interfaz
-  const nextStep = () => {
-    if (currentStep < 5) {
-      setCurrentStep(currentStep + 1);
-    }
-  }
-
   //Reservar hora
   const reservarHora = () => {
     if (!selectedHour) {
@@ -88,7 +81,7 @@ export const HoraDiaScreen = () => {
 
       {({ handleSubmit, setFieldValue, errors, touched }) => (
         <View style={styles.ContainerAgendar}>
-          <RegisterStepper currentStep={3} totalSteps={5}/>
+          <RegisterStepper currentStep={3} totalSteps={5} />
           <Text style={{ fontSize: 30, fontWeight: '700', color: globalColors.tertiary, textAlign: 'center' }}>
             Selecciona fecha y hora
           </Text>
@@ -101,30 +94,32 @@ export const HoraDiaScreen = () => {
             }}>mismo dia</Text>. Debes seleccionar el intervalo de tiempo que mejor se ajuste a tu disponibilidad.</Text>
           </View>
 
-          <View style={{ flex: 1, padding: 20, maxHeight: 400 }}>
+          <View style={{ flex: 1, padding: 20 }}>
+            <Text style={{ fontSize: 18, marginBottom: 10, marginTop: 5, fontWeight: "bold" }}>
+              Hora disponible
+            </Text>
 
-            <Text style={{ fontSize: 18, marginBottom: 10, marginTop: 5, fontWeight: "bold" }}>Hora disponible</Text>
-
-            <View style={style.turnosContainer}>
+            {/* ScrollView para las secciones */}
+            <ScrollView
+              style={{ maxHeight: 500 }}
+              contentContainerStyle={{ paddingBottom: 20 }}
+              showsVerticalScrollIndicator={false}
+            >
               {loading && <ActivityIndicator />}
 
               {Object.entries(turnosAgrupados).map(([hour, group]) => (
-                <View>
-                  {/*Boton de seccion*/}
+                <View key={hour} style={style.section}>
                   <Pressable
                     style={style.sectionHeader}
                     onPress={() => setOpenSection(openSection === hour ? null : hour)}
                   >
-                    <Text style={style.sectionTitle}>Seccion {hour}:00</Text>
+                    <Text style={style.sectionTitle}>Sección {hour}:00</Text>
                   </Pressable>
 
-                  {/*Turnos dentro de la seccion */}
                   {openSection === hour && (
                     <View style={style.sectionContent}>
-                      {group.map((t, idx) => {
+                      {group.map((t) => {
                         const isSelected = selectedHour?.inicio === t.inicio;
-
-
                         return (
                           <Pressable
                             key={`${t.inicio}-${t.fin}`}
@@ -135,7 +130,6 @@ export const HoraDiaScreen = () => {
                             onPress={() => {
                               setSelectedHour(t);
                               const [hh, mm] = t.inicio.split(":").map(Number);
-
                               const fullDate = new Date(
                                 today.getFullYear(),
                                 today.getMonth(),
@@ -154,7 +148,7 @@ export const HoraDiaScreen = () => {
                             <Text
                               style={[
                                 style.turnoText,
-                                isSelected && style.turnoChipSelected,
+                                isSelected && style.turnoTextSelected,
                               ]}
                             >
                               {`${t.inicio} - ${t.fin}`}
@@ -166,16 +160,20 @@ export const HoraDiaScreen = () => {
                   )}
                 </View>
               ))}
+
               {touched.fecha_hora && errors.fecha_hora && (
                 <Text style={{ color: 'red' }}>{errors.fecha_hora}</Text>
               )}
-            </View>
+            </ScrollView>
+
+            {/* Botón fijo abajo */}
+            <ButtonCitas
+              label='Siguiente'
+              onPress={handleSubmit}
+              style={[style.option, { marginTop: 10 }]}
+            />
           </View>
-          <ButtonCitas
-            label='Siguiente'
-            onPress={handleSubmit}
-            style={style.option}
-          />
+
 
         </View>
       )}
@@ -187,16 +185,10 @@ export const HoraDiaScreen = () => {
 
 const style = StyleSheet.create({
   option: {
-    marginRight: 50,
-    marginLeft: 50,
-  },
-
-  turnosContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    gap: 12,
-    paddingHorizontal: 8
+    marginRight:40,
+    marginLeft: 40,
+    position:'relative',
+    bottom:20
   },
 
   turnoChip: {
@@ -205,10 +197,11 @@ const style = StyleSheet.create({
     borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 20,
-    paddingHorizontal: 12,
+    paddingHorizontal: 14,
     paddingVertical: 8,
-    marginBottom: 8,
-    backgroundColor: '#f8f8f8'
+    margin: 5,
+    backgroundColor: '#f8f8f8',
+    elevation: 2, // efecto sutil de sombra
   },
 
   turnoChipSelected: {
@@ -219,6 +212,7 @@ const style = StyleSheet.create({
   turnoText: {
     color: '#555',
     fontSize: 14,
+    marginLeft: 6
   },
 
   turnoTextSelected: {
@@ -230,7 +224,9 @@ const style = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 6,
+    overflow: "hidden",
   },
+
   sectionHeader: {
     padding: 10,
     backgroundColor: "#f2f2f2",
@@ -240,7 +236,9 @@ const style = StyleSheet.create({
     fontSize: 15,
   },
   sectionContent: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "flex-start",
     padding: 10,
-    backgroundColor: "#fff",
   },
 });

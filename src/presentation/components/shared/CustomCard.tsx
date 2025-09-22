@@ -1,5 +1,4 @@
 // components/AppointmentCard.tsx
-
 import React from 'react';
 import {
   View,
@@ -9,6 +8,7 @@ import {
   Pressable,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { globalColors } from '../../theme/theme';
 
 interface AppointmentCardProps {
   date: string;
@@ -17,6 +17,7 @@ interface AppointmentCardProps {
   specialty: string;
   onPress: () => void;
   onMenuPress?: () => void;
+  estado: string;
 }
 
 const AppointmentCard: React.FC<AppointmentCardProps> = ({
@@ -26,6 +27,8 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
   specialty,
   onPress,
   onMenuPress,
+  estado
+
 }) => {
   return (
     <View style={styles.card}>
@@ -46,6 +49,11 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
         <Text style={styles.doctorName}>{doctor}</Text>
         <Text style={styles.specialty}>{specialty}</Text>
       </View>
+
+      <View style={{ backgroundColor: "#ccc", width: '25%', borderRadius: 5, padding: 5 }}>
+        <Text style={{ fontWeight: 'bold', textAlign: 'center' }}>{estado}</Text>
+      </View>
+
 
       <View style={styles.footer}>
         <TouchableOpacity style={styles.button} onPress={onPress}>
@@ -84,14 +92,14 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 13,
     color: '#999',
-    fontWeight:'bold'
+    fontWeight: 'bold'
   },
   date: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#4D4D4D',
     marginTop: 6,
-    
+
   },
   hospital: {
     fontSize: 14,

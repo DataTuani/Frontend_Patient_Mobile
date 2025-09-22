@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Pressable, ScrollView } from 'react-native'
 import { type NavigationProp, useNavigation } from "@react-navigation/native";
 import { type RootStackParams } from '../../routes/StackNavigator';
@@ -7,27 +7,47 @@ import { useContext } from 'react';
 import { ThemeContext } from '../../../../context/ThemeContext';
 import { globalColors, globalStyles } from '../../theme/theme';
 import { CustomIonicons } from '../../components/shared/Custom_Ionicons';
+import { useHistorialCitaStore } from '../../../hooks/useCitaStore';
 
 export const HomeScreen = () => {
 
     const navigation = useNavigation<NavigationProp<RootStackParams>>();
     const { colors } = useContext(ThemeContext);
     const styles = globalStyles(colors);
+    const { citas, loading, error, fetchHistorial } = useHistorialCitaStore();
 
-    interface Consulta {
-        id: number;
-        motivo: string;
-        fecha: string;
-        hora: string;
-    };
-    //Test
-    const consultas: Consulta[] = [
-        { id: 1, motivo: 'Motivo de la consulta 1', fecha: '04 Abril 2025', hora: '10:30' },
-        { id: 2, motivo: 'Motivo de la consulta 2', fecha: '05 Abril 2025', hora: '11:00' },
-        { id: 3, motivo: 'Motivo de la consulta 3', fecha: '06 Abril 2025', hora: '09:00' },
-        { id: 4, motivo: 'Motivo de la consulta 4', fecha: '07 Abril 2025', hora: '14:30' },
-        { id: 5, motivo: 'Motivo de la consulta 5', fecha: '08 Abril 2025', hora: '08:15' },
-    ]
+    useEffect(() => {
+        fetchHistorial();
+    }, []);
+
+    const citasFiltradas = (citas || [])
+        .filter((c) => c.estado?.nombre === "Pendiente")
+        .map((c) => {
+            const d = new Date(c.fecha_hora);
+
+            // Fecha en español, ejemplo: "Viernes 12 de septiembre de 2025"
+            let fecha = d.toLocaleDateString("es-ES", {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+            });
+            fecha = fecha.replace(",", ""); // quitar coma
+
+            // Hora en 12h con AM/PM
+            const hora = d.toLocaleTimeString("es-ES", {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: true,
+            });
+
+            return {
+                id: c.id,
+                motivo: c.motivo_consulta,
+                fecha,
+                hora,
+            };
+        });
 
     return (
         <View style={styles.container}>
@@ -37,7 +57,7 @@ export const HomeScreen = () => {
                 <Text style={{ color: '042558' }}>En SIANES pensamos en tí y en tu familia.</Text>
             </View>
             <TouchableOpacity style={style.cardAgendar}
-            onPress={() => navigation.navigate("TipoCita")}
+                onPress={() => navigation.navigate("TipoCita")}
             >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <View style={style.circlePlus}>
@@ -62,7 +82,7 @@ export const HomeScreen = () => {
 
                 {/* Teleconsultas */}
                 <Pressable style={style.cardSmall}
-                onPress={() =>  navigation.navigate('Waiting')}
+                    onPress={() => navigation.navigate('Waiting')}
                 >
                     <View style={style.teleContainer}>
                         <CustomIonicons
@@ -85,17 +105,28 @@ export const HomeScreen = () => {
                     </Pressable >
                 </View>
                 <ScrollView style={{ maxHeight: 250 }}>
-                    {consultas.map(e => (
+                    {loading && <Text>Cargando...</Text>}
+                    {error && <Text style={{ color: "red" }}>{error}</Text>}
+
+                    {citasFiltradas.map((e) => (
                         <View key={e.id} style={style.consultaCard}>
                             <View>
-                                <Text style={{color:'#000', fontWeight:'bold', fontSize:17}}>{e.motivo}</Text>
-                                <Text style={{color:globalColors.gray, fontWeight:'300'}}>{e.fecha} - {e.hora}</Text>
+                                <Text style={{ color: "#000", fontWeight: "bold", fontSize: 17 }}>
+                                    {e.motivo}
+                                </Text>
+                                <Text style={{ color: globalColors.gray, fontWeight: "300" }}>
+                                    {e.fecha} - {e.hora}
+                                </Text>
                             </View>
                             <Pressable onPress={() => console.log("Ver cita", e.id)}>
-                                <Text style={{color:globalColors.gray}}>Ver</Text>
+                                <Text style={{ color: globalColors.gray }}>Ver</Text>
                             </Pressable>
                         </View>
                     ))}
+
+                    {citasFiltradas.length === 0 && !loading && (
+                        <Text style={{ color: globalColors.gray }}>No hay próximas consultas</Text>
+                    )}
                 </ScrollView>
             </View>
         </View >
@@ -201,10 +232,10 @@ const style = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         padding: 12,
-        backgroundColor:'#F5F5F5',
+        backgroundColor: '#F5F5F5',
         borderRadius: 10,
         marginBottom: 8,
-        
+
     },
 
 

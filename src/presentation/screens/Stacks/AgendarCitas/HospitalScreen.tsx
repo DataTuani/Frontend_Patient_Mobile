@@ -128,8 +128,7 @@ export const HospitalScreen = () => {
                     <ButtonCitas
                         label='Confirmar Hospital'
                         onPress={handleSubmit}
-
-                    />
+                    /> 
                 </View>
             )}
 
