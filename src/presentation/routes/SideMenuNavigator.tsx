@@ -1,14 +1,23 @@
 import React from 'react';
 import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
-import { StackNavigator } from './StackNavigator';
+import { ControlParentalNavigator, StackNavigator } from './StackNavigator';
 import { SettingScreen } from '../settings/SettingScreen';
 import { globalColors } from '../theme/theme';
-import { CustomIonicons } from '../components/shared/Custom_Ionicons';
-import { Text, View } from 'react-native';
+import { CustomFontIcon, CustomIonicons } from '../components/shared/Custom_Ionicons';
+import { View } from 'react-native';
 import { ExpedienteScreen } from '../screens/Drawers/Expedientes/ExpedienteScreen';
 import { ProfileScreen } from '../screens/Drawers/Profile/ProfileScreen';
+import { IniciarControlParentalScreen } from '../screens/Drawers/ControlParental/IniciarControlParentalScreen';
 
-const Drawer = createDrawerNavigator();
+export type DrawerParamList = {
+    Home: undefined;
+    InicioControlParental: undefined;
+    Expediente: undefined;
+    Ajuste: undefined;
+    Profile: undefined;
+};
+
+const Drawer = createDrawerNavigator<DrawerParamList>();
 
 export const SideMenu = () => {
     return (
@@ -26,13 +35,22 @@ export const SideMenu = () => {
                 drawerActiveTintColor: globalColors.dark,
             }}
         >
-            <Drawer.Screen options={{
-                drawerIcon: ({ color }) => (<CustomIonicons
-                    name='man-outline' color={color} size={25}
-                />),
-                title: 'Control Parental'
 
-            }} name="ControlParental" component={StackNavigator} />
+            <Drawer.Screen options={{
+
+                drawerItemStyle: {
+                    display: 'none'
+                }
+
+            }} name="Home" component={StackNavigator} />
+            <Drawer.Screen
+                options={{
+                    drawerIcon: ({ color }) => (<CustomFontIcon
+                        name='human-male-female-child' color={color} size={25}
+                    />),
+                    title: 'Control Parental'
+                }}
+                name="InicioControlParental" component={ControlParentalNavigator} />
             <Drawer.Screen
                 options={{
                     drawerIcon: ({ color }) => (<CustomIonicons
@@ -60,6 +78,8 @@ export const SideMenu = () => {
                     title: 'Ver Perfil'
                 }}
                 name="Profile" component={ProfileScreen} />
+
+
         </Drawer.Navigator>
     );
 }

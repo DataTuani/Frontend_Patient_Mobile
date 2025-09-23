@@ -28,7 +28,7 @@ export const CustomFontIcon = ({ name, size = 20, color }: Props) => {
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <MaterialCommunityIcons name={name} size={size} color={color} />
+      <MaterialCommunityIcons name={name} size={size} color={color}  />
     </View>
   )
 }

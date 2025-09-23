@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
         backgroundColor: 'transparent',
         color: globalColors.dark,
-        
+
     }
 })
 
@@ -73,6 +73,7 @@ interface CustomInputRegisterProps {
     value: string;
     onChangeText: (text: string) => void;
     style?: {}
+    style2?: {}
 }
 
 export const CustomInputRegister = ({
@@ -81,12 +82,13 @@ export const CustomInputRegister = ({
     secureTextEntry = false,
     value,
     onChangeText,
-    style = {}
+    style = {},
+    style2 = {}
 
 }: CustomInputRegisterProps) => {
     return (
         <View style={stylesR.container}>
-            <Text style={stylesR.label}>{label} </Text>
+            <Text style={[stylesR.label, style2]}>{label} </Text>
             <TextInput style={[stylesR.input, style]}
                 placeholder={placeholder}
                 secureTextEntry={secureTextEntry}
@@ -133,7 +135,7 @@ interface CustomInputPropsP {
     value: string;
     onChangeText: (text: string) => void;
     rightIcon?: React.ReactNode;
-    style?:{}
+    style?: {}
 }
 
 export const CustomInputPas = ({
@@ -150,7 +152,7 @@ export const CustomInputPas = ({
             <Text style={stylesPass.label}>{label}</Text>
             <View style={stylesPass.inputWrapper}>
                 <TextInput
-                    style={[stylesPass.input,style]}
+                    style={[stylesPass.input, style]}
                     placeholder={placeholder}
                     secureTextEntry={secureTextEntry}
                     value={value}
@@ -165,7 +167,7 @@ export const CustomInputPas = ({
 
 const stylesPass = StyleSheet.create({
     container: {
-        width:'85%'
+        width: '85%'
     },
     label: {
         marginBottom: 5,
@@ -179,12 +181,12 @@ const stylesPass = StyleSheet.create({
         borderColor: "#ccc",
         borderRadius: 8,
         paddingHorizontal: 10,
-        
+
     },
     input: {
         flex: 1,
         paddingVertical: 12,
-        
+
     },
     iconContainer: {
         paddingHorizontal: 5,

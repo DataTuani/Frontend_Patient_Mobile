@@ -8,7 +8,7 @@ import { ThemeContext } from '../../../../context/ThemeContext';
 import { globalColors, globalStyles } from '../../theme/theme';
 import { CustomFontIcon, CustomIonicons } from '../../components/shared/Custom_Ionicons';
 import { useHistorialCitaStore } from '../../../hooks/useCitaStore';
-import { FontAwesome } from '@expo/vector-icons';
+
 
 export const HomeScreen = () => {
 
@@ -19,8 +19,8 @@ export const HomeScreen = () => {
 
     useEffect(() => {
         fetchHistorial();
-    }, []);
-
+    }, []); 
+  
     const citasFiltradas = (citas || [])
         .filter((c) => c.estado?.nombre === "Pendiente")
         .map((c) => {

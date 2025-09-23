@@ -15,6 +15,7 @@ interface ButtonProps {
     onPress: () => void;
     title: string;
     variant?: 'filled' | 'outlined';
+
 }
 
 export const PrimaryButton = ({ onPress, label, style = {} }: Props) => {
@@ -35,7 +36,8 @@ export const PrimaryButton = ({ onPress, label, style = {} }: Props) => {
 export const ButtonLogin = ({
     title,
     onPress,
-    variant = 'filled'
+    variant = 'filled',
+
 }: ButtonProps) => {
     return (
         <Pressable
@@ -89,12 +91,14 @@ interface PropsButtonCita {
     label: string;
     onPress: () => void;
     style?: {}
+    style2?:{}
 }
 
 export const ButtonCitas = ({
     label,
     onPress,
-    style = {}
+    style = {},
+    style2 ={}
 }: PropsButtonCita) => {
     return (
         <View style={{ marginTop: 20, width: '80%' }}>
@@ -111,7 +115,7 @@ export const ButtonCitas = ({
                 ]}
                 onPress={() => onPress()}
             >
-                <Text style={{ color: "#fff", fontWeight: "600", fontSize: 16, textAlign: 'center' }}>
+                <Text style={[{ color: "#fff", fontWeight: "600", fontSize: 16, textAlign: 'center' },style2]}>
                     {label}
                 </Text>
             </Pressable>
