@@ -8,6 +8,7 @@ import {
   Pressable,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { globalColors } from '../../theme/theme';
 
 interface AppointmentCardProps {
   date: string;
@@ -74,16 +75,89 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
 
 export default AppointmentCard;
 
+interface CardProps {
+  number: number;
+  min: number;
+  person_number: number;
+  nameDoctor: string;
+  especialidad: string;
+  hospital: string;
+  progress: number;
+}
+
+
+export const ContainerCard = ({
+  number,
+  min,
+  person_number,
+  nameDoctor,
+  especialidad,
+  hospital,
+  progress
+}: CardProps) => {
+
+  return (
+    <View style={stylesCard.card}>
+      <View style={{ marginRight: 10 }}>
+        <Text style={stylesCard.label}>Tu posición en la fila</Text>
+      </View>
+
+      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+
+        <Text style={{ fontSize: 40, textAlign: 'center', color: globalColors.tertiary, fontWeight: 'bold' }}>#{number}</Text>
+        <Text style={{ fontWeight: '400', fontSize: 18 }}>Posición en la fila</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 40 }}>
+          {/* Columna de minutos */}
+          <View style={{ alignItems: 'center' }}>
+            <Text style={{ fontSize: 24, fontWeight: 'bold' }}>{min}</Text>
+            <Text>minutos estimados</Text>
+          </View>
+
+          {/* Columna de personas */}
+          <View style={{ alignItems: 'center' }}>
+            <Text style={{ fontSize: 24, fontWeight: 'bold' }}>{person_number}</Text>
+            <Text>Personas adelante</Text>
+          </View>
+        </View>
+      </View>
+
+      <View style={stylesCard.base_progress}>
+        <View style={[stylesCard.progress_interno, { width: `${progress * 100}%` }]}></View>
+      </View>
+
+      <View style={{ justifyContent: 'center', marginTop: 20 }}>
+
+        <View style={{ flexDirection: 'row', gap: 180 }}>
+          <Text style={stylesCard.subtitle}>Doctor:</Text>
+          <Text style={stylesCard.subTitle} >{nameDoctor}</Text>
+        </View>
+
+        <View style={{ flexDirection: 'row', gap: 148, marginTop: 5 }}>
+          <Text style={stylesCard.subtitle}>Especialidad:</Text>
+          <Text style={stylesCard.subTitle}>{especialidad}</Text>
+        </View>
+
+        <View style={{ flexDirection: 'row', gap: 171, marginTop: 5 }}>
+          <Text style={stylesCard.subtitle}>Hospital:</Text>
+          <Text style={stylesCard.subTitle}>{hospital}</Text>
+        </View>
+      </View>
+    </View>
+
+  )
+
+}
+
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#fff',
     borderRadius: 10,
-    padding: 12,               // ⬇️ menos padding
-    marginVertical: 8,         // ⬇️ menos margen
+    padding: 12,
+    marginVertical: 8,
     marginHorizontal: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,       // ⬇️ sombra más sutil
+    shadowOpacity: 0.08,
     shadowRadius: 2,
     elevation: 2,
   },
@@ -154,3 +228,56 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
 });
+
+
+const stylesCard = StyleSheet.create({
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 15,
+    marginVertical: 9,
+    marginHorizontal: 9,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  label: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: globalColors.gay_2
+  },
+
+  container_label: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+
+  subtitle: {
+    color: '#8C8C8C',
+    fontSize: 15,
+    fontWeight: 'bold'
+  },
+  subTitle: {
+    fontWeight: '400',
+    fontSize: 15,
+    textAlign: 'right',
+    color: '#4d4d4d'
+  },
+  base_progress: {
+    width: '100%',
+    height: 10,
+    backgroundColor: globalColors.gray,
+    borderRadius: 5,
+    marginTop:10
+  },
+  progress_interno: {
+
+    height: "100%",
+    backgroundColor: globalColors.tertiary,
+    borderRadius: 5
+  }
+}
+)

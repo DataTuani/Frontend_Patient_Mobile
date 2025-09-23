@@ -8,7 +8,7 @@ export const globalColors = {
     tertiary: '#008CCA',
     dark: '#000000',
     light: '#FFFFFF',
-    gray: '#8C8C8C',
+    gray: '#ccc',
     gay_2: '#4D4D4D',
     success: '#29842C'
 }

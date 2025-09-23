@@ -14,6 +14,9 @@ import { ConfirmaScreen } from "../screens/Stacks/AgendarCitas/ConfirmaScreen";
 import { HospitalScreen } from "../screens/Stacks/AgendarCitas/HospitalScreen";
 import { MotivoScreen } from '../screens/Stacks/AgendarCitas/MotivoScreen';
 import { HistorialCitaScreen } from '../screens/Stacks/HistorialCitas/HistorialCitaScreen';
+import { FilaVirtualScreen } from '../screens/Stacks/FilaVirtual/FilaVirtualScreen';
+import { View, Text } from 'react-native'
+import { globalColors } from '../theme/theme';
 
 export type RootStackParams = {
 
@@ -33,7 +36,7 @@ export type RootStackParams = {
     Confirma: undefined;
     Motivo: undefined;
     HistorialCitas: undefined;
-    // product: { id: number, name: string };
+    FilaVirtual: undefined;
 }
 
 const Stack = createStackNavigator<RootStackParams>();
@@ -49,7 +52,20 @@ export const StackNavigator = () => {
                 }
             }}
         >
+            <Stack.Screen
+                options={{
+                    headerTitle: () =>
 
+                    (
+                        <View style={{ marginRight: 10 }}>
+                            <Text style={{ fontSize: 20, color: globalColors.primary, fontWeight:'bold' }}>Fila Virtual</Text>
+                            <Text style={{ color: globalColors.gray, fontSize:15 }}>Gestiona tu espera</Text>
+                        </View>
+                    )
+
+                }}
+                name="FilaVirtual" component={FilaVirtualScreen}
+            />
             <Stack.Screen
                 options={{
                     headerShown: false,
@@ -201,6 +217,7 @@ export const StackNavigator = () => {
                 }}
                 name="HistorialCitas" component={HistorialCitaScreen}
             />
+
         </Stack.Navigator>
     );
 }

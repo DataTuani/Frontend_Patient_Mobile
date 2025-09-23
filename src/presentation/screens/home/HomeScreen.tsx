@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Pressable, ScrollView } from 'react-native'
 import { type NavigationProp, useNavigation } from "@react-navigation/native";
 import { type RootStackParams } from '../../routes/StackNavigator';
@@ -6,8 +6,9 @@ import { Header, } from '../../components/shared/HamburgerMenu';
 import { useContext } from 'react';
 import { ThemeContext } from '../../../../context/ThemeContext';
 import { globalColors, globalStyles } from '../../theme/theme';
-import { CustomIonicons } from '../../components/shared/Custom_Ionicons';
+import { CustomFontIcon, CustomIonicons } from '../../components/shared/Custom_Ionicons';
 import { useHistorialCitaStore } from '../../../hooks/useCitaStore';
+import { FontAwesome } from '@expo/vector-icons';
 
 export const HomeScreen = () => {
 
@@ -15,7 +16,7 @@ export const HomeScreen = () => {
     const { colors } = useContext(ThemeContext);
     const styles = globalStyles(colors);
     const { citas, loading, error, fetchHistorial } = useHistorialCitaStore();
-    
+
     useEffect(() => {
         fetchHistorial();
     }, []);
@@ -82,17 +83,17 @@ export const HomeScreen = () => {
 
                 {/* Teleconsultas */}
                 <Pressable style={style.cardSmall}
-                    onPress={() => navigation.navigate('Waiting')}
+                    onPress={() => navigation.navigate('FilaVirtual')}
                 >
                     <View style={style.teleContainer}>
-                        <CustomIonicons
-                            name={'laptop-outline'}
+                        <CustomFontIcon
+                            name={"account-multiple-plus"}
                             size={40}
                             color={'gray'}
                         />
                     </View>
-                    <Text style={style.cardTitleSmall}>Teleconsulta</Text>
-                    <Text style={style.cardSubtitleSmall}>Asistir a una teleconsulta</Text>
+                    <Text style={style.cardTitleSmall}>Fila virtual</Text>
+                    <Text style={style.cardSubtitleSmall}>Unete a una fila virtual</Text>
                 </Pressable>
             </View>
             <View style={{ marginTop: 20 }}>
@@ -235,8 +236,5 @@ const style = StyleSheet.create({
         backgroundColor: '#F5F5F5',
         borderRadius: 10,
         marginBottom: 8,
-
     },
-
-
 })

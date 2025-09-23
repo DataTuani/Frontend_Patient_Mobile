@@ -85,8 +85,8 @@ export const HistorialCitaScreen = () => {
                                 doctor={`Dr. ${cita.medico.usuario.primer_nombre} ${cita.medico.usuario.primer_apellido}`}
                                 specialty={cita.medico.usuario.especialidad}
                                 estado={cita.estado.nombre}
-                                tipo={cita.tipo.tipo}                        // 👈 tipo desde backend
-                                showButton={cita.tipo.tipo === "TeleConsulta"} // 👈 botón solo si teleconsulta
+                                tipo={cita.tipo.tipo}                     
+                                showButton={cita.tipo.tipo === "TeleConsulta"} 
                                 onPress={() => console.log("Asistir/Ver cita", cita.id)}
                                 onMenuPress={() => console.log("Menú cita", cita.id)}
                             />

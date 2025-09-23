@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { Text, StyleSheet, Pressable } from 'react-native'
+import { Text, Pressable } from 'react-native'
 import { globalColors } from '../../theme/theme'
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -56,19 +56,3 @@ export const ButtonIcons = ({
     )
 }
 
-const styles = StyleSheet.create({
-    settingButton: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: 10,
-        marginBottom: 20,
-        borderWidth: 1,
-        borderColor: globalColors.dark,
-        borderRadius: 10,
-    },
-    titleContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 15
-    },
-})
