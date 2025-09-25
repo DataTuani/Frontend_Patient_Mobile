@@ -10,15 +10,16 @@ interface Props {
   size?: number;
   color?: string;
   style?:{}
+  onPress?:() => void;
 }
 
-export const CustomIonicons = ({ name, size = 20, color, style={} }: Props) => {
+export const CustomIonicons = ({ name, size = 20, color, style={}, onPress }: Props) => {
 
   const { currentTheme, toggleTheme } = useContext(ThemeContext);
   const themeColor = currentTheme === 'light' ? 'black' : 'white';
 
   return (
-    <Ionicons name={name} size={size} color={color ?? themeColor} style={style}/>
+    <Ionicons name={name} size={size} color={color ?? themeColor} style={style} onPress={onPress}/>
   )
 }
 

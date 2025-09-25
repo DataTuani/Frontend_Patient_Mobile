@@ -1,20 +1,21 @@
 import React from 'react';
 import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer';
-import { ControlParentalNavigator, StackNavigator } from './StackNavigator';
-import { SettingScreen } from '../settings/SettingScreen';
+import { ControlParentalNavigator, RootStackParams, StackNavigator } from './StackNavigator';
 import { globalColors } from '../theme/theme';
 import { CustomFontIcon, CustomIonicons } from '../components/shared/Custom_Ionicons';
-import { View } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { ExpedienteScreen } from '../screens/Drawers/Expedientes/ExpedienteScreen';
-import { ProfileScreen } from '../screens/Drawers/Profile/ProfileScreen';
-import { IniciarControlParentalScreen } from '../screens/Drawers/ControlParental/IniciarControlParentalScreen';
+import { HistorialScreen } from '../screens/Drawers/Historial/HistorialScreen';
+import { DrawerActions, NavigationProp, useNavigation } from '@react-navigation/native';
+
 
 export type DrawerParamList = {
-    Home: undefined;
+    inicio: undefined;
     InicioControlParental: undefined;
     Expediente: undefined;
     Ajuste: undefined;
     Profile: undefined;
+    Historial: undefined;
 };
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
@@ -22,13 +23,12 @@ const Drawer = createDrawerNavigator<DrawerParamList>();
 export const SideMenu = () => {
     return (
         <Drawer.Navigator
-
             drawerContent={(props) => <CustomDrawerContent {...props} />}
             screenOptions={{
                 headerShown: false,
                 drawerPosition: 'right',
                 drawerStyle: {
-                    width: 280
+                    width: 270 
                 },
                 drawerType: 'front',
                 drawerActiveBackgroundColor: globalColors.light,
@@ -42,7 +42,7 @@ export const SideMenu = () => {
                     display: 'none'
                 }
 
-            }} name="Home" component={StackNavigator} />
+            }} name='inicio' component={StackNavigator} />
             <Drawer.Screen
                 options={{
                     drawerIcon: ({ color }) => (<CustomFontIcon
@@ -53,8 +53,8 @@ export const SideMenu = () => {
                 name="InicioControlParental" component={ControlParentalNavigator} />
             <Drawer.Screen
                 options={{
-                    drawerIcon: ({ color }) => (<CustomIonicons
-                        name='reader-outline' color={color} size={25}
+                    drawerIcon: ({ color }) => (<CustomFontIcon
+                        name='file-table-box-multiple-outline' color={color} size={25}
                     />),
                     title: 'Ver expediente medico'
                 }}
@@ -63,21 +63,12 @@ export const SideMenu = () => {
 
             <Drawer.Screen
                 options={{
-                    drawerIcon: ({ color }) => (<CustomIonicons
-                        name='settings-outline' color={color} size={25}
+                    drawerIcon: ({ color }) => (<CustomFontIcon
+                        name='rotate-right' color={color} size={25}
                     />),
-                    title: 'Configuraciones'
+                    title: 'Historial'
                 }}
-                name="Ajuste" component={SettingScreen} />
-
-            <Drawer.Screen
-                options={{
-                    drawerIcon: ({ color }) => (<CustomIonicons
-                        name='person-circle-outline' color={color} size={25}
-                    />),
-                    title: 'Ver Perfil'
-                }}
-                name="Profile" component={ProfileScreen} />
+                name="Historial" component={HistorialScreen} />
 
 
         </Drawer.Navigator>
@@ -85,6 +76,8 @@ export const SideMenu = () => {
 }
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
+    const navigation = useNavigation<NavigationProp<RootStackParams>>();
+
     return (
         <DrawerContentScrollView
             {...props}
@@ -92,13 +85,44 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
         >
             <View
                 style={{
-                    height: 50,
-                    width: 50,
-                    backgroundColor: globalColors.gray,
-                    margin: 20,
-                    borderRadius: 50
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'flex-end',
+                    padding: 20,
+                    gap: 21
                 }}
-            />
+            >
+                <CustomIonicons 
+                name='arrow-back-outline'
+                onPress={() => navigation.dispatch(DrawerActions.closeDrawer)}
+                
+                />
+
+                {/* Nombre y link */}
+                <View style={{ flexDirection: 'column' }}>
+                    <Text style={{ fontSize: 15, fontWeight: 'bold' }}>Melanie Arias</Text>
+                    <Text style={{ fontWeight: '400', textDecorationLine: 'underline' }}
+                        onPress={() => navigation.navigate("Profile")}
+                    >
+                        Ver Perfil
+                    </Text>
+                </View>
+
+                {/* Imagen de perfil */}
+                <Image
+                    source={require('../assets/profile.png')}
+                    style={{
+                        width: 60,
+                        height: 60,
+                        borderRadius: 30,
+                        marginRight: 15
+                    }}
+                />
+
+
+            </View>
+
+            {/* Items del Drawer */}
             <View style={{ gap: 12 }}>
                 <DrawerItemList {...props} />
             </View>
