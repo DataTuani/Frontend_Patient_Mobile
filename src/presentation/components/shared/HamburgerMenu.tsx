@@ -50,7 +50,7 @@ export const Header = () => {
                         <Pressable style={styles.headerOption} onPress={() => console.log("hola")}>
                             <CustomIonicons
                                 name={"notifications-outline"}
-                                color={globalColors.gray}
+                                color={globalColors.gay_2}
                                 size={26}
                             />
                             <View style={styles.badge}>
@@ -62,10 +62,20 @@ export const Header = () => {
                         <Pressable style={styles.headerOption} onPress={() => navigation.dispatch(DrawerActions.toggleDrawer)}>
                             <CustomIonicons
                                 name={"person-circle-outline"}
-                                color={globalColors.gray}
+                                color={globalColors.gay_2}
                                 size={30}
                             />
                         </Pressable>
+                    </View>
+                    <View style={styles.iconsContainer}>
+                        <Pressable style={styles.headerOption} onPress={() => navigation.dispatch(DrawerActions.toggleDrawer)}>
+                            <CustomIonicons
+                                name={"chevron-down-outline"}
+                                color={globalColors.gay_2}
+                                size={22}
+                            />
+                        </Pressable>
+
                     </View>
                 </View>
             ),

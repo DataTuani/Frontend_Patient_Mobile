@@ -55,9 +55,7 @@ export const StackNavigator = () => {
                 }
             }}
         >
-            <Stack.Screen options={{
-                headerShown: false
-            }} name="Home" component={BottomTabNavigator} />
+
 
             <Stack.Screen
                 options={{
@@ -89,7 +87,9 @@ export const StackNavigator = () => {
                 component={RegisterScreen3}
             />
 
-
+            <Stack.Screen options={{
+                headerShown: false
+            }} name="Home" component={BottomTabNavigator} />
             <Stack.Screen
                 options={{
                     headerShown: false

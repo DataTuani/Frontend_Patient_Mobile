@@ -7,6 +7,7 @@ import { View, Text, Image } from 'react-native';
 import { ExpedienteScreen } from '../screens/Drawers/Expedientes/ExpedienteScreen';
 import { HistorialScreen } from '../screens/Drawers/Historial/HistorialScreen';
 import { DrawerActions, NavigationProp, useNavigation } from '@react-navigation/native';
+import { useAuthStore } from '../../hooks/authStore';
 
 
 export type DrawerParamList = {
@@ -28,7 +29,7 @@ export const SideMenu = () => {
                 headerShown: false,
                 drawerPosition: 'right',
                 drawerStyle: {
-                    width: 270 
+                    width: 270
                 },
                 drawerType: 'front',
                 drawerActiveBackgroundColor: globalColors.light,
@@ -76,7 +77,15 @@ export const SideMenu = () => {
 }
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
+    
     const navigation = useNavigation<NavigationProp<RootStackParams>>();
+    const logout = useAuthStore((state) => state.logout);
+
+    const handleLogout = () => {
+        logout();
+        console.log("Sesión cerrada");
+        navigation.navigate("Login");
+    }
 
     return (
         <DrawerContentScrollView
@@ -92,10 +101,10 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                     gap: 21
                 }}
             >
-                <CustomIonicons 
-                name='arrow-back-outline'
-                onPress={() => navigation.dispatch(DrawerActions.closeDrawer)}
-                
+                <CustomIonicons
+                    name='arrow-back-outline'
+                    onPress={() => navigation.dispatch(DrawerActions.closeDrawer)}
+
                 />
 
                 {/* Nombre y link */}
@@ -125,6 +134,19 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
             {/* Items del Drawer */}
             <View style={{ gap: 12 }}>
                 <DrawerItemList {...props} />
+                <View style={{marginTop:450}}>
+                    <DrawerItem
+                        label="Cerrar Sesión"
+                        icon={({ color, size }) => (
+                            <CustomFontIcon
+                                name="door-closed"
+                                color={color}
+                                size={size}
+                            />
+                        )}
+                        onPress={handleLogout}
+                    />
+                </View>
             </View>
         </DrawerContentScrollView>
     )

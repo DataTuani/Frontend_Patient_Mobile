@@ -173,7 +173,7 @@ const style = StyleSheet.create({
     cardSubtitle: {
         fontSize: 12,
         textAlign: 'center',
-        color: globalColors.gray,
+        color: globalColors.gay_2,
         marginTop: 4
     },
     row: {
