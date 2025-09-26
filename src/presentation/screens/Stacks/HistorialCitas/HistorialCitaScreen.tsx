@@ -15,6 +15,7 @@ export const HistorialCitaScreen = () => {
     const styles = globalStyles(colors);
     const [activeTab, setActiveTab] = useState<"Proximas" | "Historial">("Proximas");
     const { citas, loading, error, fetchHistorial } = useHistorialCitaStore();
+    const [searchText, setSearchText] = useState("");
 
     useEffect(() => {
         fetchHistorial();
@@ -67,7 +68,7 @@ export const HistorialCitaScreen = () => {
                     </TextInput>
                     <CustomIonicons name="menu-outline" />
                 </View>
-                <ScrollView style={{ marginTop: 10 }}>
+                <ScrollView style={{ marginTop: 10, maxHeight:650 }}>
                     {citasFiltradas.map((cita) => {
                         const dateObj = new Date(cita.fecha_hora);
                         const fecha = dateObj.toLocaleDateString("es-ES", {
@@ -83,10 +84,10 @@ export const HistorialCitaScreen = () => {
                                 date={fecha}
                                 hospital={cita.hospital.nombre}
                                 doctor={`Dr. ${cita.medico.usuario.primer_nombre} ${cita.medico.usuario.primer_apellido}`}
-                                specialty={cita.medico.usuario.especialidad}
+                                specialty={cita.medico.especialidad.nombre}
                                 estado={cita.estado.nombre}
                                 tipo={cita.tipo.tipo}                     
-                                showButton={cita.tipo.tipo === "TeleConsulta"} 
+                                showButton={cita.tipo.tipo === "Consulta-Virtual"} 
                                 onPress={() => console.log("Asistir/Ver cita", cita.id)}
                                 onMenuPress={() => console.log("Menú cita", cita.id)}
                             />

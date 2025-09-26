@@ -17,7 +17,7 @@ interface AppointmentCardProps {
   doctor: string;
   specialty: string;
   estado: string;
-  tipo: string; // "TeleConsulta" | "Consulta-Presencial" | "Seguimiento"
+  tipo: string; // "Consulta-Virtual" | "Consulta-Presencial" | "Seguimiento"
   showButton?: boolean;
   onPress: () => void;
   onMenuPress?: () => void;
@@ -34,9 +34,9 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
   onPress,
   onMenuPress,
 }) => {
-  const isTele = tipo === 'TeleConsulta';
+  const isTele = tipo === 'Consulta-Virtual';
   const labelIcon = isTele ? 'videocam-outline' : 'business-outline';
-  const labelText = isTele ? 'TeleConsulta' : 'Consulta Presencial';
+  const labelText = isTele ? 'Consulta-Virtual' : 'Consulta Presencial';
 
   return (
     <View style={styles.card}>
@@ -55,21 +55,23 @@ const AppointmentCard: React.FC<AppointmentCardProps> = ({
       <Text style={styles.hospital}>{hospital}</Text>
 
       <View style={styles.doctorContainer}>
-        <Text style={styles.doctorName}>{doctor}</Text>
-        <Text style={styles.specialty}>{specialty}</Text>
+        <View style={styles.textContainer}>
+          <Text style={styles.doctorName}>{doctor}</Text>
+          <Text style={styles.specialty}>{specialty}</Text>
+        </View>
+
+        {showButton && (
+          <TouchableOpacity style={styles.button} onPress={onPress}>
+            <Text style={styles.buttonText}>Asistir a cita</Text>
+          </TouchableOpacity>
+        )}
       </View>
 
       <View style={styles.estadoBox}>
         <Text style={styles.estadoText}>{estado}</Text>
       </View>
 
-      {showButton && (
-        <View style={styles.footer}>
-          <TouchableOpacity style={styles.button} onPress={onPress}>
-            <Text style={styles.buttonText}>Asistir a cita</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+
     </View>
   );
 };
@@ -113,7 +115,15 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   doctorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     marginBottom: 8,
+  },
+  textContainer:{
+    flexDirection:'column',
+    flex:1
+
   },
   doctorName: {
     fontSize: 14,
@@ -125,7 +135,7 @@ const styles = StyleSheet.create({
     color: '#999',
   },
   estadoBox: {
-    backgroundColor: '#ccc',
+    backgroundColor: globalColors.tertiary,
     width: '25%',
     borderRadius: 5,
     paddingVertical: 4,
@@ -136,17 +146,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 12,
+    color: globalColors.light
   },
   footer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    marginTop: 6,
   },
   button: {
-    backgroundColor: '#008CDB',
+    backgroundColor: globalColors.tertiary,
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 6,
+
   },
   buttonText: {
     color: '#fff',

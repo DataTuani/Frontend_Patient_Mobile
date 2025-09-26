@@ -27,16 +27,33 @@ export const HoraDiaScreen = () => {
   ///Generar pares [Inicio, Fin]
   const { horario, loading } = userHorarioStore();
 
-  const turnos = horario.slice(0, -1).map((hora, i) => ({
+  // --- Mantén tu sort tal cual ---
+  const horarioOrdenado = [...horario].sort((a, b) => {
+    const toMinutes = (t: string) => {
+      const [time, mer] = t.split(" "); // ej: ["07:20", "AM"]
+      let [h, m] = time.split(":").map(Number);
+      if (mer === "PM" && h !== 12) h += 12;
+      if (mer === "AM" && h === 12) h = 0;
+      return h * 60 + m;
+    };
+    return toMinutes(a) - toMinutes(b);
+  });
+
+  // --- Crea pares de inicio-fin ---
+  const turnos = horarioOrdenado.slice(0, -1).map((hora, i) => ({
     inicio: hora,
-    fin: horario[i + 1]
+    fin: horarioOrdenado[i + 1]   // <- usa horarioOrdenado, no horario
   }));
 
-  // Agrupar turnos por la "hora base" (ej: 00, 01, 02)
+  // --- Agrupa usando hora 24h numérica ---
   const turnosAgrupados = turnos.reduce((acc, turno) => {
-    const hourKey = turno.inicio.split(":")[0]; // "00", "01", etc.
-    if (!acc[hourKey]) acc[hourKey] = [];
-    acc[hourKey].push(turno);
+    const [time, mer] = turno.inicio.split(" ");
+    let [h] = time.split(":").map(Number);
+    if (mer === "PM" && h !== 12) h += 12;
+    if (mer === "AM" && h === 12) h = 0;
+    const key = h.toString().padStart(2, "0"); // "07", "08", ..., "19"
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(turno);
     return acc;
   }, {} as Record<string, { inicio: string; fin: string }[]>);
 
@@ -106,60 +123,69 @@ export const HoraDiaScreen = () => {
               showsVerticalScrollIndicator={false}
             >
               {loading && <ActivityIndicator />}
+{Object.keys(turnosAgrupados)
+  .sort((a, b) => Number(a) - Number(b))
+  .map((hour) => (
+    <View key={hour} style={style.section}>
+      <Pressable
+        style={style.sectionHeader}
+        onPress={() => setOpenSection(openSection === hour ? null : hour)}
+      >
+        {/* Mostrar en formato 12 h para el usuario */}
+        <Text style={style.sectionTitle}>
+          Sección {Number(hour) % 12 === 0 ? 12 : Number(hour) % 12}
+          :00 {Number(hour) < 12 ? "AM" : "PM"}
+        </Text>
+      </Pressable>
 
-              {Object.entries(turnosAgrupados).map(([hour, group]) => (
-                <View key={hour} style={style.section}>
-                  <Pressable
-                    style={style.sectionHeader}
-                    onPress={() => setOpenSection(openSection === hour ? null : hour)}
-                  >
-                    <Text style={style.sectionTitle}>Sección {hour}:00</Text>
-                  </Pressable>
+      {openSection === hour && (
+        <View style={style.sectionContent}>
+          {turnosAgrupados[hour].map((t) => {
+            const isSelected = selectedHour?.inicio === t.inicio;
+            return (
+              <Pressable
+                key={`${t.inicio}-${t.fin}`}
+                style={[
+                  style.turnoChip,
+                  isSelected && style.turnoChipSelected,
+                ]}
+                onPress={() => {
+                  setSelectedHour(t);
+                  const [time, mer] = t.inicio.split(" ");
+                  let [hh, mm] = time.split(":").map(Number);
+                  if (mer === "PM" && hh !== 12) hh += 12;
+                  if (mer === "AM" && hh === 12) hh = 0;
+                  const fullDate = new Date(
+                    today.getFullYear(),
+                    today.getMonth(),
+                    today.getDate(),
+                    hh,
+                    mm
+                  );
+                  setFieldValue("fecha_hora", fullDate);
+                }}
+              >
+                <CustomIonicons
+                  name="time-outline"
+                  size={17}
+                  color={isSelected ? "#fff" : "#8C8C8C"}
+                />
+                <Text
+                  style={[
+                    style.turnoText,
+                    isSelected && style.turnoTextSelected,
+                  ]}
+                >
+                  {`${t.inicio} - ${t.fin}`}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </View>
+      )}
+    </View>
+  ))}
 
-                  {openSection === hour && (
-                    <View style={style.sectionContent}>
-                      {group.map((t) => {
-                        const isSelected = selectedHour?.inicio === t.inicio;
-                        return (
-                          <Pressable
-                            key={`${t.inicio}-${t.fin}`}
-                            style={[
-                              style.turnoChip,
-                              isSelected && style.turnoChipSelected,
-                            ]}
-                            onPress={() => {
-                              setSelectedHour(t);
-                              const [hh, mm] = t.inicio.split(":").map(Number);
-                              const fullDate = new Date(
-                                today.getFullYear(),
-                                today.getMonth(),
-                                today.getDate(),
-                                hh,
-                                mm
-                              );
-                              setFieldValue("fecha_hora", fullDate);
-                            }}
-                          >
-                            <CustomIonicons
-                              name="time-outline"
-                              size={17}
-                              color={isSelected ? "#fff" : "#8C8C8C"}
-                            />
-                            <Text
-                              style={[
-                                style.turnoText,
-                                isSelected && style.turnoTextSelected,
-                              ]}
-                            >
-                              {`${t.inicio} - ${t.fin}`}
-                            </Text>
-                          </Pressable>
-                        );
-                      })}
-                    </View>
-                  )}
-                </View>
-              ))}
 
               {touched.fecha_hora && errors.fecha_hora && (
                 <Text style={{ color: 'red' }}>{errors.fecha_hora}</Text>
@@ -185,10 +211,10 @@ export const HoraDiaScreen = () => {
 
 const style = StyleSheet.create({
   option: {
-    marginRight:40,
+    marginRight: 40,
     marginLeft: 40,
-    position:'relative',
-    bottom:20
+    position: 'relative',
+    bottom: 20
   },
 
   turnoChip: {

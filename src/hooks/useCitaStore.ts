@@ -122,7 +122,7 @@ type Cita = {
     motivo_consulta: string;
     fecha_hora: string;
     hospital: { nombre: string };
-    medico: { usuario: { primer_nombre: string; primer_apellido: string; especialidad: string }, tipo: {} };
+    medico: { usuario: { primer_nombre: string; primer_apellido: string }, especialidad: { nombre: string } };
     estado: { nombre: string };
     tipo: { tipo: string };
 };

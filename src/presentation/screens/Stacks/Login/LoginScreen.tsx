@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, View, Image, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
+import { Text, View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { globalColors, globalStyles } from "../../../theme/theme";
 import { ButtonLogin } from "../../../components/shared/PrimaryButton";
 import { NavigationProp, useNavigation } from '@react-navigation/native';
@@ -11,10 +11,9 @@ import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { loginController } from "../../../../controller/authController";
 import { useAuthStore } from '../../../../hooks/authStore';
-import { CustomIonicons } from '../../../components/shared/Custom_Ionicons';
 import { Ionicons } from '@expo/vector-icons';
 
-const { height } = Dimensions.get('window');
+
 
 export const LoginScreen = () => {
 
