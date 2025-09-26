@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     View,
     Text,
@@ -10,9 +10,51 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { globalColors } from "../../../theme/theme";
 import { CustomIonicons } from "../../../components/shared/Custom_Ionicons";
+import { Expediente, useAuthStore, useExpedienteStore } from '../../../../hooks/authStore';
+
+
+// ===== Helpers =====
+const calcularEdad = (isoDate?: string): string => {
+    if (!isoDate) return "No aplica";
+    const nacimiento = new Date(isoDate);
+    const hoy = new Date();
+    let edad = hoy.getFullYear() - nacimiento.getFullYear();
+    const m = hoy.getMonth() - nacimiento.getMonth();
+    if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) edad--;
+    return `${edad}`;
+};
+
+const formatFecha = (isoDate?: string): string => {
+    if (!isoDate) return "No aplica";
+    return new Date(isoDate).toLocaleDateString("es-ES");
+};
+
 
 export const ExpedienteScreen = ({ navigation }: any) => {
     const [tab, setTab] = useState<"basica" | "vacunas">("basica");
+    const { expediente, fetchExpediente
+        , loading, error
+    } = useExpedienteStore();
+
+    useEffect(() => {
+        fetchExpediente()
+    }, []);
+
+    if (loading) return <Text>Cargando...</Text>
+    if (error) return <Text>{error}</Text>
+    if (!expediente) return <Text>No hay datos</Text>
+
+    const user = expediente.paciente.usuario;
+
+    const nombreCompleto = [
+        user.primer_nombre,
+        user.segundo_nombre,
+        user.primer_apellido,
+        user.segundo_apellido,
+    ]
+        .filter(Boolean)
+        .join(" "); 
+
 
     return (
         <ScrollView style={styles.container}>
@@ -31,11 +73,13 @@ export const ExpedienteScreen = ({ navigation }: any) => {
             <View style={styles.card}>
                 <View style={{ flex: 1, gap: 5 }}>
                     <Text style={styles.boldText}>Nombre</Text>
-                    <Text >Fulano Sutano del Menguano</Text>
+                    <Text>
+                        {nombreCompleto}
+                    </Text>
                     <Text style={styles.boldText}>Número de expediente</Text>
-                    <Text>Número de expediente: 12345678</Text>
+                    <Text>{expediente.folio}</Text>
                     <Text style={styles.boldText}>Edad</Text>
-                    <Text>Edad: 20</Text>
+                    <Text>{calcularEdad(user.fecha_nacimiento)}</Text>
                 </View>
                 <Image
                     source={require("../../../assets/profile.png")}
@@ -58,7 +102,9 @@ export const ExpedienteScreen = ({ navigation }: any) => {
             </View>
 
             {/* Contenido dinámico */}
-            {tab === "basica" ? <InformacionBasica /> : <TarjetaVacunacion />}
+            {tab === "basica" ? <InformacionBasica
+                expediente={expediente}
+            /> : <TarjetaVacunacion />}
         </ScrollView>
     );
 };
@@ -75,7 +121,7 @@ const TabButton = ({
     active: boolean;
     onPress: () => void;
 }) => (
-    
+
     <TouchableOpacity
         onPress={onPress}
         style={[styles.tabButton, active && styles.tabButtonActive]}
@@ -107,31 +153,64 @@ const InfoRow = ({ label, value }: { label: string; value: string }) => (
 /* ========================
    COMPONENTE: Info básica
 ======================== */
-const InformacionBasica = () => (
-    <View style={{ gap: 15 }}>
-        <Section title="Información general">
-            <InfoRow label="Nombre completo" value="Fulano Sutano del Menguano" />
-            <Separator />
-            <InfoRow label="Fecha de nacimiento" value="dd/mm/aaaa" />
-            <Separator />
-            <InfoRow label="Género" value="Masculino" />
-            <Separator />
-            <InfoRow label="Tipo de sangre" value="O+" />
-            <Separator />
-            <InfoRow label="Alergias" value="No aplica" />
-        </Section>
 
-        <Section title="Información de contacto">
-            <InfoRow label="Teléfono" value="12345678" />
-            <Separator />
-            <InfoRow label="Celular" value="87654321" />
-        </Section>
+const InformacionBasica = ({ expediente }: { expediente: Expediente }) => {
+    const u = expediente.paciente.usuario;
+    const nombreCompleto = [
+        u.primer_nombre,
+        u.segundo_nombre,
+        u.primer_apellido,
+        u.segundo_apellido,
+    ]
+        .filter(Boolean)
+        .join(" ");
 
-        <Section title="Enfermedades patógenas">
-            <InfoRow label="Nombre de la enfermedad" value="Nombre enfermedad 1" />
-        </Section>
-    </View>
-);
+    return (
+        <View style={{ gap: 15 }}>
+            <Section title="Información general">
+                <InfoRow label="Nombre completo" value={nombreCompleto} />
+                <Separator />
+                <InfoRow label="Fecha de nacimiento" value={formatFecha(u.fecha_nacimiento)} />
+                <Separator />
+                <InfoRow label="Género" value={u.genero === "M" ? "Masculino" : "Femenino"} />
+                <Separator />
+                <InfoRow
+                    label="Tipo de sangre"
+                    value={expediente.paciente.grupo_sanguineo ?? "No aplica"}
+                />
+                <Separator />
+                <InfoRow
+                    label="Alergias"
+                    value={
+                        expediente.paciente.alergias && expediente.paciente.alergias.length > 0
+                            ? expediente.paciente.alergias.map(a => a.descripcion).join(", ")
+                            : "No aplica"
+                    }
+                />
+                <Separator />
+            </Section>
+
+            <Section title="Información de contacto">
+                <InfoRow label="Teléfono" value={u.telefono ?? "No aplica"} />
+                <Separator />
+            </Section>
+
+
+            <Section title="Enfermedades patógenas">
+                <InfoRow
+                    label="Nombre de la enfermedad"
+                    value={
+                        expediente.paciente.enfermedades && expediente.paciente.enfermedades.length > 0
+                            ? expediente.paciente.enfermedades.map(e => e.descripcion).join(", ")
+                            : "No aplica"
+                    }
+                />
+                <Separator />
+            </Section>
+        </View>
+    );
+};
+
 
 /* ========================
    COMPONENTE: Vacunas
@@ -168,7 +247,7 @@ const TarjetaVacunacion = () => {
 
 
                     {/* Info a la derecha */}
-                    <View style={{ flex: 1,marginLeft:15,marginTop:5 , gap:2}}>
+                    <View style={{ flex: 1, marginLeft: 15, marginTop: 5, gap: 2 }}>
                         <View style={styles.row}>
                             <Text style={styles.vaccineTitle}>{v.nombre}</Text>
                             <CustomIonicons
@@ -223,14 +302,14 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 12,
         borderTopEndRadius: 10,
-        borderTopStartRadius:10,
+        borderTopStartRadius: 10,
         backgroundColor: globalColors.light,
         marginHorizontal: 5,
-        elevation:2
+        elevation: 2
     },
     tabButtonActive: { backgroundColor: globalColors.tertiary },
-    tabText: { textAlign: "center", color:globalColors.gay_2, fontWeight: "bold" },
-    tabTextActive: { color: "#fff"},
+    tabText: { textAlign: "center", color: globalColors.gay_2, fontWeight: "bold" },
+    tabTextActive: { color: "#fff" },
     section: { marginBottom: 20 },
     sectionTitle: { fontWeight: "bold", fontSize: 16, marginBottom: 10 },
     infoRow: {
@@ -251,7 +330,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 5,
         shadowOffset: { width: 0, height: 2 },
-        flexDirection:'row',
+        flexDirection: 'row',
     },
     iconContainer: {
         width: 20, // ancho fijo para columna izquierda
