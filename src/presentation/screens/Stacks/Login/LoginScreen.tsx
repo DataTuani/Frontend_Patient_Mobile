@@ -12,6 +12,7 @@ import { Formik } from 'formik';
 import { loginController } from "../../../../controller/authController";
 import { useAuthStore } from '../../../../hooks/authStore';
 import { Ionicons } from '@expo/vector-icons';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
 
@@ -61,6 +62,12 @@ export const LoginScreen = () => {
         >
             {({ handleChange, handleSubmit, values, errors, touched, isSubmitting }) => (
                 <View style={[style.container, { backgroundColor: colors.background }]}>
+
+                    <Spinner
+                        visible={isSubmitting}
+                        color={globalColors.tertiary}     // color del spinner
+                        overlayColor="rgba(0,0,0,0.25)"
+                    />
 
                     <Image
                         source={require('../../../assets/sinaes_logo .png')}

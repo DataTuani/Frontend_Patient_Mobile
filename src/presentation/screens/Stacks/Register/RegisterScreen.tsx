@@ -14,6 +14,7 @@ import { RegisterStepper } from '../../../components/shared/RegisterStepper';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { useRegisterStore } from '../../../../hooks/useRegisterStore';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export const RegisterScreen = () => {
 
@@ -63,11 +64,18 @@ export const RegisterScreen = () => {
                 });
                 console.log(values);
                 navigator.navigate('Register2');
-                
+
             }}
         >
             {({ handleChange, handleSubmit, values, errors, touched, isSubmitting, setFieldValue }) => (
                 <View style={[styles.ContainerRe]}>
+
+                    <Spinner
+                        visible={isSubmitting}
+                        color={globalColors.tertiary}     // color del spinner
+                        overlayColor="rgba(0,0,0,0.25)"
+                    />
+                    
                     <Text style={style.title}>Registrar</Text>
                     <Text style={{ fontWeight: '400' }}>Completa tu registro y sé parte de SINAES</Text>
                     <RegisterStepper currentStep={1} totalSteps={3} />

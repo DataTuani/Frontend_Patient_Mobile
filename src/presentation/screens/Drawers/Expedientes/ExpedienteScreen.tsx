@@ -10,8 +10,9 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { globalColors } from "../../../theme/theme";
 import { CustomIonicons } from "../../../components/shared/Custom_Ionicons";
-import { Expediente, useAuthStore, useExpedienteStore } from '../../../../hooks/authStore';
+import { Expediente, useExpedienteStore } from '../../../../hooks/authStore';
 
+import Spinner from 'react-native-loading-spinner-overlay';
 
 // ===== Helpers =====
 const calcularEdad = (isoDate?: string): string => {
@@ -40,7 +41,21 @@ export const ExpedienteScreen = ({ navigation }: any) => {
         fetchExpediente()
     }, []);
 
-    if (loading) return <Text>Cargando...</Text>
+
+    if (loading) {
+        return (
+            <View >
+                <Spinner
+                    visible={true}
+                    overlayColor="rgba(0,0,0,0.25)"    // para que use tu fondo
+                    color={globalColors.tertiary}             // color de las bolitas
+                    size="large"                  // tamaño del spinner
+                />
+
+            </View>
+        );
+    }
+
     if (error) return <Text>{error}</Text>
     if (!expediente) return <Text>No hay datos</Text>
 
@@ -53,7 +68,7 @@ export const ExpedienteScreen = ({ navigation }: any) => {
         user.segundo_apellido,
     ]
         .filter(Boolean)
-        .join(" "); 
+        .join(" ");
 
 
     return (
@@ -343,4 +358,15 @@ const styles = StyleSheet.create({
     },
     vaccineTitle: { fontWeight: "bold", marginBottom: 0 },
     nextDose: { color: globalColors.dark, marginTop: 0, fontWeight: 'bold' },
+    loaderContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff', // o el color que uses de fondo
+    },
+    loaderText: {
+        marginTop: 10,
+        fontSize: 16,
+        color: "#3498db",
+    },
 });
