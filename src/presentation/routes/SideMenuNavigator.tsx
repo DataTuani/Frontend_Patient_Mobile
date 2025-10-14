@@ -109,7 +109,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 
                 {/* Nombre y link */}
                 <View style={{ flexDirection: 'column' }}>
-                    <Text style={{ fontSize: 15, fontWeight: 'bold' }}>Melanie Arias</Text>
+                    <Text style={{ fontSize: 15, fontWeight: 'bold' }}>Kelly Vallecillo</Text>
                     <Text style={{ fontWeight: '400', textDecorationLine: 'underline' }}
                         onPress={() => navigation.navigate("Profile")}
                     >

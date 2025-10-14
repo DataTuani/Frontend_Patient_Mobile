@@ -88,7 +88,7 @@ export const HistorialCitaScreen = () => {
                                 estado={cita.estado.nombre}
                                 tipo={cita.tipo.tipo}                     
                                 showButton={cita.tipo.tipo === "Consulta-Virtual"} 
-                                onPress={() => console.log("Asistir/Ver cita", cita.id)}
+                                onPress={() => navigation.navigate('Connecting')}
                                 onMenuPress={() => console.log("Menú cita", cita.id)}
                             />
                         );

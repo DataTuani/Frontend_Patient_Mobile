@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { View, Text , StyleSheet} from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import { ThemeContext } from '../../../../../context/ThemeContext';
 import { globalStyles } from '../../../theme/theme';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
@@ -19,18 +19,18 @@ export const FilaVirtualScreen = () => {
                 number={5}
                 min={4}
                 person_number={2}
-                nameDoctor={'Leon Kennedy'}
-                especialidad={'Rompe viejas'}
-                hospital={'Aleman'}
+                nameDoctor={'Carlos Rodriguez'}
+                especialidad={'Ortopedia'}
+                hospital={'Hospitalito'}
                 progress={0.8}
             />
-            
-                <PrimaryButton
+
+            <PrimaryButton
                 style={styleFila.button}
-                    onPress={() => navigation.goBack()}
-                    label={'Salir de esta fila'}
-                />
-        
+                onPress={() => navigation.goBack()}
+                label={'Salir de esta fila'}
+            />
+
 
 
         </View>
@@ -38,8 +38,8 @@ export const FilaVirtualScreen = () => {
 }
 
 const styleFila = StyleSheet.create({
-    button:{
-        alignSelf:'center'
+    button: {
+        alignSelf: 'center'
     }
-    
+
 })
