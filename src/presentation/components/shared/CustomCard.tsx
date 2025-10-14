@@ -304,7 +304,6 @@ interface ResultadoCardProps {
   showButton?: boolean;
   onPress: () => void;
   onPressVisualizar?: () => void;
-  onPressDescargar?: () => void;
   onMenuPress?: () => void;
   MB: string;
 }
@@ -317,7 +316,6 @@ export const ResultadoCard: React.FC<ResultadoCardProps> = ({
   showButton = false,
   onPress,
   onPressVisualizar,
-  onPressDescargar,
   onMenuPress,
   MB,
 }) => {
@@ -336,12 +334,15 @@ export const ResultadoCard: React.FC<ResultadoCardProps> = ({
 
       <View style={stylesResultado.datesRow}>
         <Ionicons name="calendar-outline" size={14} color={globalColors.gray} />
+       <View style={{flexDirection:'column'}}>
         <Text style={stylesResultado.dateText}>
           Realizado: <Text style={stylesResultado.dateValue}>{dateInicio}</Text>
         </Text>
         <Text style={stylesResultado.dateText}>
           Entregado: <Text style={stylesResultado.dateValue}>{dateFinal}</Text>
-        </Text>
+        </Text>        
+       </View>
+
       </View>
 
       {/* Botones solo si showButton === true */}
@@ -355,23 +356,15 @@ export const ResultadoCard: React.FC<ResultadoCardProps> = ({
             <Ionicons
               name="eye-outline"
               size={16}
-              style={{ marginRight: 6, color: globalColors.gay_2 }}
+              style={{ marginRight: 6, color: globalColors.light }}
             />
             <Text style={stylesResultado.btnOutlineText}>Visualizar</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity
-            style={stylesResultado.btnPrimary}
-            onPress={onPressDescargar}
-            accessibilityRole="button"
-          >
-            <Ionicons name="download-outline" size={16} color="#fff" style={{ marginRight: 6 }} />
-            <Text style={stylesResultado.btnPrimaryText}>Descargar</Text>
-          </TouchableOpacity>
+ <Text style={stylesResultado.sizeText}>Tamaño: {MB}MB</Text>
         </View>
       )}
 
-      <Text style={stylesResultado.sizeText}>Tamaño: {MB}MB</Text>
+     
     </View>
   );
 };
@@ -435,33 +428,23 @@ const stylesResultado = StyleSheet.create({
   btnOutline: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderColor: globalColors.gray,
+    borderColor: globalColors.light,
     borderWidth: 1,
     borderRadius: 6,
     paddingVertical: 8,
     paddingHorizontal: 16,
+    backgroundColor:globalColors.tertiary
   },
   btnOutlineText: {
     fontSize: 14,
-    color: globalColors.gay_2,
+    color: globalColors.light,
     fontWeight: '600',
   },
-  btnPrimary: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: globalColors.tertiary,
-    borderRadius: 6,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-  },
-  btnPrimaryText: {
-    fontSize: 14,
-    color: '#fff',
-    fontWeight: '600',
-  },
+
   sizeText: {
-    marginTop: 6,
+    marginTop: 17,
     fontSize: 12,
+    fontWeight:'bold',
     color: globalColors.dark,
   },
 });
