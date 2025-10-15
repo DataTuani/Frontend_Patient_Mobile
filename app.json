@@ -32,7 +32,8 @@
         {
           "photosPermission": "La app necesita acceso a tus fotos para que puedas seleccionar imágenes."
         }
-      ]
+      ],
+      "expo-audio"
     ]
   }
 }
