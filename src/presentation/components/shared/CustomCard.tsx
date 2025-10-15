@@ -120,9 +120,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginBottom: 8,
   },
-  textContainer:{
-    flexDirection:'column',
-    flex:1
+  textContainer: {
+    flexDirection: 'column',
+    flex: 1
 
   },
   doctorName: {
@@ -334,14 +334,14 @@ export const ResultadoCard: React.FC<ResultadoCardProps> = ({
 
       <View style={stylesResultado.datesRow}>
         <Ionicons name="calendar-outline" size={14} color={globalColors.gray} />
-       <View style={{flexDirection:'column'}}>
-        <Text style={stylesResultado.dateText}>
-          Realizado: <Text style={stylesResultado.dateValue}>{dateInicio}</Text>
-        </Text>
-        <Text style={stylesResultado.dateText}>
-          Entregado: <Text style={stylesResultado.dateValue}>{dateFinal}</Text>
-        </Text>        
-       </View>
+        <View style={{ flexDirection: 'column' }}>
+          <Text style={stylesResultado.dateText}>
+            Realizado: <Text style={stylesResultado.dateValue}>{dateInicio}</Text>
+          </Text>
+          <Text style={stylesResultado.dateText}>
+            Entregado: <Text style={stylesResultado.dateValue}>{dateFinal}</Text>
+          </Text>
+        </View>
 
       </View>
 
@@ -360,11 +360,11 @@ export const ResultadoCard: React.FC<ResultadoCardProps> = ({
             />
             <Text style={stylesResultado.btnOutlineText}>Visualizar</Text>
           </TouchableOpacity>
- <Text style={stylesResultado.sizeText}>Tamaño: {MB}MB</Text>
+          <Text style={stylesResultado.sizeText}>Tamaño: {MB}MB</Text>
         </View>
       )}
 
-     
+
     </View>
   );
 };
@@ -433,7 +433,7 @@ const stylesResultado = StyleSheet.create({
     borderRadius: 6,
     paddingVertical: 8,
     paddingHorizontal: 16,
-    backgroundColor:globalColors.tertiary
+    backgroundColor: globalColors.tertiary
   },
   btnOutlineText: {
     fontSize: 14,
@@ -444,7 +444,7 @@ const stylesResultado = StyleSheet.create({
   sizeText: {
     marginTop: 17,
     fontSize: 12,
-    fontWeight:'bold',
+    fontWeight: 'bold',
     color: globalColors.dark,
   },
 });
@@ -455,12 +455,15 @@ interface MedicamentosProps {
   nombre: string;
   dosis: string;
   onPress: () => void;
+  frecuencia: string;
+
 }
 
 export const MedicamentoCard = ({
   nombre,
   dosis,
-  onPress
+  onPress,
+  frecuencia
 }: MedicamentosProps) => {
 
   return (
@@ -479,8 +482,13 @@ export const MedicamentoCard = ({
       </View>
 
       {/* Contenido */}
-      <Text style={stylesPills.title}>{nombre}</Text>
-      <Text style={stylesPills.subtitle}>{dosis}</Text>
+        <Text style={stylesPills.title}>{nombre}</Text>
+      <View style={{ marginTop: 5, flexDirection: 'row', gap:10 }}>
+
+        <Text style={stylesPills.subtitle}>Dosis: {dosis}</Text>
+        <Text style={stylesPills.subtitle}>Frecuencia: {frecuencia}</Text>
+      </View>
+
     </View>
   )
 }
@@ -523,5 +531,6 @@ const stylesPills = StyleSheet.create({
   subtitle: {
     fontSize: 14,
     color: '#555',
+    fontWeight:'500'
   },
 });

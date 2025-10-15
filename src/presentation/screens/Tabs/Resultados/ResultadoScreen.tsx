@@ -17,8 +17,10 @@ export const ResultadoScreen = () => {
   const [searchText, setSearchText] = useState("");
   const { resultados, loading, error, fetchResultados } = useResultadosStore();
 
+
+
   useEffect(() => {
-    fetchResultados();
+    fetchResultados(); 
   }, []);
 
   const filteredResultados = resultados.filter((res) => {
@@ -92,7 +94,9 @@ export const ResultadoScreen = () => {
           <CustomIonicons name="menu-outline" />
         </View>
 
-        <ScrollView style={{maxHeight:800}}>
+        <ScrollView contentContainerStyle={{
+          paddingBottom: 100,
+        }}>
           {filteredResultados.length === 0 ? (
             <View style={{ padding: 20 }}>
               <Text style={{ textAlign: "center" }}>
@@ -106,7 +110,7 @@ export const ResultadoScreen = () => {
               const fecha = new Date(cita.created_at);
               const fechaFormateada = fecha.toLocaleString();
 
-              return (
+              return ( 
                 <ResultadoCard
                   key={cita.id}
                   title={`Examen: ${cita.tipo_examen}`}
@@ -153,4 +157,4 @@ const style = StyleSheet.create({
     marginHorizontal: 5,
     gap: 10
   }
-})
+}) 

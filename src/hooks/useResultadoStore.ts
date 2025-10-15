@@ -38,13 +38,13 @@ export const useResultadosStore = create<ResultadoState>((set) => ({
                         "x-token": token
                     }
                 }
-            );
+            ); 
             set({ resultados: res.data.ordenes, loading: false });
         } catch (error: any) {
             set({
                 error: error.response?.data?.message || error.message || 'Error al cargar los resultados',
                 loading: false
             })
-        }
+        } 
     }
 }));
