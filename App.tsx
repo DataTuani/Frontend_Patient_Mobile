@@ -1,12 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, TextInput, Button, StyleSheet, Alert } from "react-native";
 import { Audio } from "expo-av";
+import * as FileSystem from "expo-file-system/legacy";
+
 import axios from "axios";
 
 export default function TextToSpeech() {
   const [text, setText] = useState<string>("");
   const [sound, setSound] = useState<Audio.Sound | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+
+  // Convertir ArrayBuffer a Base64
+  const arrayBufferToBase64 = (buffer: ArrayBuffer) => {
+    let binary = "";
+    const bytes = new Uint8Array(buffer);
+    for (let i = 0; i < bytes.byteLength; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return btoa(binary);
+  };
 
   const handlePlay = async () => {
     if (!text) {
@@ -17,35 +29,30 @@ export default function TextToSpeech() {
     try {
       setLoading(true);
 
-      // Crear FormData
       const formData = new FormData();
       formData.append("text", text);
-      try {
 
-        const response = await axios.post(
-          "http://10.0.2.2:8000/text-to-speech"
-, // Cambia <TU_IP_LOCAL> por tu IP
-          formData,
-          {
-            headers: { "Content-Type": "multipart/form-data" },
-            responseType: "arraybuffer", // recibir audio
-          }
-        );
+      // Cambia por tu IP local
+      const response = await axios.post(
+        "http://10.0.10.242:8000/text-to-speech",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          responseType: "arraybuffer",
+        }
+      );
 
-        const blob = new Blob([response.data], { type: "audio/mpeg" });
-        const uri = URL.createObjectURL(blob);
+      const base64Audio = arrayBufferToBase64(response.data);
+      const fileUri = FileSystem.cacheDirectory + "speech.mp3";
 
-        // Reproducir audio
-        const { sound: newSound } = await Audio.Sound.createAsync({ uri });
-        setSound(newSound);
-        await newSound.playAsync();
-      } catch (error) {
-        console.log(error)
+      // Aquí usamos "base64" directamente
+      await FileSystem.writeAsStringAsync(fileUri, base64Audio, {
+        encoding: "base64",
+      });
 
-      }
-
-      // Convertir a blob y URI para expo-av
-
+      const { sound: newSound } = await Audio.Sound.createAsync({ uri: fileUri });
+      setSound(newSound);
+      await newSound.playAsync();
     } catch (error) {
       console.error(error);
       Alert.alert("Error al reproducir audio");
@@ -54,8 +61,7 @@ export default function TextToSpeech() {
     }
   };
 
-  // Limpiar sonido al salir
-  React.useEffect(() => {
+  useEffect(() => {
     return () => {
       if (sound) {
         sound.unloadAsync();
