@@ -70,14 +70,13 @@ export const SideMenu = () => {
                     title: 'Historial'
                 }}
                 name="Historial" component={HistorialScreen} />
-
-
         </Drawer.Navigator>
     );
 }
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
-    
+
+    const { user } = useAuthStore();
     const navigation = useNavigation<NavigationProp<RootStackParams>>();
     const logout = useAuthStore((state) => state.logout);
 
@@ -109,7 +108,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 
                 {/* Nombre y link */}
                 <View style={{ flexDirection: 'column' }}>
-                    <Text style={{ fontSize: 15, fontWeight: 'bold' }}>Kelly Vallecillo</Text>
+                    <Text style={{ fontSize: 15, fontWeight: 'bold' }}>'Kl</Text>
                     <Text style={{ fontWeight: '400', textDecorationLine: 'underline' }}
                         onPress={() => navigation.navigate("Profile")}
                     >
@@ -134,7 +133,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
             {/* Items del Drawer */}
             <View style={{ gap: 12 }}>
                 <DrawerItemList {...props} />
-                <View style={{marginTop:450}}>
+                <View style={{ marginTop: 450 }}>
                     <DrawerItem
                         label="Cerrar Sesión"
                         icon={({ color, size }) => (

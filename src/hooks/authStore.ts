@@ -1,12 +1,13 @@
 import { create } from "zustand";
 import api from "../api/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 interface User {
     id: number;
     correo: string;
     contraseña: string;
-    paciente_id: number | null;
+    paciente_id: number | null; 
 };
 
 interface AuthState {
@@ -20,7 +21,11 @@ export const useAuthStore = create<AuthState>((set) => ({
     user: null,
     token: null,
     setUser: (user, token) => set({ user, token }),
-    logout: () => set({ user: null, token: null })
+    logout: async () => {
+        await AsyncStorage.removeItem("token");
+        await AsyncStorage.removeItem("user");
+        set({ user: null, token: null });
+    },
 }));
 
 
@@ -97,3 +102,4 @@ export const useExpedienteStore = create<ExpedienteState>((set) => ({
         }
     },
 }));
+ 

@@ -14,7 +14,7 @@ export const citasController = async (data: CitasData) => {
 
         const response = await citaService(
             user.paciente_id ?? 0,
-            data.hospital_id ?? 0,
+            data.hospital_id ?? 0, 
             data.fecha_hora!,
             data.motivo_consulta,
             data.tipoCita ?? 0 ,// provide a default value if null
