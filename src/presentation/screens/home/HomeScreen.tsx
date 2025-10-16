@@ -6,7 +6,7 @@ import { Header, } from '../../components/shared/HamburgerMenu';
 import { useContext } from 'react';
 import { ThemeContext } from '../../../../context/ThemeContext';
 import { globalColors, globalStyles } from '../../theme/theme';
-import { CustomFontIcon, CustomIonicons } from '../../components/shared/Custom_Ionicons';
+import { CustomFontIcon } from '../../components/shared/Custom_Ionicons';
 import { useHistorialCitaStore } from '../../../hooks/useCitaStore';
 
 
@@ -20,6 +20,7 @@ export const HomeScreen = () => {
     useEffect(() => {
         fetchHistorial();
     }, []); 
+
   
     const citasFiltradas = (citas || [])
         .filter((c) => c.estado?.nombre === "Pendiente")

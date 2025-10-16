@@ -4,6 +4,7 @@ import api from "../api/api";
 
 export interface CitasData {
 
+    id?: number;
     hospital_id: number | null;
     fecha_hora: Date | null,
     motivo_consulta: string;
@@ -33,7 +34,7 @@ export const useCitaStore = create<CitaStore>((set) => ({
         set((state) => ({
             formData: { ...state.formData, ...data }
         })),
-    resetForm: () => set({ formData: initialData })
+    resetForm: () => set({ formData: initialData })  
 }))
 
 //Obtener hospital
