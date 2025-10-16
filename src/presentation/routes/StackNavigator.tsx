@@ -17,7 +17,6 @@ import { HistorialCitaScreen } from '../screens/Stacks/HistorialCitas/HistorialC
 import { FilaVirtualScreen } from '../screens/Stacks/FilaVirtual/FilaVirtualScreen';
 import { View, Text } from 'react-native'
 import { globalColors } from '../theme/theme';
-import { RegistroParental } from '../screens/Drawers/ControlParental/RegistroParentalScreen';
 import { IniciarControlParentalScreen } from '../screens/Drawers/ControlParental/IniciarControlParentalScreen';
 import { ControlPScreen } from '../screens/Drawers/ControlParental/ControlPScreen';
 
@@ -232,7 +231,6 @@ export const StackNavigator = () => {
 
 export type ControlParentalStackParams = {
     IniciarControlParental: undefined;
-    RegistroParental: undefined;
     ControlParental: undefined;
 };
 
@@ -264,19 +262,7 @@ export const ControlParentalNavigator = () => {
                 name="IniciarControlParental"
                 component={IniciarControlParentalScreen}
             />
-            <ControlParentalStack.Screen
-                options={{
-                    headerTitle: () =>
-                    (
-                        <View style={{ marginRight: 10 }}>
-                            <Text style={{ fontSize: 20, color: globalColors.primary, fontWeight: 'bold' }}>Control parental</Text>
-                            <Text style={{ color: globalColors.gray, fontSize: 15 }}>Conecta tu salud con la de tus seres queridos</Text>
-                        </View>
-                    )
 
-                }}
-                name="RegistroParental" component={RegistroParental}
-            />
             <ControlParentalStack.Screen
 
                 name="ControlParental" component={ControlPScreen}

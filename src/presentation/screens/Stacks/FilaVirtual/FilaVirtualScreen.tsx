@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react'
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native'
+import { View, Text, StyleSheet, ActivityIndicator} from 'react-native'
 import { ThemeContext } from '../../../../../context/ThemeContext';
-import { globalColors, globalStyles } from '../../../theme/theme';
+import { globalStyles } from '../../../theme/theme';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParams } from '../../../routes/StackNavigator';
 import { ContainerCard } from '../../../components/shared/CustomCard';
@@ -14,7 +14,8 @@ export const FilaVirtualScreen = () => {
     const styles = globalStyles(colors);
     const navigation = useNavigation<NavigationProp<RootStackParams>>();
     const { fila, loading, error, fetchFila } = useFilaStore();
-    
+
+
     useEffect(() => {
         fetchFila();
     }, []);

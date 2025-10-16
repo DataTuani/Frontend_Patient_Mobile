@@ -27,20 +27,17 @@ export const ControlPScreen = () => {
       <View style={stylesP.imageContainer}>
         <Image 
         source={require('../../../assets/telefono.png')}
-        />
+        /> 
       </View>
 
       {/* Titulo */}
       <Text style={stylesP.title}>Código OTP</Text>
-      <Text style={stylesP.subtitle}>
-        Hemos enviado un código de verificación al correo electrónico{" "}
-        <Text style={{ color:globalColors.tertiary, textDecorationLine:'underline' }}>usuario@email.com</Text>
-      </Text>
-      <Text style={stylesP.subtitle}>Por favor, ingrésalo a continuación para continuar.</Text>
+
+      <Text style={stylesP.subtitle}>Por favor, ingrése el codigo para continuar.</Text>
 
       {/* Inputs OTP */}
       <View style={stylesP.otpContainer}>
-        {otp.map((digit, index) => (
+        {otp.map((digit, index) => ( 
           <TextInput
             key={index}
             style={stylesP.otpInput}

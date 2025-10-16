@@ -7,6 +7,7 @@ import { CustomIonicons } from '../../../components/shared/Custom_Ionicons';
 import { useMedicamentoStore } from '../../../../hooks/useMedicamentoStore';
 
 
+
 type Medicamento = {
   id: number;
   nombre: string;
