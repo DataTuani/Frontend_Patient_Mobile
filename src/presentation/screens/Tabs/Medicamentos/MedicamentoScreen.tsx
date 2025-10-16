@@ -28,7 +28,7 @@ export const MedicamentoScreen = () => {
 
     useEffect(() => {
         fetchMedicamentos();
-    }, [])
+    }, []);
 
     const filteredMedicamentos = medicamentos.filter((med) =>
         med.nombre.toLowerCase().includes(searchText.toLowerCase())

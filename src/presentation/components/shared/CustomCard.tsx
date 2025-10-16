@@ -170,7 +170,6 @@ export default AppointmentCard;
 
 interface CardProps {
   number: number;
-  min: number;
   person_number: number;
   nameDoctor: string;
   especialidad: string;
@@ -181,7 +180,6 @@ interface CardProps {
 
 export const ContainerCard = ({
   number,
-  min,
   person_number,
   nameDoctor,
   especialidad,
@@ -201,10 +199,6 @@ export const ContainerCard = ({
         <Text style={{ fontWeight: '400', fontSize: 18 }}>Posición en la fila</Text>
         <View style={{ flexDirection: 'row', justifyContent: 'center', gap: 40 }}>
           {/* Columna de minutos */}
-          <View style={{ alignItems: 'center' }}>
-            <Text style={{ fontSize: 24, fontWeight: 'bold' }}>{min}</Text>
-            <Text>minutos estimados</Text>
-          </View>
 
           {/* Columna de personas */}
           <View style={{ alignItems: 'center' }}>

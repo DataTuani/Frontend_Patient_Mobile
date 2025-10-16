@@ -11,7 +11,7 @@ export const citaService = (paciente_id: number, hospital_id: number,
     return api.post("/api/citas/", {
         paciente_id,
         hospital_id,
-        fecha_hora,
+        fecha_hora, 
         motivo_consulta,
         tipoCita,
         File

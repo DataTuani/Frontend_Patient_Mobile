@@ -6,15 +6,17 @@ interface Fila {
   posicion: number;
   personasDelante: number;
   totalEnFila: number;
-  turnoPaciente: {
+  turnoActual: {
     id: number;
     numero_turno: number;
+    paciente_id: number;
     hospital: { nombre: string };
     medico: {
       usuario: { primer_nombre: string; primer_apellido: string };
       especialidad: { nombre: string };
     };
   };
+
   hospital: { nombre: string };
   medico: {
     usuario: { primer_nombre: string; primer_apellido: string };
@@ -26,7 +28,7 @@ interface FilaState {
   fila: Fila | null;
   loading: boolean;
   error: string | null;
-  fetchFila: (citaId: number) => Promise<void>;
+  fetchFila: () => Promise<void>;
 }
 
 export const useFilaStore = create<FilaState>((set) => ({
@@ -34,20 +36,20 @@ export const useFilaStore = create<FilaState>((set) => ({
   loading: false,
   error: null,
 
-  fetchFila: async (citaId: number) => {
+  fetchFila: async () => {
     try {
       set({ loading: true, error: null });
-      const { token } = useAuthStore.getState();
+      const { user, token } = useAuthStore.getState();
 
-      if (!citaId) throw new Error('ID de cita inválido');
+      if (!user?.paciente_id) throw new Error('No tiene fila');
 
-      const res = await api.get(`/api/fila/${citaId}`, {
+      const res = await api.get(
+        `/api/filas/${user.paciente_id}`, {
         headers: {
           'x-token': token
         }
       });
 
-    
       set({ fila: res.data.data, loading: false });
     } catch (err: any) {
       set({
